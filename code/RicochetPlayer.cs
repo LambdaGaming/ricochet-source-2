@@ -4,8 +4,6 @@ namespace Ricochet
 {
 	partial class RicochetPlayer : Player
 	{
-		public int JumpCooldown;
-
 		public override void Respawn()
 		{
 			SetModel( "models/citizen/citizen.vmdl" );
@@ -16,7 +14,6 @@ namespace Ricochet
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
-			JumpCooldown = 0;
 			base.Respawn();
 		}
 
@@ -30,6 +27,11 @@ namespace Ricochet
 		{
 			base.OnKilled();
 			EnableDrawing = false;
+		}
+
+		public bool Alive()
+		{
+			return LifeState == LifeState.Alive;
 		}
 	}
 
