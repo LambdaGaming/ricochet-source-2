@@ -37,6 +37,8 @@ namespace Ricochet
 
 	public class MinimalWalkController : WalkController
 	{
+		public new float WalkSpeed = 250.0f;
+
 		public override float GetWishSpeed()
 		{
 			return DefaultSpeed;
