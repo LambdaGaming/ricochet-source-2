@@ -25,13 +25,14 @@ namespace Ricochet
 			if ( IsClient ) return;
 
 			var ply = ent as RicochetPlayer;
-			var target = FindByName( Target );
+			Entity target = FindByName( Target );
 			if ( target.IsValid() && ply.IsValid() )
 			{
 				var gravity = 600.0f;
 				Vector3 midpoint = ply.Position + ( target.Position - ply.Position ) * 0.5f;
 				TraceResult tr = Trace.Ray( midpoint, midpoint + new Vector3( 0, 0, 128 ) ).WorldOnly().Run();
 				midpoint = tr.EndPos;
+				//midpoint.z -= 15;
 
 				float distance1 = ( midpoint.z - ply.Position.z );
 				float distance2 = ( midpoint.z - target.Position.z );
@@ -42,8 +43,7 @@ namespace Ricochet
 
 				Vector3 velocity = ( target.Position - ply.Position ) * ( time1 + time2 );
 				velocity.z = gravity * time1;
-				Log.Info( velocity.z );
-				ply.Velocity += velocity; // This works except for the fact that z isn't affected for some reason
+				ply.Velocity += velocity; // TODO: Figure out how to stop the player controller from keeping the player on the ground
 				PlayJumpSound( ply );
 			}
 		}
