@@ -159,11 +159,7 @@ namespace Ricochet
 		public bool HasPowerup( Powerup powerup )
 		{
 			var ply = Owner as RicochetPlayer;
-			if ( ply.Powerups.Contains( powerup ) )
-			{
-				return true;
-			}
-			return false;
+			return ply.PowerupFlags.HasFlag( powerup );
 		}
 
 		public void ReturnToThrower()

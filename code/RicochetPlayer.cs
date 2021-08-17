@@ -1,13 +1,16 @@
 ﻿using Sandbox;
+using System;
 using System.Collections.Generic;
 
 namespace Ricochet
 {
+	[Flags]
 	enum Powerup {
-		Triple,
-		Fast,
-		Hard,
-		Freeze
+		None = 0,
+		Triple = 1,
+		Fast = 2,
+		Hard = 4,
+		Freeze = 8
 	}
 
 	partial class RicochetPlayer : Player
@@ -20,7 +23,7 @@ namespace Ricochet
 		public int Team { get; set; }
 		public bool Frozen { get; set; }
 		public RicochetPlayer LastPlayerToHitMe { get; set; }
-		public List<Powerup> Powerups = new();
+		public Powerup PowerupFlags { get; set; }
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;
@@ -36,7 +39,7 @@ namespace Ricochet
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
-			Powerups.Clear();
+			PowerupFlags = Powerup.None;
 			DiscCooldown = 0;
 			OwnerTouchCooldown = 0;
 			EnemyTouchCooldown = 0;
@@ -55,7 +58,7 @@ namespace Ricochet
 				if ( Input.Pressed( InputButton.Attack1 ) )
 				{
 					LaunchDisc();
-					float cooldown = Powerups.Contains( Powerup.Fast ) ? 0.2f : 0.5f;
+					float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
 					DiscCooldown = Time.Now + cooldown;
 					RemoveDisc( 1 );
 				}
@@ -63,7 +66,7 @@ namespace Ricochet
 				{
 					AddPowerup( Powerup.Hard );
 					LaunchDisc();
-					float cooldown = Powerups.Contains( Powerup.Fast ) ? 0.2f : 0.5f;
+					float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
 					DiscCooldown = Time.Now + cooldown;
 					RemovePowerup( Powerup.Hard );
 					RemoveDisc( MaxDiscs );
@@ -89,28 +92,20 @@ namespace Ricochet
 			disc.Spawn();
 		}
 		
-		public bool AddPowerup( Powerup powerup )
+		public void AddPowerup( Powerup powerup )
 		{
-			if ( Powerups.Contains( powerup ) )
-			{
-				return false;
-			}
-			Powerups.Add( powerup );
-			return true;
+			if ( HasPowerup( powerup ) ) return;
+			PowerupFlags |= powerup;
 		}
 
-		public bool RemovePowerup( Powerup powerup )
+		public void RemovePowerup( Powerup powerup )
 		{
-			return Powerups.Remove( powerup );
+			PowerupFlags &= ~powerup;
 		}
 
 		public bool HasPowerup( Powerup powerup )
 		{
-			if ( Powerups.Contains( powerup ) )
-			{
-				return true;
-			}
-			return false;
+			return PowerupFlags.HasFlag( powerup );
 		}
 
 		public void GiveDisc( int num )
