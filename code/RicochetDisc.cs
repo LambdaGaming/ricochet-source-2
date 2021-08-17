@@ -104,7 +104,7 @@ namespace Ricochet
 				{
 					// No clue if this works or if its actually needed
 					Vector3 direction = ( LockTarget.Position - Position ).Normal;
-					float dot = DotProduct( Vector3.Forward, direction );
+					float dot = Vector3.Dot( Vector3.Forward, direction );
 					if ( dot < 0.6f || ( Owner as RicochetPlayer ).Team == LockTarget.Team )
 					{
 						LockTarget = null;
@@ -117,7 +117,7 @@ namespace Ricochet
 					{
 						if ( !ply.IsValid() || ply == Owner ) continue;
 						Vector3 direction = ( ply.Position - Position ).Normal;
-						float dot = DotProduct( Vector3.Forward, direction );
+						float dot = Vector3.Dot( Vector3.Forward, direction );
 						if ( dot > 0.6f )
 						{
 							LockTarget = ply;
@@ -174,11 +174,6 @@ namespace Ricochet
 				ply.GiveDisc( 1 );
 			}
 			Delete();
-		}
-
-		public static float DotProduct( Vector3 a, Vector3 b )
-		{
-			return a.x * b.x + a.y * b.y + a.z * b.z;
 		}
 	}
 }
