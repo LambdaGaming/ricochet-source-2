@@ -8,3 +8,4 @@ tools_thumbnail_cache.bin
 *.vpk
 *.los
 materials/default
+models/src
