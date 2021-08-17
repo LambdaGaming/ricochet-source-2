@@ -17,9 +17,10 @@ namespace Ricochet
 			SetModel( "models/light_arrow.vmdl" ); // Temporary model until the real one gets ported over
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			Vector3 vel = Owner.EyeRot.Forward * DiscVelocity;
-			Position = Owner.Position + ( Owner.EyeRot.Forward * 100 ) + ( Owner.EyeRot.Up * 50 );
+			vel.z = 0;
+			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 100 ) + ( Owner.Rotation.Up * 50 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-			PhysicsGroup.Velocity = vel; // TODO: Make it so the disc doesn't travel along the z-axis
+			PhysicsGroup.Velocity = vel;
 			PhysicsBody.GravityEnabled = false;
 			TotalBounces = 0;
 			NextThink = 0;
