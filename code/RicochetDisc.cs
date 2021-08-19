@@ -14,7 +14,8 @@ namespace Ricochet
 		{
 			if ( !Owner.IsValid() ) return;
 			base.Spawn();
-			SetModel( "models/disc/disc.vmdl" );
+			string mdl = HasPowerup( Powerup.Hard ) ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl";
+			SetModel( mdl );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			Vector3 vel = Owner.EyeRot.Forward * DiscVelocity;
 			vel.z = 0;
