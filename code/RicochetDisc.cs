@@ -19,7 +19,7 @@ namespace Ricochet
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			Vector3 vel = Owner.EyeRot.Forward * DiscVelocity;
 			vel.z = 0;
-			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 100 ) + ( Owner.Rotation.Up * 50 );
+			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Owner.Rotation.Up * 50 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 			PhysicsGroup.Velocity = vel;
 			PhysicsBody.GravityEnabled = false;

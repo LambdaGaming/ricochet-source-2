@@ -59,6 +59,7 @@ namespace Ricochet
 					LaunchDisc();
 					float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
 					DiscCooldown = Time.Now + cooldown;
+					OwnerTouchCooldown = Time.Now + 0.1f;
 					RemoveDisc( 1 );
 				}
 				else if ( Input.Pressed( InputButton.Attack2 ) )
@@ -67,6 +68,7 @@ namespace Ricochet
 					LaunchDisc();
 					float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
 					DiscCooldown = Time.Now + cooldown;
+					OwnerTouchCooldown = Time.Now + 0.1f;
 					RemovePowerup( Powerup.Hard );
 					RemoveDisc( MaxDiscs );
 				}
