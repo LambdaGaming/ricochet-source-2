@@ -14,7 +14,7 @@ namespace Ricochet
 		{
 			if ( !Owner.IsValid() ) return;
 			base.Spawn();
-			SetModel( "models/light_arrow.vmdl" ); // Temporary model until the real one gets ported over
+			SetModel( "models/disc.vmdl" ); // Temporary model until the real one gets ported over
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			Vector3 vel = Owner.EyeRot.Forward * DiscVelocity;
 			vel.z = 0;
