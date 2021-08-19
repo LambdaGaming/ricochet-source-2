@@ -52,7 +52,7 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
-			if ( IsServer && DiscCooldown < Time.Now && NumDiscs > 0 )
+			if ( IsServer && DiscCooldown < Time.Now && NumDiscs > 0 && Alive() )
 			{
 				if ( Input.Pressed( InputButton.Attack1 ) )
 				{
