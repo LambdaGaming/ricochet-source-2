@@ -4,7 +4,7 @@ using System;
 namespace Ricochet
 {
 	[Flags]
-	enum Powerup {
+	public enum Powerup {
 		None = 0,
 		Triple = 1,
 		Fast = 2,
