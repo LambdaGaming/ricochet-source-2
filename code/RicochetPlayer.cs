@@ -52,25 +52,31 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
-			if ( IsServer && DiscCooldown < Time.Now && NumDiscs > 0 && Alive() )
+			if ( IsServer && DiscCooldown < Time.Now && Alive() )
 			{
 				if ( Input.Pressed( InputButton.Attack1 ) )
 				{
-					LaunchDisc();
-					float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
-					DiscCooldown = Time.Now + cooldown;
-					OwnerTouchCooldown = Time.Now + 0.1f;
-					RemoveDisc( 1 );
+					if ( NumDiscs > 0 )
+					{
+						LaunchDisc();
+						float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
+						DiscCooldown = Time.Now + cooldown;
+						OwnerTouchCooldown = Time.Now + 0.1f;
+						RemoveDisc( 1 );
+					}
 				}
 				else if ( Input.Pressed( InputButton.Attack2 ) )
 				{
-					AddPowerup( Powerup.Hard );
-					LaunchDisc();
-					float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
-					DiscCooldown = Time.Now + cooldown;
-					OwnerTouchCooldown = Time.Now + 0.1f;
-					RemovePowerup( Powerup.Hard );
-					RemoveDisc( MaxDiscs );
+					if ( NumDiscs == MaxDiscs )
+					{
+						AddPowerup( Powerup.Hard );
+						LaunchDisc();
+						float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
+						DiscCooldown = Time.Now + cooldown;
+						OwnerTouchCooldown = Time.Now + 0.1f;
+						RemovePowerup( Powerup.Hard );
+						RemoveDisc( MaxDiscs );
+					}
 				}
 			}
 		}

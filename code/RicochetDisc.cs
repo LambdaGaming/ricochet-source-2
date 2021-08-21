@@ -8,6 +8,7 @@ namespace Ricochet
 		public int TotalBounces { get; set; }
 		public RicochetPlayer LockTarget { get; set; }
 		public float NextThink { get; set; }
+		public bool IsDecap { get; set; }
 		public static readonly int DiscPushMultiplier = 1200;
 
 		public new void Spawn()
@@ -17,14 +18,19 @@ namespace Ricochet
 			string mdl = HasPowerup( Powerup.Hard ) ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl";
 			SetModel( mdl );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
-			Vector3 vel = Owner.EyeRot.Forward * DiscVelocity;
-			vel.z = 0;
+			Vector3 vel = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
 			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Owner.Rotation.Up * 50 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 			PhysicsGroup.Velocity = vel;
 			PhysicsBody.GravityEnabled = false;
 			TotalBounces = 0;
 			NextThink = 0;
+			IsDecap = HasPowerup( Powerup.Hard );
+
+			if ( IsDecap )
+			{
+				// TODO: Emit looping decap sound
+			}
 		}
 		
 		public override void StartTouch( Entity ent )
@@ -44,20 +50,20 @@ namespace Ricochet
 				}
 				else if ( ply.EnemyTouchCooldown < Time.Now )
 				{
-					if ( owner.Team != ply.Team )
+					if ( owner.Team != ply.Team && ply.Alive() )
 					{
 						if ( owner.HasPowerup( Powerup.Freeze ) && !owner.Frozen )
 						{
 							// TODO: Emit freeze sound
 							ply.Freeze();
-							if ( !owner.HasPowerup( Powerup.Hard ) )
+							if ( !IsDecap )
 							{
 								owner.EnemyTouchCooldown = Time.Now + 2;
 								return;
 							}
 						}
 
-						if ( owner.HasPowerup( Powerup.Hard ) )
+						if ( IsDecap )
 						{
 							ply.Decapitate( owner );
 							owner.EnemyTouchCooldown = Time.Now + 0.5f;
@@ -166,8 +172,9 @@ namespace Ricochet
 		public void ReturnToThrower()
 		{
 			var ply = Owner as RicochetPlayer;
-			if ( HasPowerup( Powerup.Hard ) )
+			if ( IsDecap )
 			{
+				// TODO: Stop decap sound
 				ply.GiveDisc( RicochetPlayer.MaxDiscs );
 			}
 			else
