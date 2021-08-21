@@ -4,7 +4,14 @@
 	{
 		sounds = 
 		[
-			"sounds/weapons/xbow_hit2.vsnd",
+			"sounds/xbow_hit1.vsnd",
+			"sounds/xbow_hit2.vsnd",
 		]
+		UI = false
+		Volume = 1.0
+		VolumeRandom = 0.0
+		Pitch = 1.0
+		PitchRandom = 0.0
+		DistanceMax = 1000.0
 	}
 }

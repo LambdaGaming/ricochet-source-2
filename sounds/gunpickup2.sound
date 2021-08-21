@@ -4,7 +4,7 @@
 	{
 		sounds = 
 		[
-			"sounds/vox/die.vsnd",
+			"sounds/gunpickup2.vsnd",
 		]
 	}
 }

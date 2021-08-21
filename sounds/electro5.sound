@@ -4,7 +4,7 @@
 	{
 		sounds = 
 		[
-			"sounds/weapons/altfire.vsnd",
+			"sounds/electro5.vsnd",
 		]
 	}
 }

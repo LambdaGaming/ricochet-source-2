@@ -29,7 +29,7 @@ namespace Ricochet
 
 			if ( IsDecap )
 			{
-				// TODO: Emit looping decap sound
+				PlaySound( "rocket1" );
 			}
 		}
 		
@@ -43,7 +43,7 @@ namespace Ricochet
 				{
 					if ( ply.OwnerTouchCooldown < Time.Now )
 					{
-						// TODO: Emit disc pickup sound
+						PlaySound( "gunpickup2" );
 						ReturnToThrower();
 					}
 					return;
@@ -54,7 +54,7 @@ namespace Ricochet
 					{
 						if ( owner.HasPowerup( Powerup.Freeze ) && !owner.Frozen )
 						{
-							// TODO: Emit freeze sound
+							PlaySound( "electro5" );
 							ply.Freeze();
 							if ( !IsDecap )
 							{
@@ -70,7 +70,7 @@ namespace Ricochet
 						}
 						else
 						{
-							// TODO: Play random hit sound
+							PlaySound( "cbar_hitbod" );
 							Vector3 direction = ply.Velocity.Normal;
 							ply.Velocity = direction * DiscPushMultiplier;
 
@@ -89,7 +89,8 @@ namespace Ricochet
 			{
 				if ( ent != this )
 				{
-					// TODO: Emit warp sound and spawn sprite
+					// TODO: Spawn warp sprite
+					PlaySound( "dischit" );
 					( ent as Disc ).ReturnToThrower();
 					ReturnToThrower();
 				}
@@ -97,7 +98,8 @@ namespace Ricochet
 			else
 			{
 				TotalBounces++;
-				// TODO: Emit hit sound and spark effects
+				PlaySound( "xbow_hit" );
+				// TODO: Emit sparks
 			}
 		}
 

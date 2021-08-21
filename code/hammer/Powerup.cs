@@ -31,6 +31,7 @@ namespace Ricochet
 			if ( Hidden )
 			{
 				RenderColorAndAlpha = Color32.White;
+				PlaySound( "pspawn" );
 			}
 			else
 			{

@@ -13,7 +13,8 @@ namespace Ricochet
 			var disc = ent as Disc;
 			if ( disc.IsValid() )
 			{
-				// TODO: Play return sound and sprite
+				// TODO: Return sprite
+				PlaySound( "discreturn" );
 				disc.ReturnToThrower();
 			}
 		}

@@ -4,7 +4,7 @@
 	{
 		sounds = 
 		[
-			"sounds/weapons/cbar_miss1.vsnd",
+			"sounds/rocket1.vsnd",
 		]
 	}
 }

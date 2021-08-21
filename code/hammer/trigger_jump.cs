@@ -10,12 +10,6 @@ namespace Ricochet
 	{
 		[Property( Title = "Target" )]
 		public string Target { get; set; }
-
-		[ClientRpc]
-		private void PlayJumpSound( Entity ent )
-		{
-			Sound.FromEntity( "triggerjump", ent );
-		}
 		
 		// Based off of the trigger_jump entity in triggers.cpp of the Ricochet source code
 		public override void StartTouch( Entity ent )
@@ -44,7 +38,7 @@ namespace Ricochet
 				Vector3 velocity = ( target.Position - ply.Position ) * ( time1 + time2 );
 				velocity.z = gravity * time1;
 				ply.Velocity += velocity; // TODO: Figure out how to stop the player controller from keeping the player on the ground
-				PlayJumpSound( ply );
+				ply.PlaySound( "triggerjump" );
 			}
 		}
 	}

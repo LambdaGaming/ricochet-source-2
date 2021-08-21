@@ -18,7 +18,7 @@ namespace Ricochet
 				{
 					DamageInfo dmg = new() { Damage = 1000 };
 					ply.TakeDamage( dmg );
-					ply.PlaySound( "scream" + new Random().Next( 1, 4 ) + ".vsnd" ); // TODO: Redo this so the sound actually plays
+					ply.PlaySound( "scream" );
 				}
 			}
 		}
