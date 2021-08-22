@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 
 namespace Ricochet
 {
@@ -23,6 +24,7 @@ namespace Ricochet
 		public bool Frozen { get; set; }
 		public RicochetPlayer LastPlayerToHitMe { get; set; }
 		public Powerup PowerupFlags { get; set; }
+		public List<Disc> ActiveDiscs = new();
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;
@@ -46,6 +48,7 @@ namespace Ricochet
 			NumDiscs = MaxDiscs;
 			Team = 0;
 			Frozen = false;
+			ActiveDiscs.Clear();
 			PlaySound( "r_tele1" );
 		}
 		
@@ -88,6 +91,10 @@ namespace Ricochet
 		{
 			base.OnKilled();
 			EnableDrawing = false;
+			foreach ( Disc disc in ActiveDiscs )
+			{
+				disc.Delete();
+			}
 		}
 
 		public bool Alive()
@@ -100,6 +107,7 @@ namespace Ricochet
 			Disc disc = new();
 			disc.Owner = this;
 			disc.Spawn();
+			ActiveDiscs.Add( disc );
 		}
 		
 		public void AddPowerup( Powerup powerup )
