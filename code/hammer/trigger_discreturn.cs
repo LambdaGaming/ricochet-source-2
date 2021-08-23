@@ -14,7 +14,7 @@ namespace Ricochet
 			if ( disc.IsValid() )
 			{
 				// TODO: Return sprite
-				PlaySound( "discreturn" );
+				disc.PlaySound( "discreturn" );
 				disc.ReturnToThrower();
 			}
 		}

@@ -9,6 +9,7 @@ namespace Ricochet
 		public RicochetPlayer LockTarget { get; set; }
 		public float NextThink { get; set; }
 		public bool IsDecap { get; set; }
+		private Sound DecapLoop { get; set; }
 		public static readonly int DiscPushMultiplier = 1200;
 
 		public new void Spawn()
@@ -29,7 +30,7 @@ namespace Ricochet
 
 			if ( IsDecap )
 			{
-				PlaySound( "rocket1" );
+				DecapLoop = Sound.FromEntity( "rocket1", this );
 			}
 		}
 		
@@ -176,7 +177,7 @@ namespace Ricochet
 			var ply = Owner as RicochetPlayer;
 			if ( IsDecap )
 			{
-				// TODO: Stop decap sound
+				DecapLoop.Stop();
 				ply.GiveDisc( RicochetPlayer.MaxDiscs );
 			}
 			else
