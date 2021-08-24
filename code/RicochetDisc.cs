@@ -192,7 +192,6 @@ namespace Ricochet
 			{
 				ply.GiveDisc( 1 );
 			}
-			ply.ActiveDiscs.Remove( this );
 			Delete();
 		}
 	}
