@@ -20,10 +20,11 @@ namespace Ricochet
 			SetModel( mdl );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			Vector3 vel = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
-			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Owner.Rotation.Up * 50 );
+			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Owner.Rotation.Up * 45 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 			PhysicsGroup.Velocity = vel;
 			PhysicsBody.GravityEnabled = false;
+			PhysicsBody.DragEnabled = false;
 			TotalBounces = 0;
 			NextThink = 0;
 			IsDecap = HasPowerup( Powerup.Hard );
@@ -103,11 +104,12 @@ namespace Ricochet
 				// TODO: Emit sparks
 			}
 		}
-
+		
 		[Event.Tick.Server]
 		protected void Tick()
 		{
 			if ( NextThink > Time.Now ) return;
+			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );
 			if ( HasPowerup( Powerup.Freeze ) && TotalBounces == 0 )
 			{
 				if ( LockTarget.IsValid() )
@@ -153,7 +155,7 @@ namespace Ricochet
 					return;
 				}
 
-				if ( Owner.IsValid() && ( Owner as RicochetPlayer ).Alive() )
+				if ( Owner.IsValid() )
 				{
 					Vector3 direction = ( Owner.Position - Position ).Normal;
 					Velocity = direction * DiscVelocity;
@@ -163,6 +165,12 @@ namespace Ricochet
 					Delete();
 				}
 			}
+
+			if ( Velocity == Vector3.Zero )
+			{
+				ReturnToThrower();
+			}
+
 			NextThink = Time.Now + 0.1f;
 		}
 
