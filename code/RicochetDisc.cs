@@ -28,6 +28,9 @@ namespace Ricochet
 			TotalBounces = 0;
 			NextThink = 0;
 			IsDecap = HasPowerup( Powerup.Hard );
+			GlowActive = true;
+			GlowColor = Color.Red;
+			GlowState = GlowStates.GlowStateOn;
 
 			if ( IsDecap )
 			{
