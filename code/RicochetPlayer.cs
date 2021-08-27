@@ -46,7 +46,10 @@ namespace Ricochet
 			NumDiscs = MaxDiscs;
 			Team = 0;
 			Frozen = false;
-			PlaySound( "r_tele1" );
+			using ( Prediction.Off() )
+			{
+				PlaySound( "r_tele1" );
+			}
 		}
 		
 		public override void Simulate( Client cl )
@@ -64,7 +67,10 @@ namespace Ricochet
 						DiscCooldown = Time.Now + cooldown;
 						OwnerTouchCooldown = Time.Now + 0.1f;
 						RemoveDisc( 1 );
-						PlaySound( "cbar_miss1" );
+						using ( Prediction.Off() )
+						{
+							PlaySound( "cbar_miss1" );
+						}
 					}
 				}
 				else if ( Input.Pressed( InputButton.Attack2 ) )
@@ -78,7 +84,10 @@ namespace Ricochet
 						OwnerTouchCooldown = Time.Now + 0.1f;
 						RemovePowerup( Powerup.Hard );
 						RemoveDisc( MaxDiscs );
-						PlaySound( "altfire" );
+						using ( Prediction.Off() )
+						{
+							PlaySound( "altfire" );
+						}
 					}
 				}
 			}
@@ -159,7 +168,10 @@ namespace Ricochet
 				LastPlayerToHitMe = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
-				PlaySound( "decap" );
+				using ( Prediction.Off() )
+				{
+					PlaySound( "decap" );
+				}
 				// TODO: Change bodygroup of playermodel and spawn head model
 			}
 		}
@@ -171,9 +183,12 @@ namespace Ricochet
 				LastPlayerToHitMe = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
-				PlaySound( "shatter" );
 				RenderAlpha = 1;
 				EnableSolidCollisions = false;
+				using ( Prediction.Off() )
+				{
+					PlaySound( "shatter" );
+				}
 				// TODO: Spawn head model
 			}
 		}

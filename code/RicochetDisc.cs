@@ -32,9 +32,12 @@ namespace Ricochet
 			GlowColor = Color.Red;
 			GlowState = GlowStates.GlowStateOn;
 
-			if ( IsDecap )
+			using ( Prediction.Off() )
 			{
-				DecapLoop = Sound.FromEntity( "rocket1", this );
+				if ( IsDecap )
+				{
+					DecapLoop = Sound.FromEntity( "rocket1", this );
+				}
 			}
 		}
 		
