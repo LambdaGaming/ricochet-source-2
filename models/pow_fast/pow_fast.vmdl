@@ -1,0 +1,195 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "BoneMarkupList"
+				bone_cull_type = "None"
+			},
+			{
+				_class = "WeightListList"
+				children = 
+				[
+					{
+						_class = "WeightList"
+						name = "bonemask_default"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "cylinder01"
+								weight = 1.0
+							},
+							{
+								bone = "cylinder02"
+								weight = 1.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+				]
+			},
+			{
+				_class = "Skeleton"
+				children = 
+				[
+					{
+						_class = "Bone"
+						name = "cylinder02"
+						origin = [ 0.5506, -26.346548, 0.369226 ]
+						angles = [ 29.155874, 24.000458, 35.511757 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "cylinder01"
+						origin = [ 0.0, 0.0, 55.127144 ]
+						angles = [ -0.0, 0.0, 89.999985 ]
+						do_not_discard = true
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "fastdisc_chrome_is_unused.vmat"
+								to = "models/pow_fast/fastdisc_chrome.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = "cylinder01"
+						surface_prop = "default"
+						collision_prop = "default"
+						origin = [ -0.86165, -14.02858, 1.197557 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 40.536392, 68.946198, 41.639809 ]
+					},
+				]
+			},
+			{
+				_class = "HitboxSetList"
+				children = 
+				[
+					{
+						_class = "HitboxSet"
+						name = "default"
+						children = 
+						[
+							{
+								_class = "Hitbox"
+								parent_bone = "cylinder02"
+								surface_property = "default"
+								translation_only = false
+								group_id = 0
+								hitbox_mins = [ -10.830002, -10.300001, -0.4 ]
+								hitbox_maxs = [ 10.830002, 10.3, 0.88 ]
+							},
+							{
+								_class = "Hitbox"
+								parent_bone = "cylinder01"
+								surface_property = "default"
+								translation_only = false
+								group_id = 0
+								hitbox_mins = [ -20.0, -19.02, -2.89 ]
+								hitbox_maxs = [ 20.0, 19.020004, 2.89 ]
+							},
+						]
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "pow_fast_bg_fastdisc_powerup_lod0"
+						filename = "models/pow_fast/pow_fast_refs/mesh/pow_fast_bg_fastdisc_powerup_lod0.dmx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+			{
+				_class = "AnimationList"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = "bonemask_default"
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = true
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/pow_fast/pow_fast_refs/anim/_idle_0.dmx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 75.0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "@idle_0"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/pow_fast/pow_fast_refs/anim/_idle_0.dmx"
+						start_frame = 0
+						end_frame = 100
+						framerate = 75.0
+						reverse = false
+					},
+				]
+				default_root_bone_name = ""
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+	}
+}
