@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Ricochet
 {
 	[Library( "powerup" )]
-	public partial class PowerupEnt : ModelEntity
+	public partial class PowerupEnt : AnimEntity
 	{
 		public Powerup CurrentPowerup { get; set; } = Powerup.None;
 		public bool Hidden { get; set; } = false;
@@ -13,6 +13,10 @@ namespace Ricochet
 		public override void Spawn()
 		{
 			base.Spawn();
+			SetupPhysicsFromModel( PhysicsMotionType.Static, false );
+			CollisionGroup = CollisionGroup.Trigger;
+			EnableSolidCollisions = false;
+			EnableTouch = true;
 			SetRandomPowerup();
 		}
 
@@ -37,12 +41,12 @@ namespace Ricochet
 			if ( Hidden )
 			{
 				SetRandomPowerup();
-				RenderColorAndAlpha = Color32.White;
+				RenderAlpha = 0;
 				PlaySound( "pspawn" );
 			}
 			else
 			{
-				RenderColorAndAlpha = Color32.Transparent;
+				RenderAlpha = 1;
 				_ = WaitForRespawn();
 			}
 		}
