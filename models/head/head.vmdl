@@ -1,0 +1,302 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "BoneMarkupList"
+				bone_cull_type = "None"
+			},
+			{
+				_class = "WeightListList"
+				children = 
+				[
+					{
+						_class = "WeightList"
+						name = "bonemask_default"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "bip01"
+								weight = 1.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+				]
+			},
+			{
+				_class = "Skeleton"
+				children = 
+				[
+					{
+						_class = "Bone"
+						name = "bip01"
+						children = 
+						[
+							{
+								_class = "Bone"
+								name = "bip01_pelvis"
+								children = 
+								[
+									{
+										_class = "Bone"
+										name = "bip01_spine"
+										children = 
+										[
+											{
+												_class = "Bone"
+												name = "bip01_spine1"
+												children = 
+												[
+													{
+														_class = "Bone"
+														name = "bip01_spine2"
+														children = 
+														[
+															{
+																_class = "Bone"
+																name = "bip01_spine3"
+																children = 
+																[
+																	{
+																		_class = "Bone"
+																		name = "bip01_neck"
+																		children = 
+																		[
+																			{
+																				_class = "Bone"
+																				name = "bip01_head"
+																				origin = [ 2.800743, -0.000001, 0.0 ]
+																				angles = [ -0.0, 4.804308, -0.0 ]
+																				do_not_discard = true
+																			},
+																			{
+																				_class = "Bone"
+																				name = "bip01_r_clavicle"
+																				children = 
+																				[
+																					{
+																						_class = "Bone"
+																						name = "bip01_r_upperarm"
+																						children = 
+																						[
+																							{
+																								_class = "Bone"
+																								name = "bip01_r_forearm"
+																								children = 
+																								[
+																									{
+																										_class = "Bone"
+																										name = "bip01_r_hand"
+																										children = 
+																										[
+																											{
+																												_class = "Bone"
+																												name = "disc"
+																												origin = [ 2.209282, 5.650238, -0.705462 ]
+																												angles = [ 46.555069, 163.780655, -14.386906 ]
+																												do_not_discard = true
+																											},
+																										]
+																										origin = [ 11.702069, -0.000001, 0.000008 ]
+																										angles = [ 2.349756, 1.543206, 89.806664 ]
+																										do_not_discard = true
+																									},
+																								]
+																								origin = [ 12.454971, -0.000001, -0.000015 ]
+																								angles = [ -0.000001, -2.562783, 0.000002 ]
+																								do_not_discard = true
+																							},
+																						]
+																						origin = [ 4.747992, 0.0, -0.000004 ]
+																						angles = [ 10.712589, -14.552898, -4.431484 ]
+																						do_not_discard = true
+																					},
+																				]
+																				origin = [ -0.511032, 0.053656, -2.611173 ]
+																				angles = [ 63.708084, -140.284134, 48.580517 ]
+																				do_not_discard = true
+																			},
+																		]
+																		origin = [ 6.25972, -0.002218, 0.0 ]
+																		angles = [ 0.0, 5.700014, 0.0 ]
+																		do_not_discard = true
+																	},
+																	{
+																		_class = "Bone"
+																		name = "a_necksmooth"
+																		origin = [ 6.259811, -0.002341, 0.000001 ]
+																		angles = [ -0.0, 2.616183, 0.0 ]
+																		do_not_discard = true
+																	},
+																]
+																origin = [ 6.764668, -0.004984, -0.0 ]
+																angles = [ -0.0, -0.750002, 0.0 ]
+																do_not_discard = true
+															},
+														]
+														origin = [ 3.774189, -0.00538, -0.0 ]
+														angles = [ 0.0, -2.799987, -0.0 ]
+														do_not_discard = true
+													},
+												]
+												origin = [ 4.128757, -0.002992, 0.0 ]
+												angles = [ -0.0, -5.100013, 0.0 ]
+												do_not_discard = true
+											},
+										]
+										origin = [ 2.819824, 0.002116, 0.000004 ]
+										angles = [ -0.000057, 5.995604, -0.000229 ]
+										do_not_discard = true
+									},
+								]
+								origin = [ -2.421565, 0.000003, -1.672417 ]
+								angles = [ -89.980217, -89.999931, 0.0 ]
+								do_not_discard = true
+							},
+						]
+						origin = [ 0.0, -4.216158, 43.993614 ]
+						angles = [ 0.0, -89.999924, 0.0 ]
+						do_not_discard = true
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "head_is_unused.vmat"
+								to = "models/head/head.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "HitboxSetList"
+				children = 
+				[
+					{
+						_class = "HitboxSet"
+						name = "default"
+						children = 
+						[
+							{
+								_class = "Hitbox"
+								parent_bone = "bip01_neck"
+								surface_property = "default"
+								translation_only = false
+								group_id = 0
+								hitbox_mins = [ -0.511017, -2.310001, -2.611171 ]
+								hitbox_maxs = [ 3.350001, 2.960001, 2.559999 ]
+							},
+							{
+								_class = "Hitbox"
+								parent_bone = "bip01_head"
+								surface_property = "default"
+								translation_only = false
+								group_id = 0
+								hitbox_mins = [ 0.0, -4.78, -3.68 ]
+								hitbox_maxs = [ 9.959996, 5.840001, 3.749999 ]
+							},
+							{
+								_class = "Hitbox"
+								parent_bone = "a_necksmooth"
+								surface_property = "default"
+								translation_only = false
+								group_id = 0
+								hitbox_mins = [ 0.0, -3.07, -3.5 ]
+								hitbox_maxs = [ 2.090002, 2.93, 3.37 ]
+							},
+						]
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "head_bg_aghead_lod0"
+						filename = "models/head/head_refs/mesh/head_bg_aghead_lod0.dmx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+			{
+				_class = "AnimationList"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = "bonemask_default"
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = true
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/head/head_refs/anim/_idle_0.dmx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 30.0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "@idle_0"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/head/head_refs/anim/_idle_0.dmx"
+						start_frame = 0
+						end_frame = 1
+						framerate = 30.0
+						reverse = false
+					},
+				]
+				default_root_bone_name = ""
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+	}
+}

@@ -1,0 +1,350 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "BoneMarkupList"
+				bone_cull_type = "None"
+			},
+			{
+				_class = "WeightListList"
+				children = 
+				[
+					{
+						_class = "WeightList"
+						name = "bonemask_default"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "group01"
+								weight = 1.0
+							},
+							{
+								bone = "star02"
+								weight = 1.0
+							},
+							{
+								bone = "star03"
+								weight = 1.0
+							},
+							{
+								bone = "star04"
+								weight = 1.0
+							},
+							{
+								bone = "star05"
+								weight = 1.0
+							},
+							{
+								bone = "star06"
+								weight = 1.0
+							},
+							{
+								bone = "star07"
+								weight = 1.0
+							},
+							{
+								bone = "star08"
+								weight = 1.0
+							},
+							{
+								bone = "star09"
+								weight = 1.0
+							},
+							{
+								bone = "star10"
+								weight = 1.0
+							},
+							{
+								bone = "star11"
+								weight = 1.0
+							},
+							{
+								bone = "star12"
+								weight = 1.0
+							},
+							{
+								bone = "star13"
+								weight = 1.0
+							},
+							{
+								bone = "star14"
+								weight = 1.0
+							},
+							{
+								bone = "star15"
+								weight = 1.0
+							},
+							{
+								bone = "star16"
+								weight = 1.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+				]
+			},
+			{
+				_class = "Skeleton"
+				children = 
+				[
+					{
+						_class = "Bone"
+						name = "star02"
+						origin = [ 3.152085, -8.168953, -5.077007 ]
+						angles = [ 33.923912, -7.157502, -22.602213 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star03"
+						origin = [ -13.933291, -12.467201, 5.09608 ]
+						angles = [ -51.432354, -135.618973, 172.701492 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star04"
+						origin = [ 9.571144, -15.758645, 24.299591 ]
+						angles = [ -8.449924, 2.629074, -1.850138 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star05"
+						origin = [ -6.309878, -10.869797, 19.048603 ]
+						angles = [ 47.724285, -142.543381, -69.722618 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star06"
+						origin = [ -11.314201, 10.668773, 27.897758 ]
+						angles = [ 1.454338, -1.365072, 0.130634 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star07"
+						origin = [ 10.003328, 10.474867, 39.002949 ]
+						angles = [ -34.53664, 51.53619, -112.015839 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star08"
+						origin = [ -0.781548, -17.539761, 43.242603 ]
+						angles = [ -12.858126, -165.718857, -90.037491 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star09"
+						origin = [ -16.544163, 3.83832, 55.569462 ]
+						angles = [ -26.885296, -14.627728, -6.766688 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star10"
+						origin = [ -16.53702, -1.551569, 71.094604 ]
+						angles = [ 34.614105, -171.135574, 17.931696 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star11"
+						origin = [ -6.1145, 12.99917, 83.382736 ]
+						angles = [ -49.518093, 172.307983, 118.700043 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star12"
+						origin = [ -9.139299, -7.76266, 77.260147 ]
+						angles = [ 67.088425, -23.221972, 12.96088 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star13"
+						origin = [ 3.313881, 14.939342, 95.215134 ]
+						angles = [ -58.782665, 107.245781, 22.319448 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star14"
+						origin = [ 13.932827, 3.013158, 104.932648 ]
+						angles = [ 54.808098, -171.49942, 97.173851 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star15"
+						origin = [ 19.311966, -1.260822, 101.50882 ]
+						angles = [ -20.60717, -23.959429, -46.299282 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "star16"
+						origin = [ 17.393305, -6.853615, 125.271194 ]
+						angles = [ 1.350749, 166.359039, -68.60247 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "group01"
+						children = 
+						[
+							{
+								_class = "Bone"
+								name = "cylinder01"
+								origin = [ 0.061769, -0.793691, 0.0 ]
+								angles = [ -0.0, 0.0, 89.999985 ]
+								do_not_discard = true
+							},
+						]
+						origin = [ -0.364081, 0.209961, 62.769238 ]
+						angles = [ -0.0, 0.0, 0.0 ]
+						do_not_discard = true
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "freeze_chrome_is_unused.vmat"
+								to = "models/pow_freeze/freeze_chrome.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "HitboxSetList"
+				children = 
+				[
+					{
+						_class = "HitboxSet"
+						name = "default"
+						children = 
+						[
+							{
+								_class = "Hitbox"
+								parent_bone = "cylinder01"
+								surface_property = "default"
+								translation_only = false
+								group_id = 0
+								hitbox_mins = [ -19.77, -18.799999, -2.18 ]
+								hitbox_maxs = [ 19.77, 18.799999, 0.59 ]
+							},
+						]
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "pow_freeze_bg_freezedisc_powerup_lod0"
+						filename = "models/pow_freeze/pow_freeze_refs/mesh/pow_freeze_bg_freezedisc_powerup_lod0.dmx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+			{
+				_class = "AnimationList"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = "bonemask_default"
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = true
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/pow_freeze/pow_freeze_refs/anim/_idle_0.dmx"
+						start_frame = -1
+						end_frame = -1
+						framerate = 90.0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "@idle_0"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/pow_freeze/pow_freeze_refs/anim/_idle_0.dmx"
+						start_frame = 0
+						end_frame = 300
+						framerate = 90.0
+						reverse = false
+					},
+				]
+				default_root_bone_name = ""
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = "cylinder01"
+						surface_prop = "default"
+						collision_prop = "default"
+						origin = [ 0.988722, 1.546027, -2.221445 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 42.587257, 75.232666, 36.972649 ]
+					},
+				]
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+	}
+}

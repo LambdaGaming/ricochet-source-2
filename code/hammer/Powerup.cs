@@ -72,30 +72,30 @@ namespace Ricochet
 			switch ( CurrentPowerup )
 			{
 				case Powerup.Fast:
-					{
-						mdl = "models/pow_fast/pow_fast.vmdl";
-						break;
-					}
+				{
+					mdl = "models/pow_fast/pow_fast.vmdl";
+					break;
+				}
 				case Powerup.Freeze:
-					{
-						mdl = "models/pow_fast/pow_fast.vmdl"; // TODO: Replace with freeze model
-						break;
-					}
+				{
+					mdl = "models/pow_freeze/pow_freeze.vmdl";
+					break;
+				}
 				case Powerup.Hard:
-					{
-						mdl = "models/pow_fast/pow_fast.vmdl"; // TODO: Replace with hard model
-						break;
-					}
+				{
+					mdl = "models/pow_hard/pow_hard.vmdl";
+					break;
+				}
 				case Powerup.Triple:
-					{
-						mdl = "models/pow_fast/pow_fast.vmdl"; // TODO: Replace with triple model
-						break;
-					}
+				{
+					mdl = "models/pow_triple/pow_triple.vmdl";
+					break;
+				}
 				default:
-					{
-						mdl = "models/pow_fast/pow_fast.vmdl";
-						break;
-					}
+				{
+					mdl = "models/pow_fast/pow_fast.vmdl";
+					break;
+				}
 			}
 			SetModel( mdl );
 		}
