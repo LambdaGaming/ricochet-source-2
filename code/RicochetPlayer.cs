@@ -115,6 +115,7 @@ namespace Ricochet
 		{
 			if ( HasPowerup( powerup ) ) return;
 			PowerupFlags |= powerup;
+			NumDiscs = MaxDiscs;
 		}
 
 		public void RemovePowerup( Powerup powerup )
