@@ -188,12 +188,12 @@
 				[
 					{
 						_class = "PhysicsShapeBox"
-						parent_bone = "group01"
+						parent_bone = ""
 						surface_prop = "default"
 						collision_prop = "default"
-						origin = [ -0.312597, 0.553941, 5.713887 ]
+						origin = [ -0.90592, -1.671698, 52.745213 ]
 						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 38.315018, 45.349785, 78.19117 ]
+						dimensions = [ 46.660835, 46.549603, 106.490425 ]
 					},
 				]
 			},

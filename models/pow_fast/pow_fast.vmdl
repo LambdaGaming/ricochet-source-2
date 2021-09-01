@@ -77,12 +77,12 @@
 				[
 					{
 						_class = "PhysicsShapeBox"
-						parent_bone = "cylinder01"
+						parent_bone = ""
 						surface_prop = "default"
 						collision_prop = "default"
-						origin = [ -0.86165, -14.02858, 1.197557 ]
+						origin = [ -4.279863, -0.287946, 53.49873 ]
 						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 40.536392, 68.946198, 41.639809 ]
+						dimensions = [ 47.636002, 53.49012, 105.960556 ]
 					},
 				]
 			},
