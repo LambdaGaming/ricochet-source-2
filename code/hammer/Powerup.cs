@@ -22,6 +22,7 @@ namespace Ricochet
 
 		public override void StartTouch( Entity ent )
 		{
+			if ( !IsClient ) return;
 			base.StartTouch( ent );
 			if ( !Hidden )
 			{
@@ -30,31 +31,30 @@ namespace Ricochet
 				{
 					ply.AddPowerup( CurrentPowerup );
 					ply.PlaySound( "powerup" );
-					ToggleHide();
+					Hide();
 				}
 			}
 		}
 
-		public void ToggleHide()
+		public void Hide()
 		{
-			Hidden = !Hidden;
-			if ( Hidden )
-			{
-				SetRandomPowerup();
-				RenderAlpha = 0;
-				PlaySound( "pspawn" );
-			}
-			else
-			{
-				RenderAlpha = 1;
-				_ = WaitForRespawn();
-			}
+			RenderAlpha = 0;
+			_ = WaitForRespawn();
+			Hidden = true;
+		}
+
+		public void Unhide()
+		{
+			SetRandomPowerup();
+			RenderAlpha = 1;
+			PlaySound( "pspawn" );
+			Hidden = false;
 		}
 
 		async Task WaitForRespawn()
 		{
 			await Task.DelaySeconds( 10 );
-			ToggleHide();
+			Unhide();
 		}
 
 		public void SetRandomPowerup()
