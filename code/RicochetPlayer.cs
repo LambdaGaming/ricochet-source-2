@@ -113,7 +113,6 @@ namespace Ricochet
 		public void AddPowerup( Powerup powerup )
 		{
 			PowerupFlags |= powerup;
-			NumDiscs = MaxDiscs;
 		}
 
 		public void RemovePowerup( Powerup powerup )
