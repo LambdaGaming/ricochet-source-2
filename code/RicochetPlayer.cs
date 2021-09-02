@@ -5,11 +5,10 @@ namespace Ricochet
 {
 	[Flags]
 	public enum Powerup {
-		None = 0,
-		Triple = 1,
-		Fast = 2,
-		Hard = 4,
-		Freeze = 8
+		Triple = 0,
+		Fast = 1,
+		Hard = 2,
+		Freeze = 4
 	}
 
 	partial class RicochetPlayer : Player
@@ -38,7 +37,7 @@ namespace Ricochet
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
-			PowerupFlags = Powerup.None;
+			PowerupFlags = 0;
 			DiscCooldown = 0;
 			OwnerTouchCooldown = 0;
 			EnemyTouchCooldown = 0;
@@ -113,7 +112,6 @@ namespace Ricochet
 		
 		public void AddPowerup( Powerup powerup )
 		{
-			if ( HasPowerup( powerup ) ) return;
 			PowerupFlags |= powerup;
 			NumDiscs = MaxDiscs;
 		}

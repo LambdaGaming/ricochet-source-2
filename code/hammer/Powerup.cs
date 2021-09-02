@@ -7,7 +7,7 @@ namespace Ricochet
 	[Library( "powerup" )]
 	public partial class PowerupEnt : AnimEntity
 	{
-		public Powerup CurrentPowerup { get; set; } = Powerup.None;
+		public Powerup CurrentPowerup { get; set; } = 0;
 		public bool Hidden { get; set; } = false;
 
 		public override void Spawn()
