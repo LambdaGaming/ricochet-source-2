@@ -9,6 +9,7 @@ namespace Ricochet
 		public RicochetPlayer LockTarget { get; set; }
 		public float NextThink { get; set; }
 		public bool IsDecap { get; set; }
+		public bool IsExtra { get; set; } = false;
 		private Sound DecapLoop { get; set; }
 		public static readonly int DiscPushMultiplier = 1200;
 
@@ -16,13 +17,11 @@ namespace Ricochet
 		{
 			if ( !Owner.IsValid() ) return;
 			base.Spawn();
-			string mdl = HasPowerup( Powerup.Hard ) ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl";
-			SetModel( mdl );
+			SetModel( HasPowerup( Powerup.Hard ) ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl" );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
-			Vector3 vel = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
 			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Owner.Rotation.Up * 35 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-			PhysicsGroup.Velocity = vel;
+			PhysicsGroup.Velocity = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
 			TotalBounces = 0;
@@ -31,6 +30,23 @@ namespace Ricochet
 			GlowActive = true;
 			GlowColor = Color.Red;
 			GlowState = GlowStates.GlowStateOn;
+
+			if ( HasPowerup( Powerup.Triple ) && !IsExtra )
+			{
+				Disc secondDisc = new();
+				secondDisc.Owner = Owner;
+				secondDisc.IsExtra = true;
+				secondDisc.Spawn();
+				Vector3 newSecondVel = secondDisc.Velocity + ( Vector3.Right * 7 );
+				secondDisc.Velocity = newSecondVel;
+
+				Disc thirdDisc = new();
+				thirdDisc.Owner = Owner;
+				thirdDisc.IsExtra = true;
+				thirdDisc.Spawn();
+				Vector3 newThirdVel = thirdDisc.Velocity + ( Vector3.Right * -7 );
+				thirdDisc.Velocity = newThirdVel;
+			}
 
 			using ( Prediction.Off() )
 			{
