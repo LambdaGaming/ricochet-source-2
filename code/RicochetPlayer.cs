@@ -5,10 +5,10 @@ namespace Ricochet
 {
 	[Flags]
 	public enum Powerup {
-		Triple = 0,
-		Fast = 1,
-		Hard = 2,
-		Freeze = 4
+		Triple = 1,
+		Fast = 2,
+		Hard = 4,
+		Freeze = 8
 	}
 
 	partial class RicochetPlayer : Player
