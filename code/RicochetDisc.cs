@@ -122,8 +122,9 @@ namespace Ricochet
 			else
 			{
 				TotalBounces++;
+				var particle = Particles.Create( "particles/disc_spark.vpcf", Position );
+				particle.Destroy( false );
 				PlaySound( "xbow_hit" );
-				// TODO: Emit sparks
 			}
 		}
 		
