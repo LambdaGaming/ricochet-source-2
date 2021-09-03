@@ -130,8 +130,10 @@ namespace Ricochet
 		[Event.Tick.Server]
 		protected void Tick()
 		{
+			Velocity = (DiscVelocity * Velocity.Normal).WithZ( 0 );
+			Rotation = Rotation.From( Angles.Zero );
+			WorldAng = Angles.Zero;
 			if ( NextThink > Time.Now ) return;
-			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );
 			if ( HasPowerup( Powerup.Freeze ) && TotalBounces == 0 )
 			{
 				if ( LockTarget.IsValid() )
