@@ -203,5 +203,31 @@ namespace Ricochet
 		{
 			return DefaultSpeed;
 		}
+
+		public override void Simulate()
+		{
+			base.Simulate();
+			if ( NearJumpPad() )
+			{
+				GroundEntity = null;
+			}
+		}
+
+		private bool NearJumpPad()
+		{
+			float currentdist = int.MaxValue;
+			foreach ( Entity ent in Entity.All )
+			{
+				if ( ent is TriggerJump )
+				{
+					float dist = Vector3.DistanceBetween( ent.Position, Position );
+					if ( dist < currentdist )
+					{
+						currentdist = dist;
+					}
+				}
+			}
+			return currentdist < 30;
+		}
 	}
 }
