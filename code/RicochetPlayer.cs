@@ -138,7 +138,7 @@ namespace Ricochet
 		public void Freeze()
 		{
 			// TODO: Glowing render effect
-			RenderColorAndAlpha = new Color32( 0, 0, 200, 230 );
+			RenderColorAndAlpha = new Color( 0, 0, 200, 230 );
 			( Controller as MinimalWalkController ).WalkSpeed = FreezeSpeed;
 			Frozen = true;
 			FreezeTimer = Time.Now + FreezeTime;
@@ -148,7 +148,7 @@ namespace Ricochet
 		{
 			var walk = Controller as MinimalWalkController;
 			// TODO: Glowing render effect
-			RenderColorAndAlpha = Color32.White;
+			RenderColorAndAlpha = Color.White;
 			walk.WalkSpeed = walk.DefaultSpeed;
 			Frozen = false;
 		}
