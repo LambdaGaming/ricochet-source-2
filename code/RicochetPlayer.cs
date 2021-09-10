@@ -11,14 +11,15 @@ namespace Ricochet
 		Freeze = 8
 	}
 
-	partial class RicochetPlayer : Player
+	public partial class RicochetPlayer : Player
 	{
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
 		public float FreezeTimer { get; set; }
 		public int NumDiscs { get; set; }
-		public int Team { get; set; }
+		public int Team { get; set; } = 0;
+		public Color TeamColor { get; set; }
 		public bool Frozen { get; set; }
 		public RicochetPlayer LastPlayerToHitMe { get; set; }
 		public Powerup PowerupFlags { get; set; }
@@ -43,7 +44,8 @@ namespace Ricochet
 			EnemyTouchCooldown = 0;
 			FreezeTimer = 0;
 			NumDiscs = MaxDiscs;
-			Team = 0;
+			Team = Team == 0 ? AutoAssignTeam() : Team;
+			TeamColor = GetTeamColor();
 			Frozen = false;
 			using ( Prediction.Off() )
 			{
@@ -189,6 +191,45 @@ namespace Ricochet
 				}
 				// TODO: Spawn head model
 			}
+		}
+
+		public Color GetTeamColor()
+		{
+			if ( Team < 0 || Team > Ricochet.TeamColors.Length )
+			{
+				return Color.White;
+			}
+			return Color.FromBytes( Ricochet.TeamColors[Team, 0], Ricochet.TeamColors[Team, 1], Ricochet.TeamColors[Team, 2] );
+		}
+
+		public int GetClientIndex()
+		{
+			return Ricochet.TotalClients.IndexOf( this );
+		}
+
+		public int AutoAssignTeam()
+		{
+			if ( Ricochet.IsTDM )
+			{
+				int lowestTeam = 0;
+				int lowestAmount = 0;
+				for ( int i = 0; i < Ricochet.TotalTeams.Length; i++ )
+				{
+					if ( Ricochet.TotalTeams[i] == 0 )
+					{
+						Ricochet.TotalTeams[i]++;
+						return i;
+					}
+
+					int amount = Ricochet.TotalTeams[i];
+					if ( amount < lowestAmount )
+					{
+						lowestTeam = i;
+					}
+				}
+				return lowestTeam;
+			}
+			return GetClientIndex();
 		}
 	}
 

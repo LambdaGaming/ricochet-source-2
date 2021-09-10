@@ -28,7 +28,7 @@ namespace Ricochet
 			NextThink = 0;
 			IsDecap = HasPowerup( Powerup.Hard );
 			GlowActive = true;
-			GlowColor = Color.Red;
+			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
 			GlowState = GlowStates.GlowStateOn;
 
 			if ( HasPowerup( Powerup.Triple ) && !IsExtra )
