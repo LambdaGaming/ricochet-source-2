@@ -38,7 +38,7 @@ namespace Ricochet
 
 		public void Hide()
 		{
-			RenderAlpha = 0;
+			RenderColor = Color.Transparent;
 			_ = WaitForRespawn();
 			Hidden = true;
 		}
@@ -46,7 +46,7 @@ namespace Ricochet
 		public void Unhide()
 		{
 			SetRandomPowerup();
-			RenderAlpha = 1;
+			RenderColor = Color.White;
 			PlaySound( "pspawn" );
 			Hidden = false;
 		}
