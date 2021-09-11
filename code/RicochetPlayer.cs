@@ -51,6 +51,7 @@ namespace Ricochet
 			{
 				PlaySound( "r_tele1" );
 			}
+			Event.Run( "PlayerRespawn" );
 		}
 		
 		public override void Simulate( Client cl )
@@ -172,7 +173,6 @@ namespace Ricochet
 				{
 					PlaySound( "decap" );
 				}
-				SetBodyGroup( 1, 1 );
 				SpawnHeadModel();
 			}
 		}
@@ -235,14 +235,29 @@ namespace Ricochet
 
 		public void SpawnHeadModel()
 		{
-			ModelEntity head = new();
-			head.SetModel( "models/citizen/citizen.vmdl" );
-			head.SetBodyGroup( 2, 1 );
-			head.SetBodyGroup( 3, 1 );
-			head.SetBodyGroup( 4, 1 );
-			head.SetBodyGroup( 5, 1 );
+			RicochetPlayerHead head = new();
 			head.Position = Position;
-			head.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+		}
+	}
+
+	public class RicochetPlayerHead : ModelEntity
+	{
+		public override void Spawn()
+		{
+			base.Spawn();
+			SetModel( "models/citizen/citizen.vmdl" );
+			SetBodyGroup( 1, 1 );
+			SetBodyGroup( 2, 1 );
+			SetBodyGroup( 3, 1 );
+			SetBodyGroup( 4, 1 );
+			SetBodyGroup( 5, 1 );
+			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+		}
+
+		[Event( "PlayerRespawn" )]
+		public void OnPlayerRespawn()
+		{
+			Delete();
 		}
 	}
 
