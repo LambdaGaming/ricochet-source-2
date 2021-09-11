@@ -140,7 +140,7 @@ namespace Ricochet
 		public void Freeze()
 		{
 			// TODO: Glowing render effect
-			RenderColorAndAlpha = new Color( 0, 0, 200, 230 );
+			RenderColor = new Color( 0, 0, 200, 230 );
 			( Controller as MinimalWalkController ).WalkSpeed = FreezeSpeed;
 			Frozen = true;
 			FreezeTimer = Time.Now + FreezeTime;
@@ -150,7 +150,7 @@ namespace Ricochet
 		{
 			var walk = Controller as MinimalWalkController;
 			// TODO: Glowing render effect
-			RenderColorAndAlpha = Color.White;
+			RenderColor = Color.White;
 			walk.WalkSpeed = walk.DefaultSpeed;
 			Frozen = false;
 		}
@@ -184,7 +184,7 @@ namespace Ricochet
 				LastPlayerToHitMe = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
-				RenderAlpha = 1;
+				RenderColor = Color.Transparent;
 				EnableSolidCollisions = false;
 				using ( Prediction.Off() )
 				{

@@ -1,5 +1,5 @@
 // 
-// Ricochet.PowerupEnt : Sandbox.AnimEntity 
+// Ricochet.PowerupEnt
 // 
 @PointClass = powerup : ""
 [
@@ -11,7 +11,7 @@
 ]
 
 // 
-// Ricochet.TriggerDiscReturn : Sandbox.BaseTrigger 
+// Ricochet.TriggerDiscReturn
 // 
 @SolidClass 
 metadata
@@ -48,7 +48,7 @@ metadata
 ]
 
 // 
-// Ricochet.TriggerFall : Sandbox.BaseTrigger 
+// Ricochet.TriggerFall
 // 
 @SolidClass 
 metadata
@@ -85,7 +85,7 @@ metadata
 ]
 
 // 
-// Ricochet.TriggerJump : Sandbox.BaseTrigger 
+// Ricochet.TriggerJump
 // 
 @SolidClass 
 metadata
