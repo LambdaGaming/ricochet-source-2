@@ -235,23 +235,36 @@ namespace Ricochet
 
 		public void SpawnHeadModel()
 		{
-			RicochetPlayerHead head = new();
+			RicochetCorpse head = new();
 			head.Position = Position;
+			head.SetHead();
+			RicochetCorpse body = new();
+			body.Position = Position;
+			body.SetBody();
 		}
 	}
 
-	public class RicochetPlayerHead : ModelEntity
+	public class RicochetCorpse : ModelEntity
 	{
 		public override void Spawn()
 		{
 			base.Spawn();
 			SetModel( "models/citizen/citizen.vmdl" );
-			SetBodyGroup( 1, 1 );
-			SetBodyGroup( 2, 1 );
-			SetBodyGroup( 3, 1 );
-			SetBodyGroup( 4, 1 );
-			SetBodyGroup( 5, 1 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+			EnableAllCollisions = false;
+		}
+		
+		public void SetHead()
+		{
+			for ( int i = 1; i < 6; i++ )
+			{
+				SetBodyGroup( i, 1 );
+			}
+		}
+
+		public void SetBody()
+		{
+			SetBodyGroup( 0, 1 );
 		}
 
 		[Event( "PlayerRespawn" )]
