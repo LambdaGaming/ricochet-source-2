@@ -172,7 +172,8 @@ namespace Ricochet
 				{
 					PlaySound( "decap" );
 				}
-				// TODO: Change bodygroup of playermodel and spawn head model
+				SetBodyGroup( 1, 1 );
+				SpawnHeadModel();
 			}
 		}
 
@@ -189,7 +190,7 @@ namespace Ricochet
 				{
 					PlaySound( "shatter" );
 				}
-				// TODO: Spawn head model
+				SpawnHeadModel();
 			}
 		}
 
@@ -230,6 +231,18 @@ namespace Ricochet
 				return lowestTeam;
 			}
 			return GetClientIndex();
+		}
+
+		public void SpawnHeadModel()
+		{
+			ModelEntity head = new();
+			head.SetModel( "models/citizen/citizen.vmdl" );
+			head.SetBodyGroup( 2, 1 );
+			head.SetBodyGroup( 3, 1 );
+			head.SetBodyGroup( 4, 1 );
+			head.SetBodyGroup( 5, 1 );
+			head.Position = Position;
+			head.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 		}
 	}
 
