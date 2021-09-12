@@ -309,7 +309,7 @@ namespace Ricochet
 					}
 				}
 			}
-			return currentdist < 30;
+			return currentdist < 40;
 		}
 	}
 }
