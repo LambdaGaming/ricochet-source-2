@@ -11,7 +11,7 @@ namespace Ricochet
 		public bool IsDecap { get; set; }
 		public bool IsExtra { get; set; } = false;
 		private Sound DecapLoop { get; set; }
-		public static readonly int DiscPushMultiplier = 1200;
+		public static readonly int DiscPushMultiplier = 800;
 
 		public new void Spawn()
 		{
@@ -96,7 +96,7 @@ namespace Ricochet
 						{
 							PlaySound( "cbar_hitbod" );
 							Vector3 direction = ply.Velocity.Normal;
-							ply.Velocity = direction * DiscPushMultiplier;
+							ply.Velocity = direction + 1 * DiscPushMultiplier;
 
 							if ( !ply.Frozen )
 							{
