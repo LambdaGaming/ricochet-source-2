@@ -260,6 +260,7 @@ namespace Ricochet
 			{
 				SetBodyGroup( i, 1 );
 			}
+			Velocity += Velocity.WithZ( 3000 );
 		}
 
 		public void SetBody()
