@@ -67,7 +67,7 @@ namespace Ricochet
 				{
 					if ( ply.OwnerTouchCooldown < Time.Now )
 					{
-						PlaySound( "gunpickup2" );
+						ply.PlaySound( "gunpickup2" );
 						ReturnToThrower();
 					}
 					return;
@@ -115,7 +115,7 @@ namespace Ricochet
 				{
 					var spr = Particles.Create( "particles/discreturn.vpcf", Position );
 					spr.Destroy();
-					PlaySound( "dischit" );
+					Sound.FromWorld( "dischit", Position );
 					( ent as Disc ).ReturnToThrower();
 					ReturnToThrower();
 				}
