@@ -13,7 +13,8 @@ namespace Ricochet
 			var disc = ent as Disc;
 			if ( disc.IsValid() )
 			{
-				// TODO: Return sprite
+				var spr = Particles.Create( "particles/discreturn.vpcf", Position );
+				spr.Destroy();
 				Sound.FromWorld( "discreturn", Position );
 				disc.ReturnToThrower();
 			}

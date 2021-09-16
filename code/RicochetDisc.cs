@@ -113,7 +113,8 @@ namespace Ricochet
 			{
 				if ( ent != this )
 				{
-					// TODO: Spawn warp sprite
+					var spr = Particles.Create( "particles/discreturn.vpcf", Position );
+					spr.Destroy();
 					PlaySound( "dischit" );
 					( ent as Disc ).ReturnToThrower();
 					ReturnToThrower();
@@ -123,7 +124,7 @@ namespace Ricochet
 			{
 				TotalBounces++;
 				var particle = Particles.Create( "particles/disc_spark.vpcf", Position );
-				particle.Destroy( false );
+				particle.Destroy();
 				PlaySound( "xbow_hit" );
 			}
 		}
