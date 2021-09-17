@@ -23,6 +23,7 @@ namespace Ricochet
 		public bool Frozen { get; set; }
 		public RicochetPlayer LastPlayerToHitMe { get; set; }
 		public Powerup PowerupFlags { get; set; }
+		public bool AllowedToFire { get; set; } = true;
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;
@@ -64,10 +65,7 @@ namespace Ricochet
 				{
 					if ( NumDiscs > 0 )
 					{
-						LaunchDisc();
-						float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
-						DiscCooldown = Time.Now + cooldown;
-						OwnerTouchCooldown = Time.Now + 0.1f;
+						FireDisc();
 						RemoveDisc( 1 );
 						using ( Prediction.Off() )
 						{
@@ -79,12 +77,7 @@ namespace Ricochet
 				{
 					if ( NumDiscs == MaxDiscs )
 					{
-						AddPowerup( Powerup.Hard );
-						LaunchDisc();
-						float cooldown = HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f;
-						DiscCooldown = Time.Now + cooldown;
-						OwnerTouchCooldown = Time.Now + 0.1f;
-						RemovePowerup( Powerup.Hard );
+						FireDisc( true );
 						RemoveDisc( MaxDiscs );
 						using ( Prediction.Off() )
 						{
@@ -93,6 +86,31 @@ namespace Ricochet
 					}
 				}
 			}
+		}
+
+		public Disc FireDisc( bool decap = false )
+		{
+			Disc returndisc = null;
+			Angles firedir = Angles.Zero;
+			firedir.yaw = EyeRot.y;
+			Vector3 vecsrc = Position + ( ( EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
+			Disc disc = Disc.CreateDisc( vecsrc, firedir, this, decap, PowerupFlags );
+			returndisc = disc;
+
+			if ( HasPowerup( Powerup.Triple ) )
+			{
+				firedir.yaw = EyeRot.y - 7;
+				disc = Disc.CreateDisc( vecsrc, firedir, this, decap, Powerup.Triple );
+				disc.IsExtra = true;
+
+				firedir.yaw = EyeRot.y + 7;
+				disc = Disc.CreateDisc( vecsrc, firedir, this, decap, Powerup.Triple );
+				disc.IsExtra = true;
+			}
+
+			DiscCooldown = Time.Now + ( HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f );
+			OwnerTouchCooldown = Time.Now + 0.1f;
+			return returndisc;
 		}
 		
 		public override void OnKilled()
@@ -106,13 +124,6 @@ namespace Ricochet
 			return LifeState == LifeState.Alive;
 		}
 
-		public void LaunchDisc()
-		{
-			Disc disc = new();
-			disc.Owner = this;
-			disc.Spawn();
-		}
-		
 		public void AddPowerup( Powerup powerup )
 		{
 			PowerupFlags |= powerup;

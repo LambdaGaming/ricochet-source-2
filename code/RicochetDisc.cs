@@ -2,14 +2,16 @@
 
 namespace Ricochet
 {
-	class Disc : ModelEntity
+	public class Disc : ModelEntity
 	{
 		public float DiscVelocity { get; set; }
-		public int TotalBounces { get; set; }
+		public int TotalBounces { get; set; } = 0;
 		public RicochetPlayer LockTarget { get; set; }
-		public float NextThink { get; set; }
-		public bool IsDecap { get; set; }
+		public float NextThink { get; set; } = 0;
+		public bool IsDecap { get; set; } = false;
 		public bool IsExtra { get; set; } = false;
+		public Powerup PowerupFlags { get; set; }
+		public int Team { get; set; } = 0;
 		private Sound DecapLoop { get; set; }
 		public static readonly int DiscPushMultiplier = 800;
 
@@ -17,36 +19,15 @@ namespace Ricochet
 		{
 			if ( !Owner.IsValid() ) return;
 			base.Spawn();
-			SetModel( HasPowerup( Powerup.Hard ) ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl" );
+			SetModel( IsDecap ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl" );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
-			Position = Owner.Position + ( Owner.EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Owner.Rotation.Up * 35 );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-			PhysicsGroup.Velocity = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
+			Velocity = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
-			TotalBounces = 0;
-			NextThink = 0;
-			IsDecap = HasPowerup( Powerup.Hard );
 			GlowActive = true;
 			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
 			GlowState = GlowStates.GlowStateOn;
-
-			if ( HasPowerup( Powerup.Triple ) && !IsExtra )
-			{
-				Disc secondDisc = new();
-				secondDisc.Owner = Owner;
-				secondDisc.IsExtra = true;
-				secondDisc.Spawn();
-				Vector3 newSecondVel = secondDisc.Velocity + ( Vector3.Right * 7 );
-				secondDisc.Velocity = newSecondVel;
-
-				Disc thirdDisc = new();
-				thirdDisc.Owner = Owner;
-				thirdDisc.IsExtra = true;
-				thirdDisc.Spawn();
-				Vector3 newThirdVel = thirdDisc.Velocity + ( Vector3.Right * -7 );
-				thirdDisc.Velocity = newThirdVel;
-			}
 
 			using ( Prediction.Off() )
 			{
@@ -55,6 +36,19 @@ namespace Ricochet
 					DecapLoop = Sound.FromEntity( "rocket1", this );
 				}
 			}
+		}
+
+		public static Disc CreateDisc( Vector3 position, Angles angles, RicochetPlayer owner, bool decap, Powerup flags )
+		{
+			Disc disc = new();
+			disc.Position = position;
+			disc.PowerupFlags = flags;
+			disc.IsDecap = flags.HasFlag( Powerup.Hard ) || decap;
+			disc.WorldAng = angles;
+			disc.Owner = owner;
+			disc.Team = owner.Team;
+			disc.Spawn();
+			return disc;
 		}
 		
 		public override void StartTouch( Entity ent )
@@ -132,7 +126,7 @@ namespace Ricochet
 		[Event.Tick.Server]
 		protected void Tick()
 		{
-			Velocity = (DiscVelocity * Velocity.Normal).WithZ( 0 );
+			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );
 			Rotation = Rotation.From( Angles.Zero );
 			WorldAng = Angles.Zero;
 			if ( NextThink > Time.Now ) return;
@@ -202,8 +196,7 @@ namespace Ricochet
 
 		public bool HasPowerup( Powerup powerup )
 		{
-			var ply = Owner as RicochetPlayer;
-			return ply.PowerupFlags.HasFlag( powerup );
+			return PowerupFlags.HasFlag( powerup );
 		}
 
 		public void ReturnToThrower()
