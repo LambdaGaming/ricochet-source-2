@@ -22,7 +22,7 @@ namespace Ricochet
 
 		public override void StartTouch( Entity ent )
 		{
-			if ( !IsClient ) return;
+			if ( IsClient ) return;
 			base.StartTouch( ent );
 			if ( !Hidden )
 			{
