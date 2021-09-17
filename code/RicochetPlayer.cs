@@ -18,6 +18,7 @@ namespace Ricochet
 		public float EnemyTouchCooldown { get; set; }
 		public float FreezeTimer { get; set; }
 		public int NumDiscs { get; set; }
+		public int PowerupDiscs { get; set; }
 		public int Team { get; set; } = 0;
 		public Color TeamColor { get; set; }
 		public bool Frozen { get; set; }
@@ -45,6 +46,7 @@ namespace Ricochet
 			EnemyTouchCooldown = 0;
 			FreezeTimer = 0;
 			NumDiscs = MaxDiscs;
+			PowerupDiscs = 0;
 			Team = Team == 0 ? AutoAssignTeam() : Team;
 			TeamColor = GetTeamColor();
 			Frozen = false;
@@ -108,6 +110,12 @@ namespace Ricochet
 				disc.IsExtra = true;
 			}
 
+			PowerupDiscs--;
+			if ( PowerupDiscs <= 0 )
+			{
+				RemoveAllPowerups();
+			}
+
 			DiscCooldown = Time.Now + ( HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f );
 			OwnerTouchCooldown = Time.Now + 0.1f;
 			return returndisc;
@@ -127,11 +135,17 @@ namespace Ricochet
 		public void AddPowerup( Powerup powerup )
 		{
 			PowerupFlags |= powerup;
+			PowerupDiscs = MaxDiscs;
 		}
 
 		public void RemovePowerup( Powerup powerup )
 		{
 			PowerupFlags &= ~powerup;
+		}
+
+		public void RemoveAllPowerups()
+		{
+			PowerupFlags = 0;
 		}
 
 		public bool HasPowerup( Powerup powerup )
