@@ -105,7 +105,7 @@ namespace Ricochet
 			}
 			else if ( ent is Disc )
 			{
-				if ( ent != this )
+				if ( ent != this && !( ent as Disc ).IsExtra && !IsExtra )
 				{
 					var spr = Particles.Create( "particles/discreturn.vpcf", Position );
 					spr.Destroy();
