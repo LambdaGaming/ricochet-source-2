@@ -50,6 +50,7 @@ namespace Ricochet
 			Team = Team == 0 ? AutoAssignTeam() : Team;
 			TeamColor = GetTeamColor();
 			Frozen = false;
+			RenderColor = Color.White;
 			using ( Prediction.Off() )
 			{
 				PlaySound( "r_tele1" );
@@ -88,16 +89,19 @@ namespace Ricochet
 					}
 				}
 			}
+			if ( Frozen && FreezeTimer < Time.Now )
+			{
+				ClearFreeze();
+			}
 		}
 
 		public Disc FireDisc( bool decap = false )
 		{
-			Disc returndisc = null;
 			Angles firedir = Angles.Zero;
 			firedir.yaw = EyeRot.y;
 			Vector3 vecsrc = Position + ( ( EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
 			Disc disc = Disc.CreateDisc( vecsrc, firedir, this, decap, PowerupFlags );
-			returndisc = disc;
+			Disc returndisc = disc;
 
 			if ( HasPowerup( Powerup.Triple ) )
 			{
