@@ -279,8 +279,13 @@ namespace Ricochet
 		{
 			base.Spawn();
 			SetModel( "models/citizen/citizen.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-			EnableAllCollisions = false;
+
+			// Player corpse collision code from https://github.com/TTTReborn/tttreborn/blob/master/code/player/PlayerCorpse.cs#L22-L27
+			MoveType = MoveType.Physics;
+			UsePhysicsCollision = true;
+			SetInteractsAs( CollisionLayer.Debris );
+			SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
+			SetInteractsExclude( CollisionLayer.Player );
 		}
 		
 		public void SetHead()
