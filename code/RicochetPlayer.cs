@@ -128,6 +128,7 @@ namespace Ricochet
 		public override void OnKilled()
 		{
 			base.OnKilled();
+			EnableAllCollisions = false;
 			EnableDrawing = false;
 		}
 
