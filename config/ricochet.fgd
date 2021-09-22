@@ -1,28 +1,40 @@
-// 
-// Ricochet.PowerupEnt
-// 
-@PointClass = powerup : ""
+
+@BaseClass = BaseProperties_ricochet
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	parentAttachmentName(parentAttachment) [ group="Hierarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
+
+	useLocalOffset(boolean) [ group="Hierarchy" ] : "Use Model Attachment offsets" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
+	local.origin(vector) [ group="Hierarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.angles(angle) [ group="Hierarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.scales(vector) [ group="Hierarchy" ] : "Model Attachment scale" : : "Scale in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	tags(tags) : "Tags" : "" : "A list of general purpose tags for this entity, for interactions with other entities such as triggers."
+]
+
+//
+// Ricochet.PowerupEnt
+//
+@PointClass base(BaseProperties_ricochet) = powerup : ""
+[
 	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
 
-// 
+//
 // Ricochet.TriggerDiscReturn
-// 
-@SolidClass 
+//
+@SolidClass base(BaseProperties_ricochet) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
 = trigger_discreturn : ""
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
 	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
@@ -47,19 +59,18 @@ metadata
 	output OnEndTouchAll(void) : "Fired when all entities touching this trigger have stopped touching it."
 ]
 
-// 
+//
 // Ricochet.TriggerFall
-// 
-@SolidClass 
+//
+@SolidClass base(BaseProperties_ricochet) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
 = trigger_fall : ""
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
 	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
@@ -84,20 +95,19 @@ metadata
 	output OnEndTouchAll(void) : "Fired when all entities touching this trigger have stopped touching it."
 ]
 
-// 
+//
 // Ricochet.TriggerJump
-// 
-@SolidClass 
+//
+@SolidClass base(BaseProperties_ricochet) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
 = trigger_jump : ""
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	target(string) : "Target" :  : ""
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
 	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1

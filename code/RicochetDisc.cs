@@ -55,6 +55,7 @@ namespace Ricochet
 		{
 			var ply = ent as RicochetPlayer;
 			var owner = Owner as RicochetPlayer;
+			if ( ent is PowerupEnt ) return;
 			if ( ply.IsValid() )
 			{
 				if ( ent == Owner )
