@@ -13,7 +13,7 @@ namespace Ricochet
 		public Powerup PowerupFlags { get; set; }
 		public int Team { get; set; } = 0;
 		private Sound DecapLoop { get; set; }
-		public static readonly int DiscPushMultiplier = 800;
+		public static readonly int DiscPushMultiplier = 1000;
 
 		public new void Spawn()
 		{
@@ -90,8 +90,8 @@ namespace Ricochet
 						else
 						{
 							PlaySound( "cbar_hitbod" );
-							Vector3 direction = ply.Velocity.Normal;
-							ply.Velocity = direction + 1 * DiscPushMultiplier;
+							Vector3 direction = Velocity.Normal;
+							ply.Velocity = direction * DiscPushMultiplier;
 
 							if ( !ply.Frozen )
 							{
