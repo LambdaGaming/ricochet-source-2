@@ -312,14 +312,18 @@ namespace Ricochet
 
 	public class MinimalWalkController : WalkController
 	{
-		public new float WalkSpeed = 250.0f;
-		public new float DefaultSpeed = 250.0f;
 		public override void CheckJumpButton() {}
 		public override void StayOnGround() {}
 
+		public MinimalWalkController()
+		{
+			WalkSpeed = 250.0f;
+			DefaultSpeed = 250.0f;
+		}
+
 		public override float GetWishSpeed()
 		{
-			return DefaultSpeed;
+			return WalkSpeed;
 		}
 
 		public override void Simulate()
