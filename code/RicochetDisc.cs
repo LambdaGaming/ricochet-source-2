@@ -176,7 +176,7 @@ namespace Ricochet
 					return;
 				}
 
-				if ( Owner.IsValid() )
+				if ( Owner.IsValid() && ( Owner as RicochetPlayer ).Alive() )
 				{
 					Vector3 direction = ( Owner.Position - Position ).Normal;
 					Velocity = direction * DiscVelocity;
