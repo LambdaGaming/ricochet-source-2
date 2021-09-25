@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System.Threading.Tasks;
 
 namespace Ricochet
 {
@@ -30,6 +31,8 @@ namespace Ricochet
 			GlowActive = true;
 			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
 			GlowState = GlowStates.GlowStateOn;
+			SetInteractsAs( CollisionLayer.Empty );
+			_ = CollisionFix();
 
 			using ( Prediction.Off() )
 			{
@@ -38,6 +41,12 @@ namespace Ricochet
 					DecapLoop = Sound.FromEntity( "rocket1", this );
 				}
 			}
+		}
+
+		async Task CollisionFix()
+		{
+			await Task.DelaySeconds( 0.1f );
+			SetInteractsAs( CollisionLayer.Solid );
 		}
 
 		public static Disc CreateDisc( Vector3 position, Angles angles, RicochetPlayer owner, bool decap, Powerup flags )
