@@ -13,6 +13,7 @@ namespace Ricochet
 		public Powerup PowerupFlags { get; set; }
 		public int Team { get; set; } = 0;
 		private Sound DecapLoop { get; set; }
+		private float SetZ { get; set; }
 		public static readonly int DiscPushMultiplier = 1000;
 
 		public new void Spawn()
@@ -23,6 +24,7 @@ namespace Ricochet
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 			Velocity = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
+			SetZ = Position.z;
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
 			GlowActive = true;
@@ -128,6 +130,7 @@ namespace Ricochet
 		protected void Tick()
 		{
 			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );
+			Position = Position.WithZ( SetZ );
 			Rotation = Rotation.From( Angles.Zero );
 			WorldAng = Angles.Zero;
 			if ( NextThink > Time.Now ) return;
@@ -135,7 +138,6 @@ namespace Ricochet
 			{
 				if ( LockTarget.IsValid() )
 				{
-					// No clue if this works or if its actually needed
 					Vector3 direction = ( LockTarget.Position - Position ).Normal;
 					float dot = Vector3.Dot( Vector3.Forward, direction );
 					if ( dot < 0.6f || ( Owner as RicochetPlayer ).Team == LockTarget.Team )
