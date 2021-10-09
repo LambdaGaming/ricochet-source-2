@@ -109,7 +109,7 @@ namespace Ricochet
 								// TODO: Shield flash
 							}
 
-							ply.LastPlayerToHitMe = owner;
+							ply.LastAttacker = owner;
 							ply.EnemyTouchCooldown = Time.Now + 2;
 						}
 					}

@@ -1,5 +1,4 @@
 ﻿using Sandbox.UI;
-using Sandbox.UI.Construct;
 
 namespace Ricochet
 {
@@ -9,11 +8,12 @@ namespace Ricochet
 		{
 			if ( IsClient )
 			{
-				// TODO: Death notifications and scoreboard
+				// TODO: Scoreboard
 				RootPanel.StyleSheet.Load( "RicochetHUD.scss" );
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<DiscHUD>();
 				RootPanel.AddChild<Crosshair>();
+				RootPanel.AddChild<KillFeed>();
 			}
 		}
 	}
@@ -22,15 +22,8 @@ namespace Ricochet
 	{
 		public DiscHUD()
 		{
+			// TODO: Disc images that change based on powerup and discs left
 			StyleSheet.Load( "RicochetHUD.scss" );
-			for ( int i = 0; i < 3; i++ )
-			{
-				var img = Add.Panel( "image" );
-				img.Style.Background = new PanelBackground()
-				{
-					Texture = Sandbox.Texture.Load( "/gfx/hud/640_freeze.tga" )
-				};
-			}
 		}
 	}
 

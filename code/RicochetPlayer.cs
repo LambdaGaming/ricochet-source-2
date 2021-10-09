@@ -22,7 +22,6 @@ namespace Ricochet
 		public int Team { get; set; } = 0;
 		public Color TeamColor { get; set; }
 		public bool Frozen { get; set; }
-		public RicochetPlayer LastPlayerToHitMe { get; set; }
 		public Powerup PowerupFlags { get; set; }
 		public bool AllowedToFire { get; set; } = true;
 		public static readonly int MaxDiscs = 3;
@@ -196,7 +195,7 @@ namespace Ricochet
 
 			if ( Alive() )
 			{
-				LastPlayerToHitMe = killer;
+				LastAttacker = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
 				using ( Prediction.Off() )
@@ -211,7 +210,7 @@ namespace Ricochet
 		{
 			if ( Alive() )
 			{
-				LastPlayerToHitMe = killer;
+				LastAttacker = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
 				RenderColor = Color.Transparent;
