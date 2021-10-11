@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System.Threading.Tasks;
 
 namespace Ricochet
 {
@@ -13,7 +14,8 @@ namespace Ricochet
 		public Powerup PowerupFlags { get; set; }
 		public int Team { get; set; } = 0;
 		private Sound DecapLoop { get; set; }
-		public static readonly int DiscPushMultiplier = 800;
+		private float SetZ { get; set; }
+		public static readonly int DiscPushMultiplier = 1000;
 
 		public new void Spawn()
 		{
@@ -23,11 +25,14 @@ namespace Ricochet
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 			Velocity = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
+			SetZ = Position.z;
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
 			GlowActive = true;
 			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
 			GlowState = GlowStates.GlowStateOn;
+			SetInteractsAs( CollisionLayer.Empty );
+			_ = CollisionFix();
 
 			using ( Prediction.Off() )
 			{
@@ -36,6 +41,12 @@ namespace Ricochet
 					DecapLoop = Sound.FromEntity( "rocket1", this );
 				}
 			}
+		}
+
+		async Task CollisionFix()
+		{
+			await Task.DelaySeconds( 0.1f );
+			SetInteractsAs( CollisionLayer.Solid );
 		}
 
 		public static Disc CreateDisc( Vector3 position, Angles angles, RicochetPlayer owner, bool decap, Powerup flags )
@@ -90,15 +101,15 @@ namespace Ricochet
 						else
 						{
 							PlaySound( "cbar_hitbod" );
-							Vector3 direction = ply.Velocity.Normal;
-							ply.Velocity = direction + 1 * DiscPushMultiplier;
+							Vector3 direction = Velocity.Normal;
+							ply.Velocity = direction * DiscPushMultiplier;
 
 							if ( !ply.Frozen )
 							{
 								// TODO: Shield flash
 							}
 
-							ply.LastPlayerToHitMe = owner;
+							ply.LastAttacker = owner;
 							ply.EnemyTouchCooldown = Time.Now + 2;
 						}
 					}
@@ -128,6 +139,7 @@ namespace Ricochet
 		protected void Tick()
 		{
 			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );
+			Position = Position.WithZ( SetZ );
 			Rotation = Rotation.From( Angles.Zero );
 			WorldAng = Angles.Zero;
 			if ( NextThink > Time.Now ) return;
@@ -135,7 +147,6 @@ namespace Ricochet
 			{
 				if ( LockTarget.IsValid() )
 				{
-					// No clue if this works or if its actually needed
 					Vector3 direction = ( LockTarget.Position - Position ).Normal;
 					float dot = Vector3.Dot( Vector3.Forward, direction );
 					if ( dot < 0.6f || ( Owner as RicochetPlayer ).Team == LockTarget.Team )
@@ -176,7 +187,7 @@ namespace Ricochet
 					return;
 				}
 
-				if ( Owner.IsValid() )
+				if ( Owner.IsValid() && ( Owner as RicochetPlayer ).Alive() )
 				{
 					Vector3 direction = ( Owner.Position - Position ).Normal;
 					Velocity = direction * DiscVelocity;

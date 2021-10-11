@@ -22,7 +22,6 @@ namespace Ricochet
 		public int Team { get; set; } = 0;
 		public Color TeamColor { get; set; }
 		public bool Frozen { get; set; }
-		public RicochetPlayer LastPlayerToHitMe { get; set; }
 		public Powerup PowerupFlags { get; set; }
 		public bool AllowedToFire { get; set; } = true;
 		public static readonly int MaxDiscs = 3;
@@ -128,6 +127,7 @@ namespace Ricochet
 		public override void OnKilled()
 		{
 			base.OnKilled();
+			EnableAllCollisions = false;
 			EnableDrawing = false;
 		}
 
@@ -195,7 +195,7 @@ namespace Ricochet
 
 			if ( Alive() )
 			{
-				LastPlayerToHitMe = killer;
+				LastAttacker = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
 				using ( Prediction.Off() )
@@ -210,7 +210,7 @@ namespace Ricochet
 		{
 			if ( Alive() )
 			{
-				LastPlayerToHitMe = killer;
+				LastAttacker = killer;
 				DamageInfo dmg = new() { Damage = 500 };
 				TakeDamage( dmg );
 				RenderColor = Color.Transparent;
@@ -311,14 +311,18 @@ namespace Ricochet
 
 	public class MinimalWalkController : WalkController
 	{
-		public new float WalkSpeed = 250.0f;
-		public new float DefaultSpeed = 250.0f;
 		public override void CheckJumpButton() {}
 		public override void StayOnGround() {}
 
+		public MinimalWalkController()
+		{
+			WalkSpeed = 250.0f;
+			DefaultSpeed = 250.0f;
+		}
+
 		public override float GetWishSpeed()
 		{
-			return DefaultSpeed;
+			return WalkSpeed;
 		}
 
 		public override void Simulate()

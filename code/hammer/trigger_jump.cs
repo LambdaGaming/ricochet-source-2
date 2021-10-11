@@ -10,6 +10,9 @@ namespace Ricochet
 	{
 		[Property( Title = "Target" )]
 		public string Target { get; set; }
+
+		[Property( Title = "Height" )]
+		public float Height { get; set; } = 120;
 		
 		// Based off of the trigger_jump entity in triggers.cpp of the Ricochet source code
 		public override void StartTouch( Entity ent )
@@ -24,7 +27,7 @@ namespace Ricochet
 			{
 				var gravity = 600.0f;
 				Vector3 midpoint = ply.Position + ( target.Position - ply.Position ) * 0.5f;
-				TraceResult tr = Trace.Ray( midpoint, midpoint + new Vector3( 0, 0, 128 ) ).WorldOnly().Run();
+				TraceResult tr = Trace.Ray( midpoint, midpoint + new Vector3( 0, 0, Height ) ).WorldOnly().Run();
 				midpoint = tr.EndPos;
 				midpoint.z -= 15;
 
