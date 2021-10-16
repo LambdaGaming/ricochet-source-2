@@ -6,17 +6,16 @@ Crosshair {
 	border-radius: 10px;
 	width: 4px;
 	height: 4px;
-	transform: translate( -50% -50% );
 }
 
 DiscHUD {
-	position: relative;
-	left: 50%;
-	bottom: 20px;
-	width: 25%;
+	position: absolute;
+	top: 90%;
 
 	.image {
-		position: absolute;
-		top: 50%;
+		width: 64px;
+		height: 32px;
+		margin-left: 50px;
+		margin-right: 50px;
 	}
 }

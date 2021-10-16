@@ -22,18 +22,21 @@ namespace Ricochet
 
 		public override void StartTouch( Entity ent )
 		{
-			if ( IsClient ) return;
-			base.StartTouch( ent );
-			if ( !Hidden )
+			var ply = ent as RicochetPlayer;
+			if ( IsServer )
 			{
-				var ply = ent as RicochetPlayer;
-				if ( ply.IsValid() )
+				base.StartTouch( ent );
+				if ( !Hidden )
 				{
-					ply.AddPowerup( CurrentPowerup );
-					ply.PlaySound( "powerup" );
-					Hide();
+					if ( ply.IsValid() )
+					{
+						ply.AddPowerup( CurrentPowerup );
+						ply.PlaySound( "powerup" );
+						Hide();
+					}
 				}
 			}
+			Event.Run( "OnPowerupPickup", ply, CurrentPowerup );
 		}
 
 		public void Hide()
@@ -57,6 +60,12 @@ namespace Ricochet
 			Unhide();
 		}
 
+		[ClientRpc]
+		private void SyncClientData( int powerup )
+		{
+			CurrentPowerup = ( Powerup ) powerup;
+		}
+
 		public void SetRandomPowerup()
 		{
 			Random rand = new();
@@ -64,6 +73,7 @@ namespace Ricochet
 			Powerup powerup = ( Powerup ) powerups.GetValue( rand.Next( powerups.Length ) );
 			CurrentPowerup = powerup;
 			SetPowerupModel();
+			SyncClientData( ( int ) powerup );
 		}
 
 		public void SetPowerupModel()
