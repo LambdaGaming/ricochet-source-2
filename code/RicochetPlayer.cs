@@ -210,7 +210,7 @@ namespace Ricochet
 			if ( Alive() )
 			{
 				LastAttacker = killer;
-				DamageInfo dmg = new() { Damage = 500 };
+				DamageInfo dmg = new() { Damage = 500, Attacker = killer };
 				TakeDamage( dmg );
 				using ( Prediction.Off() )
 				{
@@ -225,7 +225,7 @@ namespace Ricochet
 			if ( Alive() )
 			{
 				LastAttacker = killer;
-				DamageInfo dmg = new() { Damage = 500 };
+				DamageInfo dmg = new() { Damage = 500, Attacker = killer };
 				TakeDamage( dmg );
 				RenderColor = Color.Transparent;
 				EnableSolidCollisions = false;

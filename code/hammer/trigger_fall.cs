@@ -15,7 +15,7 @@ namespace Ricochet
 				var ply = ent as RicochetPlayer;
 				if ( ply.IsValid() && ply.Alive() )
 				{
-					DamageInfo dmg = new() { Damage = 1000 };
+					DamageInfo dmg = new() { Damage = 1000, Attacker = ply.LastAttacker };
 					ply.TakeDamage( dmg );
 					ply.PlaySound( "scream" );
 				}

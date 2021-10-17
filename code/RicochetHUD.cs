@@ -10,7 +10,6 @@ namespace Ricochet
 		{
 			if ( IsClient )
 			{
-				// TODO: Scoreboard
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<DiscHUD>();
 				RootPanel.AddChild<Crosshair>();
@@ -62,7 +61,6 @@ namespace Ricochet
 				}
 				else if ( ply.HasPowerup( Powerup.Hard ) )
 				{
-					Log.Info(true);
 					SetDiscImage( i, "hard" );
 				}
 				else if ( ply.Team == 0 )

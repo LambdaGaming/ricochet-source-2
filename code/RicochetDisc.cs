@@ -109,10 +109,10 @@ namespace Ricochet
 								// TODO: Shield flash
 							}
 
-							ply.LastAttacker = owner;
 							ply.EnemyTouchCooldown = Time.Now + 2;
 						}
 					}
+					ply.LastAttacker = owner;
 				}
 			}
 			else if ( ent is Disc )
