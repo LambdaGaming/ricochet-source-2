@@ -36,7 +36,6 @@ namespace Ricochet
 					}
 				}
 			}
-			Event.Run( "OnPowerupPickup", ply, CurrentPowerup );
 		}
 
 		public void Hide()

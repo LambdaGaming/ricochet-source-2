@@ -4,7 +4,7 @@ using Sandbox.UI.Construct;
 
 namespace Ricochet
 {
-	public partial class RicochetHUD : Sandbox.HudEntity<RootPanel>
+	public partial class RicochetHUD : HudEntity<RootPanel>
 	{
 		public RicochetHUD()
 		{
@@ -21,54 +21,69 @@ namespace Ricochet
 	
 	public class DiscHUD : Panel
 	{
-		private Image Image1;
-		private Image Image2;
-		private Image Image3;
+		private Image[] DiscImages = new Image[RicochetPlayer.MaxDiscs];
 
 		public DiscHUD()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
-			Style.Left = Screen.Width / 2 - 246; // Image width + 100 * 3 images * 50% = 246
-			Image1 = Add.Image( "", "image" );
-			Image2 = Add.Image( "", "image" );
-			Image3 = Add.Image( "", "image" );
-			SetAllDiscImages( "/ui/hud/discblue2.png" );
+			Style.Left = Screen.Width / 2 - 246; // ( 64 (image width) + 100 (amount of margin per image) ) * 3 (amount of images) * 50% (half of screen width) = 246
+			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
+			{
+				DiscImages[i] = Add.Image( "", "image" );
+			}
 		}
 
-		[Event( "OnPowerupPickup" )]
-		private void OnPowerupPickup( RicochetPlayer ply, Powerup powerup )
+		[Event( "SyncClientData" )]
+		private void SyncClientData()
 		{
-			Log.Info( ply + " " + powerup );
+			UpdateDiscImages( Local.Pawn as RicochetPlayer );
+		}
+
+		public void UpdateDiscImages( RicochetPlayer ply )
+		{
+			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
+			{
+				if ( ply.NumDiscs < i + 1 )
+				{
+					SetDiscImage( i, "discgrey" );
+				}
+				else if ( ply.HasPowerup( Powerup.Triple ) )
+				{
+					SetDiscImage( i, "triple" );
+				}
+				else if ( ply.HasPowerup( Powerup.Fast ) )
+				{
+					SetDiscImage( i, "fast" );
+				}
+				else if ( ply.HasPowerup( Powerup.Freeze ) )
+				{
+					SetDiscImage( i, "freeze" );
+				}
+				else if ( ply.HasPowerup( Powerup.Hard ) )
+				{
+					Log.Info(true);
+					SetDiscImage( i, "hard" );
+				}
+				else if ( ply.Team == 2 )
+				{
+					if ( ply.NumDiscs == RicochetPlayer.MaxDiscs )
+						SetDiscImage( i, "discred2" );
+					else
+						SetDiscImage( i, "discred" );
+				}
+				else
+				{
+					if ( ply.NumDiscs == RicochetPlayer.MaxDiscs )
+						SetDiscImage( i, "discblue2" );
+					else
+						SetDiscImage( i, "discblue" );
+				}
+			}
 		}
 
 		public void SetDiscImage( int num, string name )
 		{
-			switch ( num )
-			{
-				case 1:
-				{
-					Image1.SetTexture( name );
-					break;
-				}
-				case 2:
-				{
-					Image2.SetTexture( name );
-					break;
-				}
-				case 3:
-				{
-					Image3.SetTexture( name );
-					break;
-				}
-				default: break;
-			}
-		}
-
-		public void SetAllDiscImages( string name )
-		{
-			Image1.Style.SetBackgroundImage( Texture.Load( name ) );
-			Image2.Style.SetBackgroundImage( Texture.Load( name ) );
-			Image3.Style.SetBackgroundImage( Texture.Load( name ) );
+			DiscImages[num].SetTexture( "/ui/hud/" + name + ".png" );
 		}
 	}
 

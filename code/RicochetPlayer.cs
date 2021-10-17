@@ -94,6 +94,14 @@ namespace Ricochet
 			}
 		}
 
+		[ClientRpc]
+		private void SyncClientData( int discs, int powerups )
+		{
+			NumDiscs = discs;
+			PowerupFlags = ( Powerup ) powerups;
+			Event.Run( "SyncClientData" );
+		}
+
 		public Disc FireDisc( bool decap = false )
 		{
 			Angles firedir = Angles.Zero;
@@ -140,16 +148,19 @@ namespace Ricochet
 		{
 			PowerupFlags |= powerup;
 			PowerupDiscs = MaxDiscs;
+			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void RemovePowerup( Powerup powerup )
 		{
 			PowerupFlags &= ~powerup;
+			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void RemoveAllPowerups()
 		{
 			PowerupFlags = 0;
+			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public bool HasPowerup( Powerup powerup )
@@ -160,11 +171,13 @@ namespace Ricochet
 		public void GiveDisc( int num )
 		{
 			NumDiscs = ( int ) MathX.Clamp( NumDiscs += num, 0, MaxDiscs );
+			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void RemoveDisc( int num )
 		{
 			NumDiscs = ( int ) MathX.Clamp( NumDiscs -= num, 0, MaxDiscs );
+			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void Freeze()
@@ -303,7 +316,7 @@ namespace Ricochet
 		}
 
 		[Event( "PlayerRespawn" )]
-		public void OnPlayerRespawn()
+		private void OnPlayerRespawn()
 		{
 			Delete();
 		}
