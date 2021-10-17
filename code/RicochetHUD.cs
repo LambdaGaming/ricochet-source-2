@@ -15,6 +15,7 @@ namespace Ricochet
 				RootPanel.AddChild<DiscHUD>();
 				RootPanel.AddChild<Crosshair>();
 				RootPanel.AddChild<KillFeed>();
+				RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 			}
 		}
 	}
