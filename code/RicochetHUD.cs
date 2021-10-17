@@ -64,7 +64,7 @@ namespace Ricochet
 					Log.Info(true);
 					SetDiscImage( i, "hard" );
 				}
-				else if ( ply.Team == 2 )
+				else if ( ply.Team == 0 )
 				{
 					if ( ply.NumDiscs == RicochetPlayer.MaxDiscs )
 						SetDiscImage( i, "discred2" );

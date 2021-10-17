@@ -55,6 +55,7 @@ namespace Ricochet
 				PlaySound( "r_tele1" );
 			}
 			Event.Run( "PlayerRespawn" );
+			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 		
 		public override void Simulate( Client cl )
