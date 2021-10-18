@@ -214,17 +214,14 @@ namespace Ricochet
 		public void ReturnToThrower()
 		{
 			var ply = Owner as RicochetPlayer;
-			if ( !IsExtra )
+			if ( IsDecap )
 			{
-				if ( IsDecap )
-				{
-					DecapLoop.Stop();
-					ply.GiveDisc( RicochetPlayer.MaxDiscs );
-				}
-				else
-				{
-					ply.GiveDisc( 1 );
-				}
+				DecapLoop.Stop();
+				ply.GiveDisc( RicochetPlayer.MaxDiscs );
+			}
+			else
+			{
+				ply.GiveDisc( 1 );
 			}
 			Delete();
 		}
