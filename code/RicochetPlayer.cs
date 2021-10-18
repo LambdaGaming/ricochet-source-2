@@ -13,16 +13,16 @@ namespace Ricochet
 
 	public partial class RicochetPlayer : Player
 	{
+		[Net] public int NumDiscs { get; set; }
+		[Net] public int PowerupDiscs { get; set; }
+		[Net] public int Team { get; set; } = 0;
+		[Net] public Color TeamColor { get; set; }
+		[Net] public Powerup PowerupFlags { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
 		public float FreezeTimer { get; set; }
-		public int NumDiscs { get; set; }
-		public int PowerupDiscs { get; set; }
-		public int Team { get; set; } = 0;
-		public Color TeamColor { get; set; }
 		public bool Frozen { get; set; }
-		public Powerup PowerupFlags { get; set; }
 		public bool AllowedToFire { get; set; } = true;
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
@@ -55,7 +55,6 @@ namespace Ricochet
 				PlaySound( "r_tele1" );
 			}
 			Event.Run( "PlayerRespawn" );
-			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 		
 		public override void Simulate( Client cl )
@@ -93,14 +92,6 @@ namespace Ricochet
 			{
 				ClearFreeze();
 			}
-		}
-
-		[ClientRpc]
-		private void SyncClientData( int discs, int powerups )
-		{
-			NumDiscs = discs;
-			PowerupFlags = ( Powerup ) powerups;
-			Event.Run( "SyncClientData" );
 		}
 
 		public Disc FireDisc( bool decap = false )
@@ -149,19 +140,16 @@ namespace Ricochet
 		{
 			PowerupFlags |= powerup;
 			PowerupDiscs = MaxDiscs;
-			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void RemovePowerup( Powerup powerup )
 		{
 			PowerupFlags &= ~powerup;
-			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void RemoveAllPowerups()
 		{
 			PowerupFlags = 0;
-			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public bool HasPowerup( Powerup powerup )
@@ -172,13 +160,11 @@ namespace Ricochet
 		public void GiveDisc( int num )
 		{
 			NumDiscs = ( int ) MathX.Clamp( NumDiscs += num, 0, MaxDiscs );
-			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void RemoveDisc( int num )
 		{
 			NumDiscs = ( int ) MathX.Clamp( NumDiscs -= num, 0, MaxDiscs );
-			SyncClientData( NumDiscs, ( int ) PowerupFlags );
 		}
 
 		public void Freeze()

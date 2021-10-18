@@ -7,7 +7,7 @@ namespace Ricochet
 	[Library( "powerup" )]
 	public partial class PowerupEnt : AnimEntity
 	{
-		public Powerup CurrentPowerup { get; set; } = 0;
+		[Net] public Powerup CurrentPowerup { get; set; } = 0;
 		public bool Hidden { get; set; } = false;
 
 		public override void Spawn()
@@ -59,12 +59,6 @@ namespace Ricochet
 			Unhide();
 		}
 
-		[ClientRpc]
-		private void SyncClientData( int powerup )
-		{
-			CurrentPowerup = ( Powerup ) powerup;
-		}
-
 		public void SetRandomPowerup()
 		{
 			Random rand = new();
@@ -72,7 +66,6 @@ namespace Ricochet
 			Powerup powerup = ( Powerup ) powerups.GetValue( rand.Next( powerups.Length ) );
 			CurrentPowerup = powerup;
 			SetPowerupModel();
-			SyncClientData( ( int ) powerup );
 		}
 
 		public void SetPowerupModel()

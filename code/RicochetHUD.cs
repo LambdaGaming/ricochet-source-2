@@ -33,14 +33,10 @@ namespace Ricochet
 			}
 		}
 
-		[Event( "SyncClientData" )]
-		private void SyncClientData()
+		[Event.Tick.Client]
+		public void UpdateDiscImages()
 		{
-			UpdateDiscImages( Local.Pawn as RicochetPlayer );
-		}
-
-		public void UpdateDiscImages( RicochetPlayer ply )
-		{
+			RicochetPlayer ply = Local.Pawn as RicochetPlayer;
 			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
 			{
 				if ( ply.NumDiscs < i + 1 )
