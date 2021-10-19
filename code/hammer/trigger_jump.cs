@@ -43,7 +43,7 @@ namespace Ricochet
 				velocity.x *= 0.45f;
 				velocity.y *= 0.45f;
 
-				ply.Velocity += velocity;
+				ply.ApplyForce( velocity );
 				ply.PlaySound( "triggerjump" );
 			}
 		}

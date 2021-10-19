@@ -32,7 +32,7 @@ namespace Ricochet
 		{
 			base.Respawn();
 			SetModel( "models/citizen/citizen.vmdl" );
-			Controller = new MinimalWalkController();
+			Controller = new RicochetWalkController();
 			Animator = new StandardPlayerAnimator();
 			Camera = new FirstPersonCamera();
 			EnableAllCollisions = true;
@@ -171,14 +171,14 @@ namespace Ricochet
 		{
 			// TODO: Glowing render effect
 			RenderColor = new Color( 0, 0, 200, 230 );
-			( Controller as MinimalWalkController ).WalkSpeed = FreezeSpeed;
+			( Controller as RicochetWalkController ).WalkSpeed = FreezeSpeed;
 			Frozen = true;
 			FreezeTimer = Time.Now + FreezeTime;
 		}
 
 		public void ClearFreeze()
 		{
-			var walk = Controller as MinimalWalkController;
+			var walk = Controller as RicochetWalkController;
 			// TODO: Glowing render effect
 			RenderColor = Color.White;
 			walk.WalkSpeed = walk.DefaultSpeed;
@@ -271,6 +271,14 @@ namespace Ricochet
 			body.Position = Position;
 			body.SetBody();
 		}
+
+		public void ApplyForce( Vector3 force )
+		{
+			if ( Controller is RicochetWalkController controller )
+			{
+				controller.Impulse += force;
+			}
+		}
 	}
 
 	public class RicochetCorpse : ModelEntity
@@ -306,49 +314,6 @@ namespace Ricochet
 		private void OnPlayerRespawn()
 		{
 			Delete();
-		}
-	}
-
-	public class MinimalWalkController : WalkController
-	{
-		public override void CheckJumpButton() {}
-		public override void StayOnGround() {}
-
-		public MinimalWalkController()
-		{
-			WalkSpeed = 250.0f;
-			DefaultSpeed = 250.0f;
-		}
-
-		public override float GetWishSpeed()
-		{
-			return WalkSpeed;
-		}
-
-		public override void Simulate()
-		{
-			base.Simulate();
-			if ( NearJumpPad() )
-			{
-				GroundEntity = null;
-			}
-		}
-
-		private bool NearJumpPad()
-		{
-			float currentdist = int.MaxValue;
-			foreach ( Entity ent in Entity.All )
-			{
-				if ( ent is TriggerJump )
-				{
-					float dist = Vector3.DistanceBetween( ent.Position, Position );
-					if ( dist < currentdist )
-					{
-						currentdist = dist;
-					}
-				}
-			}
-			return currentdist < 40;
 		}
 	}
 }
