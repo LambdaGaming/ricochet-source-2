@@ -26,7 +26,7 @@
 //
 // Ricochet.TriggerDiscReturn
 //
-@SolidClass base(BaseProperties_ricochet) 
+@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
@@ -62,7 +62,7 @@ metadata
 //
 // Ricochet.TriggerFall
 //
-@SolidClass base(BaseProperties_ricochet) 
+@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
@@ -98,7 +98,7 @@ metadata
 //
 // Ricochet.TriggerJump
 //
-@SolidClass base(BaseProperties_ricochet) 
+@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
