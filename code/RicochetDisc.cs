@@ -43,9 +43,10 @@ namespace Ricochet
 			}
 		}
 
-		async Task CollisionFix()
+		private async Task CollisionFix()
 		{
 			await Task.DelaySeconds( 0.1f );
+			if ( !IsValid ) return;
 			SetInteractsAs( CollisionLayer.Solid );
 		}
 
