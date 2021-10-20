@@ -13,9 +13,9 @@ namespace Ricochet
 			var disc = ent as Disc;
 			if ( disc.IsValid() )
 			{
-				var spr = Particles.Create( "particles/discreturn.vpcf", Position );
+				var spr = Particles.Create( "particles/discreturn.vpcf", disc.Position );
 				spr.Destroy();
-				Sound.FromWorld( "discreturn", Position );
+				Sound.FromWorld( "discreturn", disc.Position );
 				disc.ReturnToThrower();
 			}
 		}
