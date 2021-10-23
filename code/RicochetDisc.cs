@@ -15,6 +15,7 @@ namespace Ricochet
 		public int Team { get; set; } = 0;
 		private Sound DecapLoop { get; set; }
 		private float SetZ { get; set; }
+		private Vector3 CurrentVelocity { get; set; }
 		public static readonly int DiscPushMultiplier = 1000;
 
 		public new void Spawn()
@@ -31,6 +32,7 @@ namespace Ricochet
 			GlowActive = true;
 			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
 			GlowState = GlowStates.GlowStateOn;
+			CurrentVelocity = Velocity;
 			SetInteractsAs( CollisionLayer.Empty );
 			_ = CollisionFix();
 
@@ -102,7 +104,7 @@ namespace Ricochet
 						else
 						{
 							PlaySound( "cbar_hitbod" );
-							Vector3 direction = Velocity.Normal;
+							Vector3 direction = CurrentVelocity.Normal;
 							ply.Velocity = direction * DiscPushMultiplier;
 
 							if ( !ply.Frozen )
@@ -133,6 +135,7 @@ namespace Ricochet
 				var particle = Particles.Create( "particles/disc_spark.vpcf", Position );
 				particle.Destroy();
 				PlaySound( "xbow_hit" );
+				CurrentVelocity = Velocity;
 			}
 		}
 		
