@@ -7,22 +7,22 @@ namespace Ricochet
 	public partial class RicochetWalkController : BasePlayerController
 	{
 		[Net, Predicted] public Vector3 Impulse { get; set; }
-		public float WalkSpeed { get; set; } = 250.0f;
-		public float DefaultSpeed { get; set; } = 250.0f;
-		public float Acceleration { get; set; } = 10.0f;
-		public float AirAcceleration { get; set; } = 50.0f;
-		public float GroundFriction { get; set; } = 4.0f;
-		public float StopSpeed { get; set; } = 100.0f;
-		public float DistEpsilon { get; set; } = 0.03125f;
-		public float GroundAngle { get; set; } = 46.0f;
-		public float MoveFriction { get; set; } = 1.0f;
-		public float StepSize { get; set; } = 18.0f;
-		public float MaxNonJumpVelocity { get; set; } = 140.0f;
-		public float BodyGirth { get; set; } = 32.0f;
-		public float BodyHeight { get; set; } = 72.0f;
-		public float EyeHeight { get; set; } = 64.0f;
-		public float Gravity { get; set; } = 800.0f;
-		public float AirControl { get; set; } = 30.0f;
+		[Net] public float WalkSpeed { get; set; } = 250.0f;
+		[Net] public float DefaultSpeed { get; set; } = 250.0f;
+		[Net] public float Acceleration { get; set; } = 10.0f;
+		[Net] public float AirAcceleration { get; set; } = 50.0f;
+		[Net] public float GroundFriction { get; set; } = 4.0f;
+		[Net] public float StopSpeed { get; set; } = 100.0f;
+		[Net] public float DistEpsilon { get; set; } = 0.03125f;
+		[Net] public float GroundAngle { get; set; } = 46.0f;
+		[Net] public float MoveFriction { get; set; } = 1.0f;
+		[Net] public float StepSize { get; set; } = 18.0f;
+		[Net] public float MaxNonJumpVelocity { get; set; } = 140.0f;
+		[Net] public float BodyGirth { get; set; } = 32.0f;
+		[Net] public float BodyHeight { get; set; } = 72.0f;
+		[Net] public float EyeHeight { get; set; } = 64.0f;
+		[Net] public float Gravity { get; set; } = 800.0f;
+		[Net] public float AirControl { get; set; } = 30.0f;
 		public Unstuck Unstuck;
 
 		public RicochetWalkController()
