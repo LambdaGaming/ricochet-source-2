@@ -9,22 +9,13 @@ namespace Ricochet
 	public partial class TriggerPushOld : BaseTrigger
 	{
 		[Property( Title = "Push once then remove" )]
-		public bool PushOnce { get; set; }
+		public bool PushOnce { get; set; } = false;
 
 		[Property( Title = "Push Vector" )]
-		public Vector3 PushVector { get; set; }
+		public Vector3 PushVector { get; set; } = Vector3.Zero;
 
 		[Property( Title = "Speed" )]
-		public float Speed { get; set; }
-
-		public override void Spawn()
-		{
-			base.Spawn();
-			if ( Speed == 0 )
-			{
-				Speed = 100;
-			}
-		}
+		public float Speed { get; set; } = 100;
 
 		public override void StartTouch( Entity ent )
 		{
