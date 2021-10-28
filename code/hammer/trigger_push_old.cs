@@ -20,6 +20,12 @@ namespace Ricochet
 		public override void StartTouch( Entity ent )
 		{
 			ent.Velocity += Speed * PushVector;
+
+			if ( ent is RicochetPlayer ply )
+			{
+				ply.Controller.GroundEntity = null;
+			}
+
 			if ( PushOnce )
 			{
 				Delete();

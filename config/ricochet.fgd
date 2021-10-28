@@ -145,7 +145,7 @@ metadata
 [
 	pushonce(boolean) : "Push once then remove" : 0 : ""
 	pushvector(vector) : "Push Vector" :  : ""
-	speed(float) : "Speed" : 0 : ""
+	speed(float) : "Speed" : 100 : ""
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
