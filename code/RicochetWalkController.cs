@@ -83,7 +83,7 @@ namespace Ricochet
 			if ( Impulse.Length > 0 )
 			{
 				ClearGroundEntity();
-				Velocity += Impulse;
+				Velocity = Impulse;
 				Impulse = 0f;
 			}
 
