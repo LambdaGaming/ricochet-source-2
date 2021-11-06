@@ -13,7 +13,7 @@ namespace Ricochet
 		public bool IsExtra { get; set; } = false;
 		public Powerup PowerupFlags { get; set; }
 		public int Team { get; set; } = 0;
-		public bool IsSecondary { get; set; } = false;
+		private bool IsSecondary { get; set; } = false;
 		private Sound DecapLoop { get; set; }
 		private float SetZ { get; set; }
 		private Vector3 CurrentVelocity { get; set; }
@@ -122,7 +122,7 @@ namespace Ricochet
 			}
 			else if ( ent is Disc )
 			{
-				if ( ent != this && !( ent as Disc ).IsExtra && !IsExtra )
+				if ( ent.Owner != Owner && !( ent as Disc ).IsExtra && !IsExtra )
 				{
 					var spr = Particles.Create( "particles/discreturn.vpcf", Position );
 					spr.Destroy();
