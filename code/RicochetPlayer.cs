@@ -50,6 +50,7 @@ namespace Ricochet
 			TeamColor = GetTeamColor();
 			Frozen = false;
 			RenderColor = Color.White;
+			LastAttacker = null;
 			using ( Prediction.Off() )
 			{
 				PlaySound( "r_tele1" );
