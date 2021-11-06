@@ -13,6 +13,7 @@ namespace Ricochet
 		public bool IsExtra { get; set; } = false;
 		public Powerup PowerupFlags { get; set; }
 		public int Team { get; set; } = 0;
+		public bool IsSecondary { get; set; } = false;
 		private Sound DecapLoop { get; set; }
 		private float SetZ { get; set; }
 		private Vector3 CurrentVelocity { get; set; }
@@ -58,6 +59,7 @@ namespace Ricochet
 			disc.Position = position;
 			disc.PowerupFlags = flags;
 			disc.IsDecap = flags.HasFlag( Powerup.Hard ) || decap;
+			disc.IsSecondary = decap;
 			disc.WorldAng = angles;
 			disc.Owner = owner;
 			disc.Team = owner.Team;
@@ -221,6 +223,9 @@ namespace Ricochet
 			if ( IsDecap )
 			{
 				DecapLoop.Stop();
+			}
+			if ( IsSecondary )
+			{
 				ply.GiveDisc( RicochetPlayer.MaxDiscs );
 			}
 			else
