@@ -120,14 +120,14 @@ namespace Ricochet
 					ply.LastAttacker = owner;
 				}
 			}
-			else if ( ent is Disc )
+			else if ( ent is Disc disc )
 			{
-				if ( ent.Owner != Owner && !( ent as Disc ).IsExtra && !IsExtra )
+				if ( ent.Owner != Owner && !disc.IsExtra && !IsExtra )
 				{
 					var spr = Particles.Create( "particles/discreturn.vpcf", Position );
 					spr.Destroy();
 					Sound.FromWorld( "dischit", Position );
-					( ent as Disc ).ReturnToThrower();
+					disc.ReturnToThrower();
 					ReturnToThrower();
 				}
 			}

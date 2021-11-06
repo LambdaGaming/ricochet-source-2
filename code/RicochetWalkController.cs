@@ -136,7 +136,7 @@ namespace Ricochet
 
 		public virtual float GetWishSpeed()
 		{
-			return DefaultSpeed;
+			return WalkSpeed;
 		}
 
 		public virtual void WalkMove()
