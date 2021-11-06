@@ -138,8 +138,9 @@ namespace Ricochet
 
 		public void AddPowerup( Powerup powerup )
 		{
+			int additional = powerup == Powerup.Fast ? 3 : 0;
 			PowerupFlags |= powerup;
-			PowerupDiscs = MaxDiscs;
+			PowerupDiscs = MaxDiscs + additional;
 		}
 
 		public void RemovePowerup( Powerup powerup )
