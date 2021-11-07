@@ -13,7 +13,7 @@ namespace Ricochet
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<DiscHUD>();
 				RootPanel.AddChild<Crosshair>();
-				RootPanel.AddChild<KillFeed>();
+				RootPanel.AddChild<RicochetKillFeed>();
 				RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 			}
 		}
@@ -87,6 +87,43 @@ namespace Ricochet
 		public Crosshair()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
+		}
+	}
+
+	public class RicochetKillFeed : Panel
+	{
+		public static RicochetKillFeed Current;
+
+		public RicochetKillFeed()
+		{
+			Current = this;
+			StyleSheet.Load( "RicochetHUD.scss" );
+		}
+
+		public Panel AddEntry( ulong lsteamid, string left, ulong rsteamid, string right, string method )
+		{
+			var e = Current.AddChild<RicochetKillFeedEntry>();
+			e.Left.Text = left;
+			e.Left.SetClass( "me", lsteamid == Local.Client?.SteamId );
+			e.Method.SetTexture( "/ui/hud/icons/0bounce.png" );
+			e.Right.Text = right;
+			e.Right.SetClass( "me", rsteamid == Local.Client?.SteamId );
+			Log.Info("test");
+			return e;
+		}
+	}
+
+	public class RicochetKillFeedEntry : KillFeedEntry
+	{
+		public new Label Left { get; internal set; }
+		public new Label Right { get; internal set; }
+		public new Image Method { get; internal set; }
+
+		public RicochetKillFeedEntry()
+		{
+			Left = Add.Label( "", "left" );
+			Method = Add.Image( "", "image" );
+			Right = Add.Label( "", "right" );
 		}
 	}
 }

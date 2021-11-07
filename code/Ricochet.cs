@@ -67,5 +67,11 @@ namespace Ricochet
 			TotalClients.Remove( ply );
 			base.ClientDisconnect( client, reason );
 		}
+
+		[ClientRpc]
+		public override void OnKilledMessage( ulong leftid, string left, ulong rightid, string right, string method )
+		{
+			RicochetKillFeed.Current?.AddEntry( leftid, left, rightid, right, method );
+		}
 	}
 }
