@@ -68,6 +68,53 @@ namespace Ricochet
 			base.ClientDisconnect( client, reason );
 		}
 
+		public override void OnKilled( Client client, Entity pawn )
+		{
+			Host.AssertServer();
+			Log.Info( $"{client.Name} was killed by {( pawn as RicochetPlayer ).LastDeathReason}." );
+			if ( pawn.LastAttacker != null )
+			{
+				if ( pawn.LastAttacker.Client != null )
+				{
+					OnKilledMessage( pawn.LastAttacker.Client.SteamId, pawn.LastAttacker.Client.Name, client.SteamId, client.Name, GetDeathImage( pawn ) );
+				}
+				else
+				{
+					OnKilledMessage( ( ulong ) pawn.LastAttacker.NetworkIdent, pawn.LastAttacker.ToString(), client.SteamId, client.Name, GetDeathImage( pawn ) );
+				}
+			}
+			else
+			{
+				OnKilledMessage( 0, "", client.SteamId, client.Name, GetDeathImage( pawn ) );
+			}
+		}
+
+		private string GetDeathImage( Entity pawn )
+		{
+			var ply = pawn as RicochetPlayer;
+			if ( ply.LastDeathReason == DeathReason.Decap )
+			{
+				return "/ui/hud/icons/decapitate.png";
+			}
+			else if ( ply.LastDeathReason == DeathReason.Fall )
+			{
+				return "/ui/hud/icons/falling.png";
+			}
+			else if ( ply.LastAttackWeaponBounces <= 0 )
+			{
+				return "/ui/hud/icons/0bounce.png";
+			}
+			else if ( ply.LastAttackWeaponBounces == 1 )
+			{
+				return "/ui/hud/icons/1bounce.png";
+			}
+			else if ( ply.LastAttackWeaponBounces == 2 )
+			{
+				return "/ui/hud/icons/2bounce.png";
+			}
+			return "/ui/hud/icons/3bounce.png";
+		}
+
 		[ClientRpc]
 		public override void OnKilledMessage( ulong leftid, string left, ulong rightid, string right, string method )
 		{

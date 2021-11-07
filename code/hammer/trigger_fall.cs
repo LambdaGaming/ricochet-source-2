@@ -15,6 +15,15 @@ namespace Ricochet
 				var ply = ent as RicochetPlayer;
 				if ( ply.IsValid() && ply.Alive() )
 				{
+					if ( ply.LastAttackWeaponBounces <= 0 && ply.LastAttacker == null )
+					{
+						ply.LastDeathReason = DeathReason.Fall;
+					}
+					else
+					{
+						ply.LastDeathReason = DeathReason.Disc;
+					}
+
 					DamageInfo dmg = new() { Damage = 1000, Attacker = ply.LastAttacker };
 					ply.TakeDamage( dmg );
 					ply.PlaySound( "scream" );

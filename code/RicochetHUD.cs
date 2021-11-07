@@ -105,10 +105,9 @@ namespace Ricochet
 			var e = Current.AddChild<RicochetKillFeedEntry>();
 			e.Left.Text = left;
 			e.Left.SetClass( "me", lsteamid == Local.Client?.SteamId );
-			e.Method.SetTexture( "/ui/hud/icons/0bounce.png" );
+			e.Method.SetTexture( method );
 			e.Right.Text = right;
 			e.Right.SetClass( "me", rsteamid == Local.Client?.SteamId );
-			Log.Info("test");
 			return e;
 		}
 	}

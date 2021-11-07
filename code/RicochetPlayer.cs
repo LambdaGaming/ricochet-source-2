@@ -11,6 +11,12 @@ namespace Ricochet
 		Freeze = 8
 	}
 
+	public enum DeathReason {
+		Disc,
+		Decap,
+		Fall
+	}
+
 	public partial class RicochetPlayer : Player
 	{
 		[Net] public int NumDiscs { get; set; }
@@ -18,6 +24,8 @@ namespace Ricochet
 		[Net] public int Team { get; set; } = 0;
 		[Net] public Color TeamColor { get; set; }
 		[Net] public Powerup PowerupFlags { get; set; }
+		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
+		[Net] public DeathReason LastDeathReason { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
@@ -51,6 +59,7 @@ namespace Ricochet
 			Frozen = false;
 			RenderColor = Color.White;
 			LastAttacker = null;
+			LastAttackWeaponBounces = 0;
 			using ( Prediction.Off() )
 			{
 				PlaySound( "r_tele1" );
