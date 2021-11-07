@@ -121,6 +121,7 @@ namespace Ricochet
 
 					ply.LastAttackWeaponBounces = TotalBounces;
 					ply.LastAttacker = owner;
+					_ = ResetAttacker( ply );
 				}
 			}
 			else if ( ent is Disc disc )
@@ -142,6 +143,13 @@ namespace Ricochet
 				PlaySound( "xbow_hit" );
 				CurrentVelocity = Velocity;
 			}
+		}
+
+		async Task ResetAttacker( RicochetPlayer ply )
+		{
+			await Task.DelaySeconds( 10 );
+			ply.LastAttackWeaponBounces = 0;
+			ply.LastAttacker = null;
 		}
 		
 		[Event.Tick.Server]
