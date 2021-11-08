@@ -100,14 +100,14 @@ namespace Ricochet
 			StyleSheet.Load( "RicochetHUD.scss" );
 		}
 
-		public Panel AddEntry( ulong lsteamid, string left, ulong rsteamid, string right, string method )
+		public Panel AddEntry( long lsteamid, string left, long rsteamid, string right, string method )
 		{
 			var e = Current.AddChild<RicochetKillFeedEntry>();
 			e.Left.Text = left;
-			e.Left.SetClass( "me", lsteamid == Local.Client?.SteamId );
+			e.Left.SetClass( "me", lsteamid == Local.Client?.PlayerId );
 			e.Method.SetTexture( method );
 			e.Right.Text = right;
-			e.Right.SetClass( "me", rsteamid == Local.Client?.SteamId );
+			e.Right.SetClass( "me", rsteamid == Local.Client?.PlayerId );
 			return e;
 		}
 	}

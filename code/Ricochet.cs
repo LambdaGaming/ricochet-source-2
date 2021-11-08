@@ -76,16 +76,16 @@ namespace Ricochet
 			{
 				if ( pawn.LastAttacker.Client != null )
 				{
-					OnKilledMessage( pawn.LastAttacker.Client.SteamId, pawn.LastAttacker.Client.Name, client.SteamId, client.Name, GetDeathImage( pawn ) );
+					OnKilledMessage( pawn.LastAttacker.Client.PlayerId, pawn.LastAttacker.Client.Name, client.PlayerId, client.Name, GetDeathImage( pawn ) );
 				}
 				else
 				{
-					OnKilledMessage( ( ulong ) pawn.LastAttacker.NetworkIdent, pawn.LastAttacker.ToString(), client.SteamId, client.Name, GetDeathImage( pawn ) );
+					OnKilledMessage( pawn.LastAttacker.NetworkIdent, pawn.LastAttacker.ToString(), client.PlayerId, client.Name, GetDeathImage( pawn ) );
 				}
 			}
 			else
 			{
-				OnKilledMessage( 0, "", client.SteamId, client.Name, GetDeathImage( pawn ) );
+				OnKilledMessage( 0, "", client.PlayerId, client.Name, GetDeathImage( pawn ) );
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Ricochet
 		}
 
 		[ClientRpc]
-		public override void OnKilledMessage( ulong leftid, string left, ulong rightid, string right, string method )
+		public override void OnKilledMessage( long leftid, string left, long rightid, string right, string method )
 		{
 			RicochetKillFeed.Current?.AddEntry( leftid, left, rightid, right, method );
 		}
