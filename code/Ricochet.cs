@@ -120,5 +120,11 @@ namespace Ricochet
 		{
 			RicochetKillFeed.Current?.AddEntry( leftid, left, rightid, right, method );
 		}
+
+		[AdminCmd( "rc_tdm" )]
+		public static void SetTDM( bool parameter )
+		{
+			IsTDM = parameter;
+		}
 	}
 }
