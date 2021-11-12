@@ -139,6 +139,7 @@ namespace Ricochet
 			base.OnKilled();
 			EnableAllCollisions = false;
 			EnableDrawing = false;
+			Camera = new SpectateRagdollCamera();
 		}
 
 		public bool Alive()
@@ -281,6 +282,7 @@ namespace Ricochet
 			RicochetCorpse body = new();
 			body.Position = Position;
 			body.SetBody();
+			Corpse = body;
 		}
 
 		public void ApplyForce( Vector3 force )
