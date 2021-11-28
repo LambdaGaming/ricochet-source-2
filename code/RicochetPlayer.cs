@@ -149,8 +149,15 @@ namespace Ricochet
 			EnableAllCollisions = false;
 			EnableDrawing = false;
 			LastCamera = MainCamera;
-			MainCamera = new SpectateRagdollCamera();
+			MainCamera = new RicochetDeathCam();
 			Camera = MainCamera;
+		}
+
+		[ClientRpc]
+		public void SyncCorpse( Entity ent )
+		{
+			// Update the corpse on the client since it's not automatically networked
+			Corpse = ent;
 		}
 
 		public bool Alive()
@@ -294,6 +301,7 @@ namespace Ricochet
 			body.Position = Position;
 			body.SetBody();
 			Corpse = body;
+			SyncCorpse( body );
 		}
 
 		public void ApplyForce( Vector3 force )

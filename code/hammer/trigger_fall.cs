@@ -28,6 +28,7 @@ namespace Ricochet
 					body.Position = ply.Position;
 					body.Velocity = ply.Velocity;
 					ply.Corpse = body;
+					ply.SyncCorpse( body );
 
 					DamageInfo dmg = new() { Damage = 1000, Attacker = ply.LastAttacker };
 					ply.TakeDamage( dmg );
