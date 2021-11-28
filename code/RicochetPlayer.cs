@@ -26,15 +26,23 @@ namespace Ricochet
 		[Net] public Powerup PowerupFlags { get; set; }
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 		[Net] public DeathReason LastDeathReason { get; set; }
+		[Net, Predicted] public ICamera MainCamera { get; set; }
+		public ICamera LastCamera { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
 		public float FreezeTimer { get; set; }
 		public bool Frozen { get; set; }
-		public bool AllowedToFire { get; set; } = true;
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;
+
+		public override void Spawn()
+		{
+			base.Spawn();
+			MainCamera = new FirstPersonCamera();
+			LastCamera = MainCamera;
+		}
 
 		public override void Respawn()
 		{
@@ -42,7 +50,8 @@ namespace Ricochet
 			SetModel( "models/citizen/citizen.vmdl" );
 			Controller = new RicochetWalkController();
 			Animator = new StandardPlayerAnimator();
-			Camera = new FirstPersonCamera();
+			MainCamera = LastCamera;
+			Camera = MainCamera;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
@@ -139,7 +148,9 @@ namespace Ricochet
 			base.OnKilled();
 			EnableAllCollisions = false;
 			EnableDrawing = false;
-			Camera = new SpectateRagdollCamera();
+			LastCamera = MainCamera;
+			MainCamera = new SpectateRagdollCamera();
+			Camera = MainCamera;
 		}
 
 		public bool Alive()
