@@ -33,6 +33,7 @@ namespace Ricochet
 		public float EnemyTouchCooldown { get; set; }
 		public float FreezeTimer { get; set; }
 		public bool Frozen { get; set; }
+		public bool IsSpectator { get; set; } = false;
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;
@@ -80,7 +81,7 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
-			if ( IsServer && DiscCooldown < Time.Now && Alive() )
+			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator )
 			{
 				if ( Input.Pressed( InputButton.Attack1 ) )
 				{
@@ -264,7 +265,7 @@ namespace Ricochet
 
 		public int GetClientIndex()
 		{
-			return Ricochet.TotalClients.IndexOf( this );
+			return Ricochet.GetPlayers().IndexOf( this );
 		}
 
 		public int AutoAssignTeam()
@@ -310,6 +311,19 @@ namespace Ricochet
 			{
 				controller.Impulse += force;
 			}
+		}
+
+		public void SetSpectator()
+		{
+			IsSpectator = true;
+			MainCamera = new RicochetSpectateCam();
+			Camera = MainCamera;
+		}
+
+		public void RemoveSpectator()
+		{
+			IsSpectator = false;
+			Camera = LastCamera;
 		}
 	}
 
