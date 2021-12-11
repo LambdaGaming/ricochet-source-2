@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ricochet
@@ -49,15 +50,32 @@ namespace Ricochet
 		[ServerVar( "rc_maxrounds", Help = "Max rounds to play before the map changes." )]
 		public static int MaxRounds { get; set; } = 3;
 
+		private async Task RestartRound()
+		{
+			await Task.Delay( 3000 );
+			StartRound();
+		}
+
 		public override void StartRound()
 		{
 			Random rand = new();
-			PlayerOne = ( RicochetPlayer ) Client.All[rand.Next( Client.All.Count )].Pawn;
-			PlayerTwo = ( RicochetPlayer ) Client.All[rand.Next( Client.All.Count )].Pawn;
-			PlayerOne.Team = 1;
-			PlayerTwo.Team = 2;
+			List<Client> plylist = new();
+			foreach ( Client client in Client.All )
+			{
+				plylist.Add( client );
+			}
+
+			Client plyone = plylist[rand.Next( plylist.Count )];
+			PlayerOne = plyone.Pawn as RicochetPlayer;
+			PlayerOne.Team = 0;
 			PlayerOne.Respawn();
+			plylist.Remove( plyone ); // Remove the first selected player so they can't be chosen for player 2
+
+			Client plytwo = plylist[rand.Next( plylist.Count )];
+			PlayerTwo = plytwo.Pawn as RicochetPlayer;
+			PlayerTwo.Team = 1;
 			PlayerTwo.Respawn();
+
 			_ = RoundCountdown();
 			TotalRounds++;
 		}
@@ -71,6 +89,7 @@ namespace Ricochet
 			CurrentState = RoundState.End;
 			PlayerOne.SetSpectator();
 			PlayerTwo.SetSpectator();
+			_ = RestartRound();
 		}
 	}
 

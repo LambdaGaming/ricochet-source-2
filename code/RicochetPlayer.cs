@@ -81,7 +81,7 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
-			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator )
+			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
 				if ( Input.Pressed( InputButton.Attack1 ) )
 				{
@@ -152,6 +152,10 @@ namespace Ricochet
 			LastCamera = MainCamera;
 			MainCamera = new RicochetDeathCam();
 			Camera = MainCamera;
+			if ( Ricochet.CurrentRound is ArenaRound )
+			{
+				Ricochet.CurrentRound.EndRound();
+			}
 		}
 
 		[ClientRpc]
@@ -320,6 +324,8 @@ namespace Ricochet
 			MainCamera = new RicochetSpectateCam();
 			Controller = null;
 			Camera = MainCamera;
+			EnableAllCollisions = false;
+			EnableDrawing = false;
 		}
 
 		public void RemoveSpectator()
@@ -328,6 +334,8 @@ namespace Ricochet
 			Controller = new RicochetWalkController();
 			Camera = LastCamera;
 			MainCamera = Camera;
+			EnableAllCollisions = true;
+			EnableDrawing = true;
 		}
 	}
 

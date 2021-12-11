@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using System;
 using System.Collections.Generic;
 
 namespace Ricochet
@@ -9,7 +10,7 @@ namespace Ricochet
 		public static int TeamCount { get; set; } = 2;
 		public static int[] TotalTeams { get; set; } = new int[TeamCount];
 		public static BaseRound CurrentRound { get; set; }
-		public static RoundType InitialRoundType { get; set; } = RoundType.Deathmatch;
+		public static RoundType InitialRoundType { get; set; } = RoundType.Arena;
 
 		public static readonly int[,] TeamColors = new int[31, 3] {
 			{ 250, 0, 0 },
@@ -110,6 +111,27 @@ namespace Ricochet
 			{
 				ply.RemoveSpectator();
 			}
+		}
+
+		public override void MoveToSpawnpoint( Entity pawn )
+		{
+			if ( CurrentRound is ArenaRound )
+			{
+				Random rand = new();
+				var ply = pawn as RicochetPlayer;
+				string color = ply.Team == 1 ? "red" : "blue";
+				Entity spawnpoint = FindByName( $"spawn_{color}{rand.Next( 1, 5 )}" );
+				
+				if ( spawnpoint == null )
+                {
+					Log.Warning( $"Couldn't find spawnpoint for {pawn}!" );
+					return;
+				}
+
+				pawn.Transform = spawnpoint.Transform;
+				return;
+			}
+			base.MoveToSpawnpoint( pawn );
 		}
 
 		public override void ClientJoined( Client client )
