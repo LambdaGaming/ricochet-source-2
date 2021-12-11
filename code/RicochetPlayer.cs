@@ -70,6 +70,7 @@ namespace Ricochet
 			RenderColor = Color.White;
 			LastAttacker = null;
 			LastAttackWeaponBounces = 0;
+			RemoveSpectator();
 			using ( Prediction.Off() )
 			{
 				PlaySound( "r_tele1" );
@@ -270,7 +271,7 @@ namespace Ricochet
 
 		public int AutoAssignTeam()
 		{
-			if ( Ricochet.IsTDM )
+			if ( Ricochet.CurrentRound is DeathmatchRound && DeathmatchRound.IsTDM )
 			{
 				int lowestTeam = 0;
 				int lowestAmount = 0;
@@ -316,14 +317,18 @@ namespace Ricochet
 		public void SetSpectator()
 		{
 			IsSpectator = true;
+			LastCamera = MainCamera;
 			MainCamera = new RicochetSpectateCam();
+			Controller = null;
 			Camera = MainCamera;
 		}
 
 		public void RemoveSpectator()
 		{
 			IsSpectator = false;
+			Controller = new RicochetWalkController();
 			Camera = LastCamera;
+			MainCamera = Camera;
 		}
 	}
 

@@ -65,9 +65,14 @@ namespace Ricochet
 
 		public virtual Vector3 GetSpectatePoint()
 		{
+			if ( Client.All.Count < BaseRound.MinPlayers )
+			{
+				return Vector3.Zero;
+			}
+
 			if ( Local.Pawn is Player player && player.Corpse.IsValid() )
 			{
-				return player.Corpse.Position;
+				return player.PhysicsGroup.MassCenter;
 			}
 			return Local.Pawn.Position;
 		}
@@ -76,7 +81,7 @@ namespace Ricochet
 		{
 			var player = Local.Client;
 			if ( player == null ) return Vector3.Zero;
-			return Input.Rotation.Forward * (-130 * 1) + Vector3.Up * (20 * 1);
+			return Input.Rotation.Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
 		}
 	}
 }

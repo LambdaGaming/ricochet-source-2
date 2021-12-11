@@ -1,33 +1,15 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Ricochet
 {
-	public enum RoundState {
-		Waiting,
-		Countdown,
-		Active,
-		End
-	}
-
 	public partial class Ricochet : Game
 	{
-		public static int TotalClients { get; set; } = 0;
 		public static int TeamCount { get; set; } = 2;
 		public static int[] TotalTeams { get; set; } = new int[TeamCount];
-		public static RoundState CurrentState { get; set; } = RoundState.Waiting;
-		public static int RoundCount { get; set; } = 0;
-
-		[ServerVar( "rc_tdm", Help = "Enable or disable teams." )]
-		public static bool IsTDM { get; set; } = false;
-
-		[ServerVar( "rc_minplayers", Help = "Minimum amount of players required to start." )]
-		public static int MinPlayers { get; set; } = 2;
-
-		[ServerVar( "rc_maxrounds", Help = "Max rounds to play before the map changes." )]
-		public static int MaxRounds { get; set; } = 3;
+		public static BaseRound CurrentRound { get; set; }
+		public static RoundType InitialRoundType { get; set; } = RoundType.Deathmatch;
 
 		public static readonly int[,] TeamColors = new int[31, 3] {
 			{ 250, 0, 0 },
@@ -69,46 +51,37 @@ namespace Ricochet
 			{
 				new RicochetHUD();
 			}
-		}
 
-		private async Task RoundCountdown()
-		{
-			CurrentState = RoundState.Countdown;
-			for ( int i = 0; i < 3; i++ )
+			switch ( InitialRoundType )
 			{
-				Sound.FromScreen( "one" );
-				await Task.DelaySeconds( 1 );
+				case RoundType.Deathmatch:
+				{
+					CurrentRound = new DeathmatchRound();
+					break;
+				}
+				case RoundType.TeamDeathmatch:
+				{
+					CurrentRound = new DeathmatchRound( true );
+					break;
+				}
+				case RoundType.Arena:
+				{
+					CurrentRound = new ArenaRound();
+					break;
+				}
 			}
-			Sound.FromScreen( "die" );
-			CurrentState = RoundState.Active;
-			SpawnSpectators();
 		}
 
 		private void CheckRoundState()
 		{
-			switch ( CurrentState )
+			if ( CurrentRound is ArenaRound && CurrentRound.CurrentState == RoundState.Waiting )
 			{
-				case RoundState.Waiting:
+				if ( Client.All.Count >= BaseRound.MinPlayers )
 				{
-					if ( TotalClients >= MinPlayers )
-					{
-						_ = RoundCountdown();
-						break;
-					}
-					ChatBox.AddInformation( To.Everyone, $"Waiting for {MinPlayers - TotalClients} more players..." );
-					break;
+					CurrentRound.StartRound();
+					return;
 				}
-				case RoundState.Active:
-				{
-					if ( TotalClients < MinPlayers )
-					{
-						CurrentState = RoundState.Waiting;
-						ChatBox.AddInformation( To.Everyone, $"Waiting for {MinPlayers - TotalClients} more players..." );
-						break;
-					}
-					// TODO: Implement round timer and map change once more maps are added
-					break;
-				}
+				ChatBox.AddInformation( To.Everyone, $"Waiting for {BaseRound.MinPlayers - Client.All.Count} more players..." );
 			}
 		}
 
@@ -135,7 +108,7 @@ namespace Ricochet
 		{
 			foreach ( RicochetPlayer ply in GetPlayers( true ) )
 			{
-				ply.SetSpectator();
+				ply.RemoveSpectator();
 			}
 		}
 
@@ -144,20 +117,14 @@ namespace Ricochet
 			base.ClientJoined( client );
 			var player = new RicochetPlayer();
 			client.Pawn = player;
-			TotalClients++;
 			player.Respawn();
 			CheckRoundState();
-			if ( CurrentState == RoundState.Waiting )
-			{
-				player.SetSpectator();
-			}
 		}
 
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
 		{
 			var ply = client.Pawn as RicochetPlayer;
 			TotalTeams[ply.Team - 1]--;
-			TotalClients--;
 			base.ClientDisconnect( client, reason );
 		}
 
