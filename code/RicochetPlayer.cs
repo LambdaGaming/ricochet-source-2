@@ -38,20 +38,14 @@ namespace Ricochet
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;
 
-		public override void Spawn()
-		{
-			base.Spawn();
-			MainCamera = new FirstPersonCamera();
-			LastCamera = MainCamera;
-		}
-
 		public override void Respawn()
 		{
 			base.Respawn();
 			SetModel( "models/citizen/citizen.vmdl" );
 			Controller = new RicochetWalkController();
 			Animator = new StandardPlayerAnimator();
-			MainCamera = LastCamera;
+			MainCamera = new FirstPersonCamera();
+			LastCamera = MainCamera;
 			Camera = MainCamera;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
@@ -70,7 +64,12 @@ namespace Ricochet
 			RenderColor = Color.White;
 			LastAttacker = null;
 			LastAttackWeaponBounces = 0;
-			RemoveSpectator();
+
+			if ( IsSpectator )
+			{
+				RemoveSpectator();
+			}
+			
 			using ( Prediction.Off() )
 			{
 				PlaySound( "r_tele1" );
