@@ -32,7 +32,7 @@ namespace Ricochet
 			PhysicsBody.DragEnabled = false;
 			GlowActive = true;
 			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
-			GlowState = GlowStates.GlowStateOn;
+			GlowState = GlowStates.On;
 			CurrentVelocity = Velocity;
 			SetInteractsAs( CollisionLayer.Empty );
 			_ = CollisionFix();
