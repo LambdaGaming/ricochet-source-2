@@ -332,8 +332,8 @@ namespace Ricochet
 		{
 			IsSpectator = false;
 			Controller = new RicochetWalkController();
-			Camera = LastCamera;
-			MainCamera = Camera;
+			MainCamera = new FirstPersonCamera();
+			Camera = MainCamera;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 		}
