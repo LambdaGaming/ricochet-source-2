@@ -21,7 +21,7 @@ namespace Ricochet
 	{
 		[Net] public int NumDiscs { get; set; }
 		[Net] public int PowerupDiscs { get; set; }
-		[Net] public int Team { get; set; } = 0;
+		[Net] public int Team { get; set; } = -1;
 		[Net] public Color TeamColor { get; set; }
 		[Net] public Powerup PowerupFlags { get; set; }
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
@@ -58,7 +58,7 @@ namespace Ricochet
 			FreezeTimer = 0;
 			NumDiscs = MaxDiscs;
 			PowerupDiscs = 0;
-			Team = Team == 0 ? AutoAssignTeam() : Team;
+			Team = Team < 0 ? AutoAssignTeam() : Team;
 			TeamColor = GetTeamColor();
 			Frozen = false;
 			RenderColor = Color.White;

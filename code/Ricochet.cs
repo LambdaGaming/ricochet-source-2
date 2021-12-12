@@ -119,7 +119,7 @@ namespace Ricochet
 			{
 				Random rand = new();
 				var ply = pawn as RicochetPlayer;
-				string color = ply.Team == 1 ? "red" : "blue";
+				string color = ply.Team == 0 ? "red" : "blue";
 				Entity spawnpoint = FindByName( $"spawn_{color}{rand.Next( 1, 5 )}" );
 				
 				if ( spawnpoint == null )
@@ -146,7 +146,7 @@ namespace Ricochet
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
 		{
 			var ply = client.Pawn as RicochetPlayer;
-			TotalTeams[ply.Team - 1]--;
+			TotalTeams[ply.Team]--;
 			base.ClientDisconnect( client, reason );
 		}
 
