@@ -15,6 +15,12 @@ namespace Ricochet
 				var ply = ent as RicochetPlayer;
 				if ( ply.IsValid() && ply.Alive() )
 				{
+					if ( Ricochet.CurrentRound is ArenaRound && Ricochet.CurrentRound.CurrentState == RoundState.Waiting )
+					{
+						ply.Respawn();
+						return;
+					}
+
 					if ( ply.LastAttackWeaponBounces <= 0 && ply.LastAttacker == null )
 					{
 						ply.LastDeathReason = DeathReason.Fall;
