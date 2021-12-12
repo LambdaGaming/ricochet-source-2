@@ -75,6 +75,12 @@ namespace Ricochet
 			PlayerTwo = plytwo.Pawn as RicochetPlayer;
 			PlayerTwo.Team = 1;
 			PlayerTwo.Respawn();
+			plylist.Remove( plytwo );
+
+			foreach ( Client cl in plylist )
+			{
+				( cl.Pawn as RicochetPlayer ).SetSpectator();
+			}
 
 			_ = RoundCountdown();
 			TotalRounds++;

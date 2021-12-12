@@ -73,16 +73,24 @@ namespace Ricochet
 			}
 		}
 
-		private void CheckRoundState()
+		private void CheckRoundState( Client cl )
 		{
-			if ( CurrentRound is ArenaRound && CurrentRound.CurrentState == RoundState.Waiting )
+			if ( CurrentRound is ArenaRound )
 			{
-				if ( Client.All.Count >= BaseRound.MinPlayers )
+				if ( CurrentRound.CurrentState == RoundState.Waiting )
 				{
-					CurrentRound.StartRound();
-					return;
+					if ( Client.All.Count >= BaseRound.MinPlayers )
+					{
+						CurrentRound.StartRound();
+						return;
+					}
+					ChatBox.AddInformation( To.Everyone, $"Waiting for {BaseRound.MinPlayers - Client.All.Count} more players..." );
 				}
-				ChatBox.AddInformation( To.Everyone, $"Waiting for {BaseRound.MinPlayers - Client.All.Count} more players..." );
+				else
+				{
+					( cl.Pawn as RicochetPlayer ).SetSpectator();
+					ChatBox.AddInformation( To.Single( cl ), "An arena game is currently active. You are now a spectator." );
+				}
 			}
 		}
 
@@ -140,7 +148,7 @@ namespace Ricochet
 			var player = new RicochetPlayer();
 			client.Pawn = player;
 			player.Respawn();
-			CheckRoundState();
+			CheckRoundState( client );
 		}
 
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
