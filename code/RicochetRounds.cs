@@ -22,9 +22,6 @@ namespace Ricochet
 	{
 		public RoundState CurrentState { get; set; } = RoundState.Waiting;
 
-		[ServerVar( "rc_minplayers", Help = "Minimum amount of players required to start." )]
-		public static int MinPlayers { get; set; } = 2;
-
 		public abstract void StartRound();
 		public abstract void EndRound();
 
@@ -47,7 +44,10 @@ namespace Ricochet
 		public RicochetPlayer PlayerOne { get; set; }
 		public RicochetPlayer PlayerTwo { get; set; }
 
-		[ServerVar( "rc_maxrounds", Help = "Max rounds to play before the map changes." )]
+		[ServerVar( "rc_minplayers", Help = "Minimum amount of players required to start an arena match." )]
+		public static int MinPlayers { get; set; } = 2;
+
+		[ServerVar( "rc_rounds", Help = "Max rounds to play before the map changes." )]
 		public static int MaxRounds { get; set; } = 3;
 
 		private async Task RestartRound()
@@ -59,12 +59,7 @@ namespace Ricochet
 		public override void StartRound()
 		{
 			Random rand = new();
-			List<Client> plylist = new();
-			foreach ( Client client in Client.All )
-			{
-				plylist.Add( client );
-			}
-
+			List<Client> plylist = new( Client.All );
 			Client plyone = plylist[rand.Next( plylist.Count )];
 			PlayerOne = plyone.Pawn as RicochetPlayer;
 			PlayerOne.Team = 0;
@@ -99,7 +94,6 @@ namespace Ricochet
 
 	public class DeathmatchRound : BaseRound
 	{
-		[ServerVar( "rc_tdm", Help = "Enable or disable teams." )]
 		public static bool IsTDM { get; set; } = false;
 
 		public DeathmatchRound( bool tdm = false )

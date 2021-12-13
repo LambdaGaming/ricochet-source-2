@@ -10,7 +10,11 @@ namespace Ricochet
 		public static int TeamCount { get; set; } = 2;
 		public static int[] TotalTeams { get; set; } = new int[TeamCount];
 		public static BaseRound CurrentRound { get; set; }
-		public static RoundType InitialRoundType { get; set; } = RoundType.Arena;
+
+		[ServerVar( "rc_roundtype", Help = "Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing." )]
+		public static RoundType InitialRoundType { get; set; } = RoundType.Deathmatch;
+
+		// TODO: Add option to select initial round type from the game creation menu once Facepunch adds support for that
 
 		public static readonly int[,] TeamColors = new int[31, 3] {
 			{ 250, 0, 0 },
@@ -79,12 +83,12 @@ namespace Ricochet
 			{
 				if ( CurrentRound.CurrentState == RoundState.Waiting )
 				{
-					if ( Client.All.Count >= BaseRound.MinPlayers )
+					if ( Client.All.Count >= ArenaRound.MinPlayers )
 					{
 						CurrentRound.StartRound();
 						return;
 					}
-					ChatBox.AddInformation( To.Everyone, $"Waiting for {BaseRound.MinPlayers - Client.All.Count} more players..." );
+					ChatBox.AddInformation( To.Everyone, $"Waiting for {ArenaRound.MinPlayers - Client.All.Count} more players..." );
 				}
 				else
 				{

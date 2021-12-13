@@ -65,7 +65,7 @@ namespace Ricochet
 
 		public virtual Vector3 GetSpectatePoint()
 		{
-			if ( Client.All.Count < BaseRound.MinPlayers )
+			if ( Client.All.Count < ArenaRound.MinPlayers )
 			{
 				return Vector3.Zero;
 			}
