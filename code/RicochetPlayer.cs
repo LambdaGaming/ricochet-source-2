@@ -26,6 +26,7 @@ namespace Ricochet
 		[Net] public Powerup PowerupFlags { get; set; }
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 		[Net] public DeathReason LastDeathReason { get; set; }
+		[Net] public bool IsSpectator { get; set; } = false;
 		[Net, Predicted] public ICamera MainCamera { get; set; }
 		public ICamera LastCamera { get; set; }
 		public float DiscCooldown { get; set; }
@@ -33,7 +34,6 @@ namespace Ricochet
 		public float EnemyTouchCooldown { get; set; }
 		public float FreezeTimer { get; set; }
 		public bool Frozen { get; set; }
-		public bool IsSpectator { get; set; } = false;
 		public static readonly int MaxDiscs = 3;
 		public static readonly int FreezeSpeed = 50;
 		public static readonly int FreezeTime = 7;

@@ -93,8 +93,6 @@ namespace Ricochet
 				// TODO: Implement map change once more maps are available
 			}
 			CurrentState = RoundState.End;
-			PlayerOne.SetSpectator();
-			PlayerTwo.SetSpectator();
 			_ = RestartRound();
 		}
 	}

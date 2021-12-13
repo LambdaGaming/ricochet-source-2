@@ -59,7 +59,7 @@ namespace Ricochet
 			FocusPoint = GetSpectatePoint();
 			Position = FocusPoint + GetViewOffset();
 			Rotation = Input.Rotation;
-			FieldOfView = 50;
+			FieldOfView = 70;
 			Viewer = null;
 		}
 
@@ -70,9 +70,13 @@ namespace Ricochet
 				return Vector3.Zero;
 			}
 
-			if ( Local.Pawn is Player player && player.Corpse.IsValid() )
+			foreach ( Client cl in Client.All )
 			{
-				return player.PhysicsGroup.MassCenter;
+				var ply = cl.Pawn as RicochetPlayer;
+				if ( ply.Alive() && !ply.IsSpectator )
+				{
+					return ply.Position;
+				}
 			}
 			return Local.Pawn.Position;
 		}

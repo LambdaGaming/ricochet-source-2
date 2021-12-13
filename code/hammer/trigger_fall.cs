@@ -15,9 +15,13 @@ namespace Ricochet
 				var ply = ent as RicochetPlayer;
 				if ( ply.IsValid() && ply.Alive() )
 				{
-					if ( Ricochet.CurrentRound is ArenaRound && Ricochet.CurrentRound.CurrentState == RoundState.Waiting )
+					if ( Ricochet.CurrentRound.CurrentState == RoundState.Waiting )
 					{
 						ply.Respawn();
+						return;
+					}
+					else if ( Ricochet.CurrentRound.CurrentState == RoundState.End )
+					{
 						return;
 					}
 
