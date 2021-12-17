@@ -13,3 +13,10 @@
 
 # Issues & Pull Requests
  If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html)
+
+# Tools & Resources Used
+- [Blender](https://www.blender.org/)
+- [SourceIO](https://github.com/REDxEYE/SourceIO)
+- [GIMP](https://www.gimp.org/)
+- [bigjpg.com](https://bigjpg.com/)
+- [Ricochet source code](https://github.com/ValveSoftware/halflife/tree/master/ricochet)
