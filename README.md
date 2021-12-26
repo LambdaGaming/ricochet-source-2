@@ -1,5 +1,5 @@
 # Ricochet: Source 2
- WIP project that aims to port Ricochet into S&Box. The plan is to make the game identical to the original, or at least as close as possible given the API and tools available. I started this project mainly to experiment with S&Box before I move onto more complex projects, so any changes that greatly differ from the original game are not planned. Credit goes to Valve for the original game and its resources.
+ Ricochet in s&box. The main game is complete and work has now started on making small improvements and fixing bugs. I started this project mainly to experiment with s&box, so major changes that greatly differ from the original game are not planned. Credit goes to Valve for the original game and its resources.
 
 # Round Types
 - Deathmatch - Normal deathmatch, each player is assigned a separate team. Round starts as soon as the first player joins.
