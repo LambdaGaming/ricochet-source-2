@@ -17,6 +17,7 @@ namespace Ricochet
 		private Sound DecapLoop { get; set; }
 		private float SetZ { get; set; }
 		private Vector3 CurrentVelocity { get; set; }
+		private Vector3 FireDir { get; set; }
 		public static readonly int DiscPushMultiplier = 1000;
 
 		public new void Spawn()
@@ -26,7 +27,7 @@ namespace Ricochet
 			SetModel( IsDecap ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl" );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-			Velocity = ( Owner.EyeRot.Forward * DiscVelocity ).WithZ( 0 );
+			Velocity = ( FireDir * DiscVelocity ).WithZ( 0 );
 			SetZ = Position.z;
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
@@ -53,14 +54,14 @@ namespace Ricochet
 			SetInteractsAs( CollisionLayer.Solid );
 		}
 
-		public static Disc CreateDisc( Vector3 position, Angles angles, RicochetPlayer owner, bool decap, Powerup flags )
+		public static Disc CreateDisc( Vector3 position, Vector3 firedir, RicochetPlayer owner, bool decap, Powerup flags )
 		{
 			Disc disc = new();
 			disc.Position = position;
 			disc.PowerupFlags = flags;
 			disc.IsDecap = flags.HasFlag( Powerup.Hard ) || decap;
 			disc.IsSecondary = decap;
-			disc.WorldAng = angles;
+			disc.FireDir = firedir;
 			disc.Owner = owner;
 			disc.Team = owner.Team;
 			disc.Spawn();

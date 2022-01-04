@@ -114,23 +114,22 @@ namespace Ricochet
 			}
 		}
 
-		public Disc FireDisc( bool decap = false )
+		private void FireDisc( bool decap = false )
 		{
-			Angles firedir = Angles.Zero;
-			firedir.yaw = EyeRot.y;
 			Vector3 vecsrc = Position + ( ( EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
-			Disc disc = Disc.CreateDisc( vecsrc, firedir, this, decap, PowerupFlags );
-			Disc returndisc = disc;
+			Disc maindisc = Disc.CreateDisc( vecsrc, EyeRot.Forward, this, decap, PowerupFlags );
 
 			if ( HasPowerup( Powerup.Triple ) )
 			{
-				firedir.yaw = EyeRot.y - 7;
-				disc = Disc.CreateDisc( vecsrc, firedir, this, decap, Powerup.Triple );
+				Vector3 firedir1 = Vector3.Zero;
+				firedir1.y = maindisc.Velocity.y + 7;
+				Disc disc = Disc.CreateDisc( vecsrc, firedir1, this, decap, PowerupFlags );
 				disc.IsExtra = true;
 
-				firedir.yaw = EyeRot.y + 7;
-				disc = Disc.CreateDisc( vecsrc, firedir, this, decap, Powerup.Triple );
-				disc.IsExtra = true;
+				Vector3 firedir2 = Vector3.Zero;
+				firedir2.x = maindisc.Velocity.x - 7;
+				Disc disc2 = Disc.CreateDisc( vecsrc, firedir2, this, decap, PowerupFlags );
+				disc2.IsExtra = true;
 			}
 
 			PowerupDiscs--;
@@ -141,7 +140,6 @@ namespace Ricochet
 
 			DiscCooldown = Time.Now + ( HasPowerup( Powerup.Fast ) ? 0.2f : 0.5f );
 			OwnerTouchCooldown = Time.Now + 0.1f;
-			return returndisc;
 		}
 		
 		public override void OnKilled()
