@@ -13,9 +13,7 @@ namespace Ricochet
 		[Net] public float AirAcceleration { get; set; } = 50.0f;
 		[Net] public float GroundFriction { get; set; } = 4.0f;
 		[Net] public float StopSpeed { get; set; } = 100.0f;
-		[Net] public float DistEpsilon { get; set; } = 0.03125f;
 		[Net] public float GroundAngle { get; set; } = 46.0f;
-		[Net] public float MoveFriction { get; set; } = 1.0f;
 		[Net] public float StepSize { get; set; } = 18.0f;
 		[Net] public float MaxNonJumpVelocity { get; set; } = 140.0f;
 		[Net] public float BodyGirth { get; set; } = 32.0f;
@@ -107,7 +105,7 @@ namespace Ricochet
 			// Work out wish velocity.. just take input, rotate it to view, clamp to -1, 1
 			WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
 			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
-			WishVelocity *= Input.Rotation;
+			WishVelocity *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
 			WishVelocity = WishVelocity.WithZ( 0 );
 			WishVelocity = WishVelocity.Normal * inSpeed;
 			WishVelocity *= GetWishSpeed();
@@ -127,7 +125,7 @@ namespace Ricochet
 
 			// FinishGravity
 			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
-			
+
 			if ( GroundEntity != null )
 			{
 				Velocity = Velocity.WithZ( 0 );
@@ -170,6 +168,7 @@ namespace Ricochet
 				if ( pm.Fraction == 1 )
 				{
 					Position = pm.EndPos;
+					StayOnGround();
 					return;
 				}
 
@@ -180,6 +179,7 @@ namespace Ricochet
 				// Now pull the base velocity back out. Base velocity is set if you are on a moving object, like a conveyor (or maybe another monster?)
 				Velocity -= BaseVelocity;
 			}
+			StayOnGround();
 		}
 
 		public virtual void StepMove()
@@ -208,11 +208,6 @@ namespace Ricochet
 
 		public virtual void Accelerate( Vector3 wishdir, float wishspeed, float speedLimit, float acceleration )
 		{
-			// This gets overridden because some games (CSPort) want to allow dead (observer) players
-			// to be able to move around.
-			// if ( !CanAccelerate() )
-			//     return;
-
 			if ( speedLimit > 0 && wishspeed > speedLimit )
 				wishspeed = speedLimit;
 
@@ -340,6 +335,31 @@ namespace Ricochet
 			GroundEntity = null;
 			GroundNormal = Vector3.Up;
 			SurfaceFriction = 1.0f;
+		}
+
+		public override TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
+		{
+			return TraceBBox( start, end, mins, maxs, liftFeet );
+		}
+
+		public virtual void StayOnGround()
+		{
+			var start = Position + Vector3.Up * 2;
+			var end = Position + Vector3.Down * StepSize;
+
+			// See how far up we can go without getting stuck
+			var trace = TraceBBox( Position, start );
+			start = trace.EndPos;
+
+			// Now trace down from a known safe position
+			trace = TraceBBox( start, end );
+
+			if ( trace.Fraction <= 0 ) return;
+			if ( trace.Fraction >= 1 ) return;
+			if ( trace.StartedSolid ) return;
+			if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > GroundAngle ) return;
+
+			Position = trace.EndPos;
 		}
 	}
 }
