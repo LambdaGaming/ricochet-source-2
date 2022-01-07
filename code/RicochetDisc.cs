@@ -127,7 +127,7 @@ namespace Ricochet
 			}
 			else if ( ent is Disc disc )
 			{
-				if ( ent.Owner != Owner && !disc.IsExtra && !IsExtra )
+				if ( ent.Owner != Owner )
 				{
 					var spr = Particles.Create( "particles/discreturn.vpcf", Position );
 					spr.Destroy();
@@ -236,7 +236,12 @@ namespace Ricochet
 			{
 				DecapLoop.Stop();
 			}
-			if ( IsSecondary )
+			if ( IsExtra )
+			{
+				Delete();
+				return;
+			}
+			else if ( IsSecondary )
 			{
 				ply.GiveDisc( RicochetPlayer.MaxDiscs );
 			}
