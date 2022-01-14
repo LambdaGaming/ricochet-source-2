@@ -140,9 +140,9 @@ namespace Ricochet
 			Canvas = Add.Panel( "canvas" );
 			Panel Header = Canvas.Add.Panel( "header" );
 			Header.Add.Label( "", "name" );
-			Header.Add.Label( "POINTS", "kills" );
-			Header.Add.Label( "LATENCY", "ping" );
-			Header.Add.Label( "VOICE", "voice" );
+			Header.Add.Label( "POINTS", "pointstext" );
+			Header.Add.Label( "LATENCY", "latencytext" );
+			Header.Add.Label( "VOICE", "voicetext" );
 		}
 
 		public override void Tick()
