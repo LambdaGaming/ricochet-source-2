@@ -1,6 +1,8 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ricochet
 {
@@ -14,7 +16,7 @@ namespace Ricochet
 				RootPanel.AddChild<DiscHUD>();
 				RootPanel.AddChild<Crosshair>();
 				RootPanel.AddChild<RicochetKillFeed>();
-				RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
+				RootPanel.AddChild<RicochetScoreboard<RicochetScoreboardEntry>>();
 			}
 		}
 	}
@@ -123,6 +125,114 @@ namespace Ricochet
 			Left = Add.Label( "", "left" );
 			Method = Add.Image( "", "image" );
 			Right = Add.Label( "", "right" );
+		}
+	}
+
+	public class RicochetScoreboard<T> : Panel where T : RicochetScoreboardEntry, new()
+	{
+		public Panel Canvas { get; protected set; }
+		Dictionary<Client, T> Rows = new();
+
+		public RicochetScoreboard()
+		{
+			StyleSheet.Load( "RicochetScoreboard.scss" );
+			AddClass( "ricochetscoreboard" );
+			Canvas = Add.Panel( "canvas" );
+			Panel Header = Canvas.Add.Panel( "header" );
+			Header.Add.Label( "", "name" );
+			Header.Add.Label( "POINTS", "kills" );
+			Header.Add.Label( "LATENCY", "ping" );
+			Header.Add.Label( "VOICE", "voice" );
+		}
+
+		public override void Tick()
+		{
+			base.Tick();
+
+			SetClass( "open", Input.Down( InputButton.Score ) );
+
+			if ( !IsVisible )
+				return;
+
+			foreach ( var client in Client.All.Except( Rows.Keys ) )
+			{
+				var entry = AddClient( client );
+				Rows[client] = entry;
+			}
+
+			foreach ( var client in Rows.Keys.Except( Client.All ) )
+			{
+				if ( Rows.TryGetValue( client, out var row ) )
+				{
+					row?.Delete();
+					Rows.Remove( client );
+				}
+			}
+		}
+
+		protected T AddClient( Client entry )
+		{
+			var p = Canvas.AddChild<T>();
+			p.Client = entry;
+			return p;
+		}
+	}
+
+	public class RicochetScoreboardEntry : Panel
+	{
+		public Client Client;
+		public Label PlayerName;
+		public Label Kills;
+		public Label Voice;
+		public Label Ping;
+
+		public RicochetScoreboardEntry()
+		{
+			AddClass( "entry" );
+			PlayerName = Add.Label( "PlayerName", "name" );
+			Kills = Add.Label( "", "kills" );
+			Ping = Add.Label( "", "ping" );
+			Voice = Add.Label( "", "voice" );
+		}
+
+		RealTimeSince TimeSinceUpdate = 0;
+
+		public override void Tick()
+		{
+			base.Tick();
+
+			if ( !IsVisible )
+				return;
+
+			if ( !Client.IsValid() )
+				return;
+
+			if ( TimeSinceUpdate < 0.1f )
+				return;
+
+			TimeSinceUpdate = 0;
+			UpdateData();
+		}
+
+		public void UpdateData()
+		{
+			PlayerName.Text = Client.Name;
+			Kills.Text = Client.GetInt( "kills" ).ToString();
+			Voice.Text = Client.VoiceLevel.ToString();
+			Ping.Text = Client.Ping.ToString();
+			SetClass( "me", Client == Local.Client );
+
+			if ( Client != Local.Client )
+			{
+				Color color = ( Client.Pawn as RicochetPlayer ).TeamColor;
+				PlayerName.Style.FontColor = color;
+				Kills.Style.FontColor = color;
+				Ping.Style.FontColor = color;
+				if ( Client.VoiceLevel > 0 )
+				{
+					Voice.Style.FontColor = color;
+				}
+			}
 		}
 	}
 }
