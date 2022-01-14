@@ -63,6 +63,7 @@ namespace Ricochet
 			Frozen = false;
 			RenderColor = Color.White;
 			LastAttacker = null;
+			LastAttackerWeapon = null;
 			LastAttackWeaponBounces = 0;
 
 			if ( IsSpectator )
@@ -156,6 +157,16 @@ namespace Ricochet
 			}
 		}
 
+		public override void TakeDamage( DamageInfo info )
+		{
+			base.TakeDamage( info );
+			if ( info.Weapon is Disc disc && disc.IsDecap )
+			{
+				// Add 2 extra points for decap kills
+				info.Attacker.Client.AddInt( "kills", 2 );
+			}
+		}
+
 		[ClientRpc]
 		public void SyncCorpse( Entity ent )
 		{
@@ -218,18 +229,22 @@ namespace Ricochet
 			Frozen = false;
 		}
 
-		public void Decapitate( RicochetPlayer killer )
+		public void Decapitate( RicochetPlayer killer, Disc disc )
 		{
 			if ( Frozen )
 			{
-				Shatter( killer );
+				Shatter( killer, disc );
 				return;
 			}
 
 			if ( Alive() )
 			{
 				LastAttacker = killer;
-				DamageInfo dmg = new() { Damage = 500, Attacker = killer };
+				DamageInfo dmg = new() {
+					Damage = 500,
+					Attacker = killer,
+					Weapon = disc
+				};
 				TakeDamage( dmg );
 				using ( Prediction.Off() )
 				{
@@ -239,12 +254,16 @@ namespace Ricochet
 			}
 		}
 
-		public void Shatter( RicochetPlayer killer )
+		public void Shatter( RicochetPlayer killer, Disc disc )
 		{
 			if ( Alive() )
 			{
 				LastAttacker = killer;
-				DamageInfo dmg = new() { Damage = 500, Attacker = killer };
+				DamageInfo dmg = new() {
+					Damage = 500,
+					Attacker = killer,
+					Weapon = disc
+				};
 				TakeDamage( dmg );
 				RenderColor = Color.Transparent;
 				EnableSolidCollisions = false;

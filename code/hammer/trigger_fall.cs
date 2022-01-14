@@ -40,7 +40,11 @@ namespace Ricochet
 					ply.Corpse = body;
 					ply.SyncCorpse( body );
 
-					DamageInfo dmg = new() { Damage = 1000, Attacker = ply.LastAttacker };
+					DamageInfo dmg = new() {
+						Damage = 1000,
+						Attacker = ply.LastAttacker,
+						Weapon = ply.LastAttackerWeapon
+					};
 					ply.TakeDamage( dmg );
 					ply.PlaySound( "scream" );
 				}

@@ -102,7 +102,7 @@ namespace Ricochet
 						if ( IsDecap )
 						{
 							ply.LastDeathReason = DeathReason.Decap;
-							ply.Decapitate( owner );
+							ply.Decapitate( owner, this );
 							owner.EnemyTouchCooldown = Time.Now + 0.5f;
 						}
 						else
@@ -122,6 +122,7 @@ namespace Ricochet
 
 					ply.LastAttackWeaponBounces = TotalBounces;
 					ply.LastAttacker = owner;
+					ply.LastAttackerWeapon = this;
 					_ = ResetAttacker( ply );
 				}
 			}
@@ -151,6 +152,7 @@ namespace Ricochet
 			await Task.DelaySeconds( 10 );
 			ply.LastAttackWeaponBounces = 0;
 			ply.LastAttacker = null;
+			ply.LastAttackerWeapon = null;
 		}
 		
 		[Event.Tick.Server]
