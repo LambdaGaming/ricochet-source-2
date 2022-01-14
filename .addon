@@ -1,4 +1,15 @@
 {
-    "sharedassets": "*.*",
-    "type": "game"
+  "SharedAssets": "*.*",
+  "Title": "Ricochet",
+  "Type": "game",
+  "Org": "lambdagaming",
+  "Ident": "ricochet",
+  "FullIdent": "lambdagaming.ricochet",
+  "Schema": 1,
+  "NeedsUpgrade": false,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "Ricochet"
 }
