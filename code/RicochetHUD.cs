@@ -222,9 +222,9 @@ namespace Ricochet
 			Ping.Text = Client.Ping.ToString();
 			SetClass( "me", Client == Local.Client );
 
+			Color color = ( Client.Pawn as RicochetPlayer ).TeamColor;
 			if ( Client != Local.Client )
 			{
-				Color color = ( Client.Pawn as RicochetPlayer ).TeamColor;
 				PlayerName.Style.FontColor = color;
 				Kills.Style.FontColor = color;
 				Ping.Style.FontColor = color;
@@ -232,6 +232,10 @@ namespace Ricochet
 				{
 					Voice.Style.FontColor = color;
 				}
+			}
+			else
+			{
+				Style.BackgroundColor = color.WithAlpha( 0.05f );
 			}
 		}
 	}
