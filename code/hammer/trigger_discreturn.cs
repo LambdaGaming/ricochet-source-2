@@ -15,7 +15,8 @@ namespace Ricochet
 			{
 				var spr = Particles.Create( "particles/discreturn.vpcf", disc.Position );
 				spr.Destroy();
-				Sound.FromWorld( "discreturn", disc.Position );
+				var snd = Sound.FromWorld( "discreturn", disc.Position );
+				snd.SetVolume( 0.25f );
 				disc.ReturnToThrower();
 			}
 		}
