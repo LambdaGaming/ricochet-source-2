@@ -161,7 +161,6 @@ namespace Ricochet
 			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );
 			Position = Position.WithZ( SetZ );
 			Rotation = Rotation.From( Angles.Zero );
-			WorldAng = Angles.Zero;
 			if ( NextThink > Time.Now ) return;
 			if ( HasPowerup( Powerup.Freeze ) && TotalBounces == 0 )
 			{
@@ -195,7 +194,7 @@ namespace Ricochet
 					Vector3 direction = ( LockTarget.Position - Position ).Normal;
 					Velocity = ( Velocity.Normal + ( direction.Normal * 0.25f ) ).Normal;
 					Velocity *= DiscVelocity;
-					WorldAng = Vector3.VectorAngle( Velocity );
+					Rotation = Rotation.From( Vector3.VectorAngle( Velocity ) );
 				}
 			}
 

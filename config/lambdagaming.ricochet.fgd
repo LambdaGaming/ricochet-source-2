@@ -1,5 +1,5 @@
 
-@BaseClass = BaseProperties_ricochet
+@BaseClass = BaseProperties_lambdagaming_ricochet
 [
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	parentAttachmentName(parentAttachment) [ group="Hierarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
@@ -16,7 +16,7 @@
 //
 // Ricochet.PowerupEnt
 //
-@PointClass base(BaseProperties_ricochet) = powerup : ""
+@PointClass base(BaseProperties_lambdagaming_ricochet) = powerup : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -26,7 +26,7 @@
 //
 // Ricochet.TriggerDiscReturn
 //
-@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
+@SolidClass base(BaseProperties_lambdagaming_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
@@ -62,7 +62,7 @@ metadata
 //
 // Ricochet.TriggerFall
 //
-@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
+@SolidClass base(BaseProperties_lambdagaming_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
@@ -98,7 +98,7 @@ metadata
 //
 // Ricochet.TriggerJump
 //
-@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
+@SolidClass base(BaseProperties_lambdagaming_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
@@ -136,7 +136,7 @@ metadata
 //
 // Ricochet.TriggerPushOld
 //
-@SolidClass base(BaseProperties_ricochet) tags( Trigger ) 
+@SolidClass base(BaseProperties_lambdagaming_ricochet) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"

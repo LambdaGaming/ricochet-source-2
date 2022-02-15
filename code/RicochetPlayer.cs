@@ -117,8 +117,8 @@ namespace Ricochet
 
 		private void FireDisc( bool decap = false )
 		{
-			Vector3 vecsrc = Position + ( ( EyeRot.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
-			Disc maindisc = Disc.CreateDisc( vecsrc, EyeRot.Forward, this, decap, PowerupFlags );
+			Vector3 vecsrc = Position + ( ( EyeRotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
+			Disc maindisc = Disc.CreateDisc( vecsrc, EyeRotation.Forward, this, decap, PowerupFlags );
 
 			if ( HasPowerup( Powerup.Triple ) )
 			{
