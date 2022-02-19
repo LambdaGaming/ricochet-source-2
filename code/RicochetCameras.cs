@@ -88,4 +88,14 @@ namespace Ricochet
 			return Input.Rotation.Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
 		}
 	}
+
+	public class VRCamera : FirstPersonCamera
+	{
+		public override void Update()
+		{
+			base.Update();
+			ZNear = 1;
+			ZFar = 25000;
+		}
+	}
 }

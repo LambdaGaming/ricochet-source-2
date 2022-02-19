@@ -27,6 +27,8 @@ namespace Ricochet
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 		[Net] public DeathReason LastDeathReason { get; set; }
 		[Net] public bool IsSpectator { get; set; } = false;
+		[Net, Local] public RightHand RightHand { get; set; }
+		[Net, Local] public LeftHand LeftHand { get; set; }
 		[Net, Predicted] public ICamera MainCamera { get; set; }
 		public ICamera LastCamera { get; set; }
 		public float DiscCooldown { get; set; }
@@ -42,11 +44,23 @@ namespace Ricochet
 		{
 			base.Respawn();
 			SetModel( "models/citizen/citizen.vmdl" );
-			Controller = new RicochetWalkController();
-			Animator = new StandardPlayerAnimator();
-			MainCamera = new FirstPersonCamera();
-			LastCamera = MainCamera;
-			Camera = MainCamera;
+
+			if ( Client.IsUsingVr )
+			{
+				Controller = new VRWalkController();
+				Animator = new VRPlayerAnimator();
+				Camera = new VRCamera();
+				CreateVRHands();
+			}
+			else
+			{
+				Controller = new RicochetWalkController();
+				Animator = new StandardPlayerAnimator();
+				MainCamera = new FirstPersonCamera();
+				LastCamera = MainCamera;
+				Camera = MainCamera;
+			}
+			
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
@@ -82,9 +96,12 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
+			SetVrAnimProperties();
+			RightHand?.Simulate( cl );
+			LeftHand?.Simulate( cl );
 			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
-				if ( Input.Pressed( InputButton.Attack1 ) )
+				if ( Input.Pressed( InputButton.Attack1 ) || ( RightHand.IsValid() && RightHand.TriggerPressed ) )
 				{
 					if ( NumDiscs > 0 )
 					{
@@ -96,7 +113,7 @@ namespace Ricochet
 						}
 					}
 				}
-				else if ( Input.Pressed( InputButton.Attack2 ) )
+				else if ( Input.Pressed( InputButton.Attack2 ) || ( LeftHand.IsValid() && LeftHand.TriggerPressed ) )
 				{
 					if ( NumDiscs == MaxDiscs )
 					{
@@ -148,9 +165,14 @@ namespace Ricochet
 			base.OnKilled();
 			EnableAllCollisions = false;
 			EnableDrawing = false;
-			LastCamera = MainCamera;
-			MainCamera = new RicochetDeathCam();
-			Camera = MainCamera;
+
+			if ( !Client.IsUsingVr )
+			{
+				LastCamera = MainCamera;
+				MainCamera = new RicochetDeathCam();
+				Camera = MainCamera;
+			}
+			
 			if ( Ricochet.CurrentRound is ArenaRound )
 			{
 				Ricochet.CurrentRound.EndRound();
@@ -353,6 +375,39 @@ namespace Ricochet
 			Camera = MainCamera;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
+		}
+
+		public override void FrameSimulate( Client cl )
+		{
+			base.FrameSimulate( cl );
+			RightHand?.FrameSimulate( cl );
+			LeftHand?.FrameSimulate( cl );
+		}
+
+		public void SetVrAnimProperties()
+		{
+			if ( LifeState != LifeState.Alive || !Input.VR.IsActive ) return;
+			SetAnimBool( "b_vr", true );
+
+			var rightHandLocal = Transform.ToLocal( RightHand.GetBoneTransform( 0 ) );
+			var leftHandLocal = Transform.ToLocal( LeftHand.GetBoneTransform( 0 ) );
+			var handOffset = Vector3.Zero;
+
+			SetAnimVector( "right_hand_ik.position", rightHandLocal.Position + ( handOffset * rightHandLocal.Rotation ) );
+			SetAnimVector( "left_hand_ik.position", leftHandLocal.Position + ( handOffset * leftHandLocal.Rotation ) );
+			SetAnimRotation( "right_hand_ik.rotation", rightHandLocal.Rotation );
+			SetAnimRotation( "left_hand_ik.rotation", leftHandLocal.Rotation * Rotation.From( 0, 0, 180 ) );
+
+			float height = Input.VR.Head.Position.z - Position.z;
+			SetAnimFloat( "duck", 1.0f - ( ( height - 32f ) / 32f ) );
+		}
+
+		private void CreateVRHands()
+		{
+			RightHand?.Delete();
+			LeftHand?.Delete();
+			RightHand = new() { Owner = this };
+			LeftHand = new() { Owner = this };
 		}
 	}
 
