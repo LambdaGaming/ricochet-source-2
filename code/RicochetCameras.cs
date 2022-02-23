@@ -2,7 +2,7 @@
 
 namespace Ricochet
 {
-	public class RicochetDeathCam : Camera
+	public class RicochetDeathCam : CameraMode
 	{
 		Vector3 FocusPoint;
 
@@ -41,7 +41,7 @@ namespace Ricochet
 		}
 	}
 
-	public class RicochetSpectateCam : Camera
+	public class RicochetSpectateCam : CameraMode
 	{
 		Vector3 FocusPoint;
 

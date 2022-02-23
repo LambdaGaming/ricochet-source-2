@@ -27,8 +27,6 @@ namespace Ricochet
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 		[Net] public DeathReason LastDeathReason { get; set; }
 		[Net] public bool IsSpectator { get; set; } = false;
-		[Net, Predicted] public ICamera MainCamera { get; set; }
-		public ICamera LastCamera { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
@@ -44,9 +42,7 @@ namespace Ricochet
 			SetModel( "models/citizen/citizen.vmdl" );
 			Controller = new RicochetWalkController();
 			Animator = new StandardPlayerAnimator();
-			MainCamera = new FirstPersonCamera();
-			LastCamera = MainCamera;
-			Camera = MainCamera;
+			CameraMode = new FirstPersonCamera();
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
@@ -148,9 +144,7 @@ namespace Ricochet
 			base.OnKilled();
 			EnableAllCollisions = false;
 			EnableDrawing = false;
-			LastCamera = MainCamera;
-			MainCamera = new RicochetDeathCam();
-			Camera = MainCamera;
+			CameraMode = new RicochetDeathCam();
 			if ( Ricochet.CurrentRound is ArenaRound )
 			{
 				Ricochet.CurrentRound.EndRound();
@@ -168,7 +162,7 @@ namespace Ricochet
 		}
 
 		[ClientRpc]
-		public void SyncCorpse( Entity ent )
+		public void SyncCorpse( ModelEntity ent )
 		{
 			// Update the corpse on the client since it's not automatically networked
 			Corpse = ent;
@@ -337,10 +331,8 @@ namespace Ricochet
 		public void SetSpectator()
 		{
 			IsSpectator = true;
-			LastCamera = MainCamera;
-			MainCamera = new RicochetSpectateCam();
+			CameraMode = new RicochetSpectateCam();
 			Controller = null;
-			Camera = MainCamera;
 			EnableAllCollisions = false;
 			EnableDrawing = false;
 		}
@@ -349,8 +341,7 @@ namespace Ricochet
 		{
 			IsSpectator = false;
 			Controller = new RicochetWalkController();
-			MainCamera = new FirstPersonCamera();
-			Camera = MainCamera;
+			CameraMode = new FirstPersonCamera();
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 		}

@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.Component;
 using System.Threading.Tasks;
 
 namespace Ricochet
@@ -31,12 +32,13 @@ namespace Ricochet
 			SetZ = Position.z;
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
-			GlowActive = true;
-			GlowColor = ( Owner as RicochetPlayer ).TeamColor;
-			GlowState = GlowStates.On;
 			CurrentVelocity = Velocity;
 			SetInteractsAs( CollisionLayer.Empty );
 			_ = CollisionFix();
+
+			Glow glow = Components.GetOrCreate<Glow>();
+			glow.Active = true;
+			glow.Color = ( Owner as RicochetPlayer ).TeamColor;
 
 			using ( Prediction.Off() )
 			{
