@@ -10,5 +10,12 @@
   "HasCode": true,
   "CodePath": "code",
   "RootNamespace": "Ricochet",
-  "Metadata": {}
+  "Metadata": {
+    "MapList": [
+      "lambdagaming.rc_deathmatch"
+    ],
+    "MinPlayers": 1,
+    "MaxPlayers": 32,
+    "MapSelect": 3
+  }
 }
