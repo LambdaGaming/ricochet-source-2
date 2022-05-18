@@ -130,9 +130,20 @@ namespace Ricochet
 
 		private void FireDisc( bool decap = false )
 		{
-			Vector3 vecsrc = Position + ( ( EyeRotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
-			Disc maindisc = Disc.CreateDisc( vecsrc, EyeRotation.Forward, this, decap, PowerupFlags );
+			Vector3 vecsrc;
+			Vector3 vecdir;
+			if ( Client.IsUsingVr )
+			{
+				vecsrc = RightHand.Position + ( ( RightHand.Rotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 1 ) );
+				vecdir = RightHand.Rotation.Forward;
+			}
+			else
+			{
+				vecsrc = Position + ( ( EyeRotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 35 ) );
+				vecdir = EyeRotation.Forward;
+			}
 
+			Disc maindisc = Disc.CreateDisc( vecsrc, vecdir, this, decap, PowerupFlags );
 			if ( HasPowerup( Powerup.Triple ) )
 			{
 				Vector3 firedir1 = Vector3.Zero;

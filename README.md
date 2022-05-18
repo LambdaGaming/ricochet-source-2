@@ -20,3 +20,4 @@
 - [GIMP](https://www.gimp.org/)
 - [bigjpg.com](https://bigjpg.com/)
 - [Ricochet source code](https://github.com/ValveSoftware/halflife/tree/master/ricochet)
+- [xezno's minimal VR game](https://github.com/xezno/sbox-vr-minimal)
