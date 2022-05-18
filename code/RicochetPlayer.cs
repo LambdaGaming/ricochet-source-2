@@ -29,8 +29,6 @@ namespace Ricochet
 		[Net] public bool IsSpectator { get; set; } = false;
 		[Net, Local] public RightHand RightHand { get; set; }
 		[Net, Local] public LeftHand LeftHand { get; set; }
-		[Net, Predicted] public ICamera MainCamera { get; set; }
-		public ICamera LastCamera { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
@@ -49,16 +47,14 @@ namespace Ricochet
 			{
 				Controller = new VRWalkController();
 				Animator = new VRPlayerAnimator();
-				Camera = new VRCamera();
+				CameraMode = new VRCamera();
 				CreateVRHands();
 			}
 			else
 			{
 				Controller = new RicochetWalkController();
 				Animator = new StandardPlayerAnimator();
-				MainCamera = new FirstPersonCamera();
-				LastCamera = MainCamera;
-				Camera = MainCamera;
+				CameraMode = new FirstPersonCamera();
 			}
 			
 			EnableAllCollisions = true;
@@ -168,9 +164,7 @@ namespace Ricochet
 
 			if ( !Client.IsUsingVr )
 			{
-				LastCamera = MainCamera;
-				MainCamera = new RicochetDeathCam();
-				Camera = MainCamera;
+				CameraMode = new RicochetDeathCam();
 			}
 			
 			if ( Ricochet.CurrentRound is ArenaRound )
@@ -384,19 +378,19 @@ namespace Ricochet
 		public void SetVrAnimProperties()
 		{
 			if ( LifeState != LifeState.Alive || !Input.VR.IsActive ) return;
-			SetAnimBool( "b_vr", true );
+			SetAnimParameter( "b_vr", true );
 
 			var rightHandLocal = Transform.ToLocal( RightHand.GetBoneTransform( 0 ) );
 			var leftHandLocal = Transform.ToLocal( LeftHand.GetBoneTransform( 0 ) );
 			var handOffset = Vector3.Zero;
 
-			SetAnimVector( "right_hand_ik.position", rightHandLocal.Position + ( handOffset * rightHandLocal.Rotation ) );
-			SetAnimVector( "left_hand_ik.position", leftHandLocal.Position + ( handOffset * leftHandLocal.Rotation ) );
-			SetAnimRotation( "right_hand_ik.rotation", rightHandLocal.Rotation );
-			SetAnimRotation( "left_hand_ik.rotation", leftHandLocal.Rotation * Rotation.From( 0, 0, 180 ) );
+			SetAnimParameter( "right_hand_ik.position", rightHandLocal.Position + ( handOffset * rightHandLocal.Rotation ) );
+			SetAnimParameter( "left_hand_ik.position", leftHandLocal.Position + ( handOffset * leftHandLocal.Rotation ) );
+			SetAnimParameter( "right_hand_ik.rotation", rightHandLocal.Rotation );
+			SetAnimParameter( "left_hand_ik.rotation", leftHandLocal.Rotation * Rotation.From( 0, 0, 180 ) );
 
 			float height = Input.VR.Head.Position.z - Position.z;
-			SetAnimFloat( "duck", 1.0f - ( ( height - 32f ) / 32f ) );
+			SetAnimParameter( "duck", 1.0f - ( ( height - 32f ) / 32f ) );
 		}
 
 		private void CreateVRHands()

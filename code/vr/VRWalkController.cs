@@ -16,16 +16,16 @@ namespace Ricochet
 		public override void FrameSimulate()
 		{
 			base.FrameSimulate();
-			EyeRot = Input.VR.Head.Rotation;
+			EyeRotation = Input.VR.Head.Rotation;
 		}
 
 		public override void Simulate()
 		{
-			EyePosLocal = Vector3.Up * ( EyeHeight * Pawn.Scale );
+			EyeLocalPosition = Vector3.Up * ( EyeHeight * Pawn.Scale );
 			UpdateBBox();
 
-			EyePosLocal += TraceOffset;
-			EyeRot = Input.VR.Head.Rotation;
+			EyeLocalPosition += TraceOffset;
+			EyeRotation = Input.VR.Head.Rotation;
 
 			if ( Unstuck.TestAndFix() )
 				return;
