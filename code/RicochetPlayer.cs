@@ -190,7 +190,7 @@ namespace Ricochet
 		}
 
 		[ClientRpc]
-		public void SyncCorpse( Entity ent )
+		public void SyncCorpse( ModelEntity ent )
 		{
 			// Update the corpse on the client since it's not automatically networked
 			Corpse = ent;
@@ -359,10 +359,8 @@ namespace Ricochet
 		public void SetSpectator()
 		{
 			IsSpectator = true;
-			LastCamera = MainCamera;
-			MainCamera = new RicochetSpectateCam();
+			CameraMode = new RicochetSpectateCam();
 			Controller = null;
-			Camera = MainCamera;
 			EnableAllCollisions = false;
 			EnableDrawing = false;
 		}
@@ -371,8 +369,7 @@ namespace Ricochet
 		{
 			IsSpectator = false;
 			Controller = new RicochetWalkController();
-			MainCamera = new FirstPersonCamera();
-			Camera = MainCamera;
+			CameraMode = new FirstPersonCamera();
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 		}
