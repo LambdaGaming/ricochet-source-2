@@ -23,15 +23,17 @@ namespace Ricochet
 	
 	public class DiscHUD : Panel
 	{
+		public Panel Canvas { get; protected set; }
 		private Image[] DiscImages = new Image[RicochetPlayer.MaxDiscs];
 
 		public DiscHUD()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
-			Style.Left = Screen.Width / 2 - 246; // ( 64 (image width) + 100 (amount of margin per image) ) * 3 (amount of images) * 50% (half of screen width) = 246
+			AddClass( "dischud" );
+			Canvas = Add.Panel( "canvas" );
 			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
 			{
-				DiscImages[i] = Add.Image( "", "image" );
+				DiscImages[i] = Canvas.Add.Image( "", "image" );
 			}
 		}
 
