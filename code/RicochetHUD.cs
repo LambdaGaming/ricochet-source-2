@@ -23,14 +23,13 @@ namespace Ricochet
 	
 	public class DiscHUD : Panel
 	{
-		public Panel Canvas { get; protected set; }
 		private Image[] DiscImages = new Image[RicochetPlayer.MaxDiscs];
 
 		public DiscHUD()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
 			AddClass( "dischud" );
-			Canvas = Add.Panel( "canvas" );
+			Panel Canvas = Add.Panel( "canvas" );
 			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
 			{
 				DiscImages[i] = Canvas.Add.Image( "", "image" );
@@ -132,7 +131,7 @@ namespace Ricochet
 
 	public class RicochetScoreboard<T> : Panel where T : RicochetScoreboardEntry, new()
 	{
-		public Panel Canvas { get; protected set; }
+		Panel Canvas { get; set; }
 		Dictionary<Client, T> Rows = new();
 
 		public RicochetScoreboard()
