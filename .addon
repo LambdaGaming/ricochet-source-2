@@ -16,6 +16,10 @@
     ],
     "MinPlayers": 1,
     "MaxPlayers": 32,
-    "MapSelect": 3
+    "MapSelect": 3,
+    "PerMapRanking": false,
+    "LeaderboardType": 0,
+    "RankType": 0,
+    "GameNetworkType": 0
   }
 }
