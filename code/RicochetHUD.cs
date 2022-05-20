@@ -115,17 +115,27 @@ namespace Ricochet
 		}
 	}
 
-	public class RicochetKillFeedEntry : KillFeedEntry
+	public class RicochetKillFeedEntry : Panel
 	{
-		public new Label Left { get; internal set; }
-		public new Label Right { get; internal set; }
-		public new Image Method { get; internal set; }
+		public Label Left { get; internal set; }
+		public Label Right { get; internal set; }
+		public Image Method { get; internal set; }
+		public RealTimeSince TimeSinceBorn = 0;
 
 		public RicochetKillFeedEntry()
 		{
 			Left = Add.Label( "", "left" );
 			Method = Add.Image( "", "image" );
 			Right = Add.Label( "", "right" );
+		}
+
+		public override void Tick()
+		{
+			base.Tick();
+			if ( TimeSinceBorn > 6 )
+			{
+				Delete();
+			}
 		}
 	}
 

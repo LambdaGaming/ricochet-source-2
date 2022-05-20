@@ -3,8 +3,8 @@ using Sandbox;
 namespace Ricochet
 {
 	[Library( "trigger_fall" )]
-	[Hammer.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Hammer.Solid]
+	[SandboxEditor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+	[SandboxEditor.Solid]
 	public partial class TriggerFall : BaseTrigger
 	{
 		public override void StartTouch( Entity ent )

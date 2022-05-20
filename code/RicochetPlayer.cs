@@ -80,7 +80,7 @@ namespace Ricochet
 			SimulateActiveChild( cl, ActiveChild );
 			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
-				if ( Input.Pressed( InputButton.Attack1 ) )
+				if ( Input.Pressed( InputButton.PrimaryAttack ) )
 				{
 					if ( NumDiscs > 0 )
 					{
@@ -92,7 +92,7 @@ namespace Ricochet
 						}
 					}
 				}
-				else if ( Input.Pressed( InputButton.Attack2 ) )
+				else if ( Input.Pressed( InputButton.SecondaryAttack ) )
 				{
 					if ( NumDiscs == MaxDiscs )
 					{
