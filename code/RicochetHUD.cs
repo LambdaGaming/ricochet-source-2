@@ -90,6 +90,7 @@ namespace Ricochet
 		public Crosshair()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
+			Add.Image( "/ui/hud/icons/crosshairs.png" );
 		}
 	}
 
