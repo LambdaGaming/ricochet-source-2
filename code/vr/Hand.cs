@@ -2,7 +2,7 @@
 
 namespace Ricochet
 {
-	public partial class Hand : AnimEntity
+	public partial class Hand : AnimatedEntity
 	{
 		protected virtual string ModelPath => "";
 		public bool TriggerPressed => InputHand.Trigger > 0.5f;
