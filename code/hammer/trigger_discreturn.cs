@@ -3,8 +3,8 @@ using Sandbox;
 namespace Ricochet
 {
 	[Library( "trigger_discreturn" )]
-	[Hammer.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Hammer.Solid]
+	[SandboxEditor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+	[SandboxEditor.Solid]
 	public partial class TriggerDiscReturn : BaseTrigger
 	{
 		public override void StartTouch( Entity ent )
@@ -15,8 +15,7 @@ namespace Ricochet
 			{
 				var spr = Particles.Create( "particles/discreturn.vpcf", disc.Position );
 				spr.Destroy();
-				var snd = Sound.FromWorld( "discreturn", disc.Position );
-				snd.SetVolume( 0.25f );
+				Sound.FromWorld( "discreturn", disc.Position );
 				disc.ReturnToThrower();
 			}
 		}

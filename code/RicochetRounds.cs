@@ -44,10 +44,10 @@ namespace Ricochet
 		public RicochetPlayer PlayerOne { get; set; }
 		public RicochetPlayer PlayerTwo { get; set; }
 
-		[ServerVar( "rc_minplayers", Help = "Minimum amount of players required to start an arena match." )]
+		[ConVar.Server( "rc_minplayers", Help = "Minimum amount of players required to start an arena match." )]
 		public static int MinPlayers { get; set; } = 2;
 
-		[ServerVar( "rc_rounds", Help = "Max rounds to play before the map changes." )]
+		[ConVar.Server( "rc_rounds", Help = "Max rounds to play before the map changes." )]
 		public static int MaxRounds { get; set; } = 3;
 
 		private async Task RestartRound()

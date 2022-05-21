@@ -14,5 +14,6 @@
 		Pitch = 1.0
 		PitchRandom = 0.0
 		DistanceMax = 1000.0
+		selectionmode = "3"
 	}
 }

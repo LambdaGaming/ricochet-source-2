@@ -12,5 +12,6 @@
 		[
 			"sounds/triggerjump.vsnd",
 		]
+		selectionmode = "3"
 	}
 }

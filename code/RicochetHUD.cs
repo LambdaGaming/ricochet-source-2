@@ -28,10 +28,11 @@ namespace Ricochet
 		public DiscHUD()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
-			Style.Left = Screen.Width / 2 - 246; // ( 64 (image width) + 100 (amount of margin per image) ) * 3 (amount of images) * 50% (half of screen width) = 246
+			AddClass( "dischud" );
+			Panel Canvas = Add.Panel( "canvas" );
 			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
 			{
-				DiscImages[i] = Add.Image( "", "image" );
+				DiscImages[i] = Canvas.Add.Image( "", "image" );
 			}
 		}
 
@@ -89,6 +90,7 @@ namespace Ricochet
 		public Crosshair()
 		{
 			StyleSheet.Load( "RicochetHUD.scss" );
+			Add.Image( "/ui/hud/icons/crosshairs.png" );
 		}
 	}
 
@@ -114,11 +116,12 @@ namespace Ricochet
 		}
 	}
 
-	public class RicochetKillFeedEntry : KillFeedEntry
+	public class RicochetKillFeedEntry : Panel
 	{
-		public new Label Left { get; internal set; }
-		public new Label Right { get; internal set; }
-		public new Image Method { get; internal set; }
+		public Label Left { get; internal set; }
+		public Label Right { get; internal set; }
+		public Image Method { get; internal set; }
+		public RealTimeSince TimeSinceBorn = 0;
 
 		public RicochetKillFeedEntry()
 		{
@@ -126,11 +129,20 @@ namespace Ricochet
 			Method = Add.Image( "", "image" );
 			Right = Add.Label( "", "right" );
 		}
+
+		public override void Tick()
+		{
+			base.Tick();
+			if ( TimeSinceBorn > 6 )
+			{
+				Delete();
+			}
+		}
 	}
 
 	public class RicochetScoreboard<T> : Panel where T : RicochetScoreboardEntry, new()
 	{
-		public Panel Canvas { get; protected set; }
+		Panel Canvas { get; set; }
 		Dictionary<Client, T> Rows = new();
 
 		public RicochetScoreboard()

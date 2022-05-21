@@ -11,7 +11,7 @@ namespace Ricochet
 		public static int[] TotalTeams { get; set; } = new int[TeamCount];
 		public static BaseRound CurrentRound { get; set; }
 
-		[ServerVar( "rc_roundtype", Help = "Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing." )]
+		[ConVar.Server( "rc_roundtype", Help = "Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing." )]
 		public static RoundType InitialRoundType { get; set; } = RoundType.Deathmatch;
 
 		// TODO: Add option to select initial round type from the game creation menu once Facepunch adds support for that

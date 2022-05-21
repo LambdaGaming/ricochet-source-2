@@ -4,8 +4,8 @@ namespace Ricochet
 {
 	// Old GoldSrc version of trigger_push that somehow works better than the Source 2 version
 	[Library( "trigger_push_old" )]
-	[Hammer.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Hammer.Solid]
+	[SandboxEditor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+	[SandboxEditor.Solid]
 	public partial class TriggerPushOld : BaseTrigger
 	{
 		[Property( Title = "Push once then remove" )]

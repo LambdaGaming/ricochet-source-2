@@ -97,7 +97,7 @@ namespace Ricochet
 			LeftHand?.Simulate( cl );
 			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
-				if ( Input.Pressed( InputButton.Attack1 ) || ( RightHand.IsValid() && RightHand.TriggerPressed ) )
+				if ( Input.Pressed( InputButton.PrimaryAttack ) || ( RightHand.IsValid() && RightHand.TriggerPressed ) )
 				{
 					if ( NumDiscs > 0 )
 					{
@@ -109,7 +109,7 @@ namespace Ricochet
 						}
 					}
 				}
-				else if ( Input.Pressed( InputButton.Attack2 ) || ( LeftHand.IsValid() && LeftHand.TriggerPressed ) )
+				else if ( Input.Pressed( InputButton.SecondaryAttack ) || ( LeftHand.IsValid() && LeftHand.TriggerPressed ) )
 				{
 					if ( NumDiscs == MaxDiscs )
 					{

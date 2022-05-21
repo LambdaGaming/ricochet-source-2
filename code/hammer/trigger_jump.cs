@@ -4,8 +4,8 @@ using System;
 namespace Ricochet
 {
 	[Library( "trigger_jump" )]
-	[Hammer.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Hammer.Solid]
+	[SandboxEditor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+	[SandboxEditor.Solid]
 	public partial class TriggerJump : BaseTrigger
 	{
 		[Property( Title = "Target" )]

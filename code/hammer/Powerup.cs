@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Ricochet
 {
 	[Library( "powerup" )]
-	public partial class PowerupEnt : AnimEntity
+	public partial class PowerupEnt : AnimatedEntity
 	{
 		[Net] public Powerup CurrentPowerup { get; set; } = 0;
 		public bool Hidden { get; set; } = false;

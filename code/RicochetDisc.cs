@@ -44,7 +44,7 @@ namespace Ricochet
 			{
 				if ( IsDecap )
 				{
-					DecapLoop = Sound.FromEntity( "rocket1", this );
+					DecapLoop = PlaySound( "rocket1" );
 				}
 			}
 		}
