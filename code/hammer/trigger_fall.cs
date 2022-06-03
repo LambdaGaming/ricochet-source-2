@@ -46,7 +46,7 @@ namespace Ricochet
 						Weapon = ply.LastAttackerWeapon
 					};
 					ply.TakeDamage( dmg );
-					ply.PlaySound( "scream" );
+					ply.Corpse.PlaySound( "scream" );
 				}
 			}
 		}
