@@ -34,11 +34,7 @@ namespace Ricochet
 			PhysicsBody.DragEnabled = false;
 			CurrentVelocity = Velocity;
 			Tags.Add( "trigger" );
-
-			Glow glow = Components.GetOrCreate<Glow>();
-			glow.Active = true;
-			glow.Color = ( Owner as RicochetPlayer ).TeamColor;
-			glow.RangeMax = 500;
+			RenderColor = ( Owner as RicochetPlayer ).TeamColor;
 
 			using ( Prediction.Off() )
 			{
