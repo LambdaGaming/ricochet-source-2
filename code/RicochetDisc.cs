@@ -38,6 +38,7 @@ namespace Ricochet
 			Glow glow = Components.GetOrCreate<Glow>();
 			glow.Active = true;
 			glow.Color = ( Owner as RicochetPlayer ).TeamColor;
+			glow.RangeMax = 500;
 
 			using ( Prediction.Off() )
 			{
@@ -101,9 +102,12 @@ namespace Ricochet
 						}
 						else
 						{
-							PlaySound( "cbar_hitbod" );
-							Vector3 direction = CurrentVelocity.Normal;
-							ply.Velocity = direction * DiscPushMultiplier;
+							if ( IsServer )
+							{
+								PlaySound( "cbar_hitbod" );
+								Vector3 direction = CurrentVelocity.Normal;
+								ply.Velocity = direction * DiscPushMultiplier;
+							}
 
 							if ( !ply.Frozen )
 							{
@@ -244,7 +248,10 @@ namespace Ricochet
 			{
 				ply.GiveDisc( 1 );
 			}
-			Delete();
+			if ( IsServer )
+			{
+				Delete();
+			}
 		}
 	}
 }
