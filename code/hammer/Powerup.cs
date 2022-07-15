@@ -14,7 +14,7 @@ namespace Ricochet
 		{
 			base.Spawn();
 			SetupPhysicsFromModel( PhysicsMotionType.Static, false );
-			CollisionGroup = CollisionGroup.Trigger;
+			Tags.Add( "trigger" );
 			EnableSolidCollisions = false;
 			EnableTouch = true;
 			SetRandomPowerup();

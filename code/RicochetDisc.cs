@@ -33,12 +33,8 @@ namespace Ricochet
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
 			CurrentVelocity = Velocity;
-			SetInteractsAs( CollisionLayer.Empty );
-			_ = CollisionFix();
-
-			Glow glow = Components.GetOrCreate<Glow>();
-			glow.Active = true;
-			glow.Color = ( Owner as RicochetPlayer ).TeamColor;
+			Tags.Add( "trigger" );
+			RenderColor = ( Owner as RicochetPlayer ).TeamColor;
 
 			using ( Prediction.Off() )
 			{
@@ -47,13 +43,6 @@ namespace Ricochet
 					DecapLoop = PlaySound( "rocket1" );
 				}
 			}
-		}
-
-		private async Task CollisionFix()
-		{
-			await Task.DelaySeconds( 0.1f );
-			if ( !IsValid ) return;
-			SetInteractsAs( CollisionLayer.Solid );
 		}
 
 		public static Disc CreateDisc( Vector3 position, Vector3 firedir, RicochetPlayer owner, bool decap, Powerup flags )
@@ -109,9 +98,12 @@ namespace Ricochet
 						}
 						else
 						{
-							PlaySound( "cbar_hitbod" );
-							Vector3 direction = CurrentVelocity.Normal;
-							ply.Velocity = direction * DiscPushMultiplier;
+							if ( IsServer )
+							{
+								PlaySound( "cbar_hitbod" );
+								Vector3 direction = CurrentVelocity.Normal;
+								ply.Velocity = direction * DiscPushMultiplier;
+							}
 
 							if ( !ply.Frozen )
 							{
@@ -252,7 +244,10 @@ namespace Ricochet
 			{
 				ply.GiveDisc( 1 );
 			}
-			Delete();
+			if ( IsServer )
+			{
+				Delete();
+			}
 		}
 	}
 }
