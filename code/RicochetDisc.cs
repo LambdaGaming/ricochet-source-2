@@ -33,8 +33,7 @@ namespace Ricochet
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
 			CurrentVelocity = Velocity;
-			SetInteractsAs( CollisionLayer.Empty );
-			_ = CollisionFix();
+			Tags.Add( "trigger" );
 
 			Glow glow = Components.GetOrCreate<Glow>();
 			glow.Active = true;
@@ -47,13 +46,6 @@ namespace Ricochet
 					DecapLoop = PlaySound( "rocket1" );
 				}
 			}
-		}
-
-		private async Task CollisionFix()
-		{
-			await Task.DelaySeconds( 0.1f );
-			if ( !IsValid ) return;
-			SetInteractsAs( CollisionLayer.Solid );
 		}
 
 		public static Disc CreateDisc( Vector3 position, Vector3 firedir, RicochetPlayer owner, bool decap, Powerup flags )
