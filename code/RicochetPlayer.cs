@@ -61,6 +61,7 @@ namespace Ricochet
 			LastAttacker = null;
 			LastAttackerWeapon = null;
 			LastAttackWeaponBounces = 0;
+			Tags.Add( "player" );
 
 			if ( IsSpectator )
 			{
@@ -353,10 +354,9 @@ namespace Ricochet
 		{
 			base.Spawn();
 			SetModel( "models/citizen/citizen.vmdl" );
-
-			// Player corpse collision code from https://github.com/TTTReborn/tttreborn/blob/master/code/player/PlayerCorpse.cs#L22-L27
 			MoveType = MoveType.Physics;
 			UsePhysicsCollision = true;
+			Tags.Add( "ragdoll", "solid", "debris" );
 		}
 		
 		public void SetHead()
