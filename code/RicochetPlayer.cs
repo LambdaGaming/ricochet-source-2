@@ -354,8 +354,7 @@ namespace Ricochet
 		{
 			base.Spawn();
 			SetModel( "models/citizen/citizen.vmdl" );
-			MoveType = MoveType.Physics;
-			UsePhysicsCollision = true;
+			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 			Tags.Add( "ragdoll", "solid", "debris" );
 		}
 		
