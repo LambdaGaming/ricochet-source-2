@@ -30,7 +30,7 @@ namespace Ricochet
 			SetZ = Position.z;
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
-			//Tags.Add( "trigger" );
+			Tags.Add( "trigger" );
 			RenderColor = ( Owner as RicochetPlayer ).TeamColor;
 
 			using ( Prediction.Off() )
