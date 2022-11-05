@@ -1,5 +1,4 @@
 ﻿using Sandbox;
-using Sandbox.Component;
 using System.Threading.Tasks;
 
 namespace Ricochet
@@ -17,7 +16,6 @@ namespace Ricochet
 		private bool IsSecondary { get; set; } = false;
 		private Sound DecapLoop { get; set; }
 		private float SetZ { get; set; }
-		private Vector3 CurrentVelocity { get; set; }
 		private Vector3 FireDir { get; set; }
 		public static readonly int DiscPushMultiplier = 1000;
 
@@ -27,12 +25,11 @@ namespace Ricochet
 			base.Spawn();
 			SetModel( IsDecap ? "models/disc_hard/disc_hard.vmdl" : "models/disc/disc.vmdl" );
 			DiscVelocity = HasPowerup( Powerup.Fast ) ? 1500 : 1000;
-			SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 			Velocity = ( FireDir * DiscVelocity ).WithZ( 0 );
 			SetZ = Position.z;
 			PhysicsBody.GravityEnabled = false;
 			PhysicsBody.DragEnabled = false;
-			CurrentVelocity = Velocity;
 			Tags.Add( "trigger" );
 			RenderColor = ( Owner as RicochetPlayer ).TeamColor;
 
@@ -101,7 +98,7 @@ namespace Ricochet
 							if ( IsServer )
 							{
 								PlaySound( "cbar_hitbod" );
-								Vector3 direction = CurrentVelocity.Normal;
+								Vector3 direction = Velocity.Normal;
 								ply.Velocity = direction * DiscPushMultiplier;
 							}
 
@@ -137,7 +134,7 @@ namespace Ricochet
 				var particle = Particles.Create( "particles/disc_spark.vpcf", Position );
 				particle.Destroy();
 				PlaySound( "xbow_hit" );
-				CurrentVelocity = Velocity;
+				Velocity = Vector3.Reflect( Velocity, Position.Normal );
 			}
 		}
 
