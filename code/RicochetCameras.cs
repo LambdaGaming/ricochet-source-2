@@ -19,7 +19,7 @@ namespace Ricochet
 			if ( player == null ) return;
 			FocusPoint = GetSpectatePoint();
 			Position = FocusPoint + GetViewOffset();
-			Rotation = Input.Rotation;
+			Rotation = ( player.Pawn as RicochetPlayer ).ViewAngles.ToRotation();
 			FieldOfView = 50;
 			Viewer = null;
 		}
@@ -37,7 +37,7 @@ namespace Ricochet
 		{
 			var player = Local.Client;
 			if ( player == null ) return Vector3.Zero;
-			return Input.Rotation.Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
+			return ( player.Pawn as RicochetPlayer ).ViewAngles.ToRotation().Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
 		}
 	}
 
@@ -58,7 +58,7 @@ namespace Ricochet
 			if ( player == null ) return;
 			FocusPoint = GetSpectatePoint();
 			Position = FocusPoint + GetViewOffset();
-			Rotation = Input.Rotation;
+			Rotation = ( player.Pawn as RicochetPlayer ).ViewAngles.ToRotation();
 			FieldOfView = 70;
 			Viewer = null;
 		}
@@ -85,7 +85,7 @@ namespace Ricochet
 		{
 			var player = Local.Client;
 			if ( player == null ) return Vector3.Zero;
-			return Input.Rotation.Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
+			return ( player.Pawn as RicochetPlayer ).ViewAngles.ToRotation().Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
 		}
 	}
 }
