@@ -87,6 +87,10 @@
       "VelocityIterations": 8,
       "SoftBodyIterations": 1,
       "SoftBodySubsteps": 1
-    }
+    },
+    "DefaultLeaderboards": null,
+    "Summary": "Ricochet in S\u0026Box.",
+    "Description": "Ricochet ported to S\u0026Box. There\u0027s a few bugs but the game is fully playable for the most part.\r\n\r\nSource code and more info on GitHub:\r\nhttps://github.com/LambdaGaming/ricochet-source-2",
+    "Public": true
   }
 }
