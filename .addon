@@ -3,10 +3,11 @@
   "Type": "game",
   "Org": "lambdagaming",
   "Ident": "ricochet",
+  "Tags": "",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": null,
+  "ResourcePaths": [],
   "HasCode": true,
   "CodePath": "code",
   "RootNamespace": "Ricochet",
@@ -67,6 +68,29 @@
           "r": "Collide"
         }
       ]
-    }
+    },
+    "ControlModes": {
+      "Keyboard": true,
+      "Gamepad": true
+    },
+    "GeneralExtensions": true,
+    "TargettedExtensions": true,
+    "ExtensionApiVersion": 1001,
+    "Physics": {
+      "SubSteps": 1,
+      "TimeScale": 1,
+      "Gravity": "0,0,-800",
+      "AirDensity": 1.2,
+      "SleepingEnabled": true,
+      "SimulationMode": "Continuous",
+      "PositionIterations": 2,
+      "VelocityIterations": 8,
+      "SoftBodyIterations": 1,
+      "SoftBodySubsteps": 1
+    },
+    "DefaultLeaderboards": null,
+    "Summary": "Ricochet in S\u0026Box.",
+    "Description": "Ricochet ported to S\u0026Box. There\u0027s a few bugs but the game is fully playable for the most part.\r\n\r\nSource code and more info on GitHub:\r\nhttps://github.com/LambdaGaming/ricochet-source-2",
+    "Public": true
   }
 }

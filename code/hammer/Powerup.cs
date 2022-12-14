@@ -23,7 +23,7 @@ namespace Ricochet
 		public override void StartTouch( Entity ent )
 		{
 			var ply = ent as RicochetPlayer;
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				base.StartTouch( ent );
 				if ( !Hidden )

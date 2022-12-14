@@ -17,7 +17,7 @@ namespace Ricochet
 		Fall
 	}
 
-	public partial class RicochetPlayer : Player
+	public partial class RicochetPlayer : Player // TODO: Stop relying on Player class from base game since it's obsolete
 	{
 		[Net] public int NumDiscs { get; set; }
 		[Net] public int PowerupDiscs { get; set; }
@@ -29,6 +29,7 @@ namespace Ricochet
 		[Net] public bool IsSpectator { get; set; } = false;
 		[Net, Local] public RightHand RightHand { get; set; }
 		[Net, Local] public LeftHand LeftHand { get; set; }
+		[Net, Predicted] public bool DeathCamera { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
@@ -46,15 +47,11 @@ namespace Ricochet
 			if ( Client.IsUsingVr )
 			{
 				Controller = new VRWalkController();
-				Animator = new VRPlayerAnimator();
-				CameraMode = new VRCamera();
 				CreateVRHands();
 			}
 			else
 			{
 				Controller = new RicochetWalkController();
-				Animator = new StandardPlayerAnimator();
-				CameraMode = new FirstPersonCamera();
 			}
 			
 			EnableAllCollisions = true;
@@ -75,6 +72,7 @@ namespace Ricochet
 			LastAttacker = null;
 			LastAttackerWeapon = null;
 			LastAttackWeaponBounces = 0;
+			DeathCamera = false;
 			Tags.Add( "player" );
 
 			if ( IsSpectator )
@@ -89,14 +87,21 @@ namespace Ricochet
 			Event.Run( "PlayerRespawn" );
 		}
 		
-		public override void Simulate( Client cl )
+		public override void Simulate( IClient cl )
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
 			SetVrAnimProperties();
 			RightHand?.Simulate( cl );
 			LeftHand?.Simulate( cl );
-			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
+
+			PawnController controller = GetActiveController();
+			if ( controller != null )
+			{
+				SimulateAnimation( controller );
+			}
+
+			if ( Game.IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
 				if ( Input.Pressed( InputButton.PrimaryAttack ) || ( RightHand.IsValid() && RightHand.TriggerPressed ) )
 				{
@@ -176,7 +181,7 @@ namespace Ricochet
 
 			if ( !Client.IsUsingVr )
 			{
-				CameraMode = new RicochetDeathCam();
+				DeathCamera = true;
 			}
 			
 			if ( Ricochet.CurrentRound is ArenaRound )
@@ -365,7 +370,7 @@ namespace Ricochet
 		public void SetSpectator()
 		{
 			IsSpectator = true;
-			CameraMode = new RicochetSpectateCam();
+			DeathCamera = true;
 			Controller = null;
 			EnableAllCollisions = false;
 			EnableDrawing = false;
@@ -375,16 +380,9 @@ namespace Ricochet
 		{
 			IsSpectator = false;
 			Controller = new RicochetWalkController();
-			CameraMode = new FirstPersonCamera();
+			DeathCamera = false;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
-		}
-
-		public override void FrameSimulate( Client cl )
-		{
-			base.FrameSimulate( cl );
-			RightHand?.FrameSimulate( cl );
-			LeftHand?.FrameSimulate( cl );
 		}
 
 		public void SetVrAnimProperties()
@@ -411,6 +409,88 @@ namespace Ricochet
 			LeftHand?.Delete();
 			RightHand = new() { Owner = this };
 			LeftHand = new() { Owner = this };
+		}
+		
+		public override void FrameSimulate( IClient cl )
+		{
+			Camera.Rotation = ViewAngles.ToRotation();
+			RightHand?.FrameSimulate( cl );
+			LeftHand?.FrameSimulate( cl );
+
+			if ( DeathCamera )
+			{
+				Camera.FieldOfView = 90;
+				Camera.FirstPersonViewer = null;
+
+				Vector3? targetpos = null;
+				if ( IsSpectator )
+				{
+					foreach ( IClient client in Game.Clients )
+					{
+						var ply = cl.Pawn as RicochetPlayer;
+						if ( ply.Alive() && !ply.IsSpectator )
+						{
+							targetpos = ply.Position; // Pick first player thats still alive
+							break;
+						}
+					}
+				}
+				else
+				{
+					if ( Corpse.IsValid() )
+					{
+						Position = Corpse.Position;
+					}
+				}
+				targetpos ??= Position;
+				Camera.Position = ( Vector3 ) ( targetpos + ViewAngles.ToRotation().Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 ) );
+			}
+			else
+			{
+				Camera.Position = EyePosition;
+				Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
+				Camera.FirstPersonViewer = this;
+				Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+			}
+		}
+
+		void SimulateAnimation( PawnController controller )
+		{
+			if ( controller == null ) return;
+
+			// where should we be rotated to
+			var turnSpeed = 0.02f;
+
+			Rotation rotation;
+
+			// If we're a bot, spin us around 180 degrees.
+			if ( Client.IsBot )
+				rotation = ViewAngles.WithYaw( ViewAngles.yaw + 180f ).ToRotation();
+			else
+				rotation = ViewAngles.ToRotation();
+
+			var idealRotation = Rotation.LookAt( rotation.Forward.WithZ( 0 ), Vector3.Up );
+			Rotation = Rotation.Slerp( Rotation, idealRotation, controller.WishVelocity.Length * Time.Delta * turnSpeed );
+			Rotation = Rotation.Clamp( idealRotation, 45.0f, out var shuffle ); // lock facing to within 45 degrees of look direction
+
+			CitizenAnimationHelper animHelper = new CitizenAnimationHelper( this );
+			animHelper.WithWishVelocity( controller.WishVelocity );
+			animHelper.WithVelocity( controller.Velocity );
+			animHelper.WithLookAt( EyePosition + EyeRotation.Forward * 100.0f, 1.0f, 1.0f, 0.5f );
+			animHelper.AimAngle = rotation;
+			animHelper.FootShuffle = shuffle;
+			animHelper.VoiceLevel = (Game.IsClient && Client.IsValid()) ? Client.Voice.LastHeard < 0.5f ? Client.Voice.CurrentLevel : 0.0f : 0.0f;
+			animHelper.IsGrounded = GroundEntity != null;
+
+			if ( ActiveChild is BaseCarriable carry )
+			{
+				carry.SimulateAnimator( animHelper );
+			}
+			else
+			{
+				animHelper.HoldType = CitizenAnimationHelper.HoldTypes.None;
+				animHelper.AimBodyWeight = 0.5f;
+			}
 		}
 	}
 

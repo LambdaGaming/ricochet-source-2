@@ -95,7 +95,7 @@ namespace Ricochet
 						}
 						else
 						{
-							if ( IsServer )
+							if ( Game.IsServer )
 							{
 								PlaySound( "cbar_hitbod" );
 								Vector3 direction = Velocity.Normal;
@@ -241,7 +241,7 @@ namespace Ricochet
 			{
 				ply.GiveDisc( 1 );
 			}
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				Delete();
 			}
