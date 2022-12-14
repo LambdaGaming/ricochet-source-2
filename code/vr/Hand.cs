@@ -14,15 +14,16 @@ namespace Ricochet
 			Position = InputHand.Transform.Position;
 			Rotation = InputHand.Transform.Rotation;
 			Transmit = TransmitType.Always;
+			Tags.Add( "hand" );
 		}
 
-		public override void FrameSimulate( Client cl )
+		public override void FrameSimulate( IClient cl )
 		{
 			base.FrameSimulate( cl );
 			Transform = InputHand.Transform;
 		}
 
-		public override void Simulate( Client cl )
+		public override void Simulate( IClient cl )
 		{
 			base.Simulate( cl );
 			Transform = InputHand.Transform;
@@ -33,23 +34,11 @@ namespace Ricochet
 	{
 		protected override string ModelPath => "models/disc/disc.vmdl";
 		public override Input.VrHand InputHand => Input.VR.RightHand;
-
-		public override void Spawn()
-		{
-			base.Spawn();
-			SetInteractsAs( CollisionLayer.RIGHT_HAND );
-		}
 	}
 
 	public partial class LeftHand : Hand
 	{
 		protected override string ModelPath => "models/disc/disc.vmdl";
 		public override Input.VrHand InputHand => Input.VR.LeftHand;
-
-		public override void Spawn()
-		{
-			base.Spawn();
-			SetInteractsAs( CollisionLayer.LEFT_HAND );
-		}
 	}
 }
