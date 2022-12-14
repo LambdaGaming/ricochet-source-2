@@ -17,7 +17,7 @@ namespace Ricochet
 		Fall
 	}
 
-	public partial class RicochetPlayer : Player
+	public partial class RicochetPlayer : Player // TODO: Stop relying on Player class from base game since it's obsolete
 	{
 		[Net] public int NumDiscs { get; set; }
 		[Net] public int PowerupDiscs { get; set; }
@@ -27,6 +27,7 @@ namespace Ricochet
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 		[Net] public DeathReason LastDeathReason { get; set; }
 		[Net] public bool IsSpectator { get; set; } = false;
+		[Net, Predicted] public bool DeathCamera { get; set; }
 		public float DiscCooldown { get; set; }
 		public float OwnerTouchCooldown { get; set; }
 		public float EnemyTouchCooldown { get; set; }
@@ -41,8 +42,6 @@ namespace Ricochet
 			base.Respawn();
 			SetModel( "models/citizen/citizen.vmdl" );
 			Controller = new RicochetWalkController();
-			Animator = new StandardPlayerAnimator();
-			CameraMode = new FirstPersonCamera();
 			EnableAllCollisions = true;
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
@@ -61,6 +60,7 @@ namespace Ricochet
 			LastAttacker = null;
 			LastAttackerWeapon = null;
 			LastAttackWeaponBounces = 0;
+			DeathCamera = false;
 			Tags.Add( "player" );
 
 			if ( IsSpectator )
@@ -75,11 +75,11 @@ namespace Ricochet
 			Event.Run( "PlayerRespawn" );
 		}
 		
-		public override void Simulate( Client cl )
+		public override void Simulate( IClient cl )
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
-			if ( IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
+			if ( Game.IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
 				if ( Input.Pressed( InputButton.PrimaryAttack ) )
 				{
@@ -145,7 +145,7 @@ namespace Ricochet
 			base.OnKilled();
 			EnableAllCollisions = false;
 			EnableDrawing = false;
-			CameraMode = new RicochetDeathCam();
+			DeathCamera = true;
 			if ( Ricochet.CurrentRound is ArenaRound )
 			{
 				Ricochet.CurrentRound.EndRound();
@@ -332,7 +332,7 @@ namespace Ricochet
 		public void SetSpectator()
 		{
 			IsSpectator = true;
-			CameraMode = new RicochetSpectateCam();
+			DeathCamera = true;
 			Controller = null;
 			EnableAllCollisions = false;
 			EnableDrawing = false;
@@ -342,9 +342,50 @@ namespace Ricochet
 		{
 			IsSpectator = false;
 			Controller = new RicochetWalkController();
-			CameraMode = new FirstPersonCamera();
+			DeathCamera = false;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
+		}
+
+		public override void FrameSimulate( IClient cl )
+		{
+			Camera.Rotation = ViewAngles.ToRotation();
+
+			if ( DeathCamera )
+			{
+				Camera.FieldOfView = 90;
+				Camera.FirstPersonViewer = null;
+
+				Vector3 targetpos = Position;
+				if ( IsSpectator )
+				{
+					foreach ( IClient client in Game.Clients )
+					{
+						var ply = cl.Pawn as RicochetPlayer;
+						if ( ply.Alive() && !ply.IsSpectator )
+						{
+							targetpos = ply.Position; // Pick first player thats still alive
+							break;
+						}
+					}
+				}
+				else
+				{
+					if ( Corpse.IsValid() )
+					{
+						Position = Corpse.Position;
+					}
+				}
+
+				Camera.Position = targetpos + ViewAngles.ToRotation().Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
+			}
+			else
+			{
+				Camera.Position = EyePosition;
+				Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
+				Camera.FirstPersonViewer = this;
+				Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+			}
 		}
 	}
 

@@ -10,7 +10,7 @@ namespace Ricochet
 	{
 		public RicochetHUD()
 		{
-			if ( IsClient )
+			if ( Game.IsClient )
 			{
 				RootPanel.AddChild<ChatBox>();
 				RootPanel.AddChild<DiscHUD>();
@@ -39,7 +39,7 @@ namespace Ricochet
 		[Event.Tick.Client]
 		public void UpdateDiscImages()
 		{
-			RicochetPlayer ply = Local.Pawn as RicochetPlayer;
+			RicochetPlayer ply = Game.LocalPawn as RicochetPlayer;
 			for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
 			{
 				if ( ply.NumDiscs < i + 1 )
@@ -108,10 +108,10 @@ namespace Ricochet
 		{
 			var e = Current.AddChild<RicochetKillFeedEntry>();
 			e.Left.Text = left;
-			e.Left.SetClass( "me", lsteamid == Local.Client?.PlayerId );
+			e.Left.SetClass( "me", lsteamid == Game.LocalClient?.SteamId );
 			e.Method.SetTexture( method );
 			e.Right.Text = right;
-			e.Right.SetClass( "me", rsteamid == Local.Client?.PlayerId );
+			e.Right.SetClass( "me", rsteamid == Game.LocalClient?.SteamId );
 			return e;
 		}
 	}
@@ -143,7 +143,7 @@ namespace Ricochet
 	public class RicochetScoreboard<T> : Panel where T : RicochetScoreboardEntry, new()
 	{
 		Panel Canvas { get; set; }
-		Dictionary<Client, T> Rows = new();
+		Dictionary<IClient, T> Rows = new();
 
 		public RicochetScoreboard()
 		{
@@ -166,13 +166,13 @@ namespace Ricochet
 			if ( !IsVisible )
 				return;
 
-			foreach ( var client in Client.All.Except( Rows.Keys ) )
+			foreach ( var client in Game.Clients.Except( Rows.Keys ) )
 			{
 				var entry = AddClient( client );
 				Rows[client] = entry;
 			}
 
-			foreach ( var client in Rows.Keys.Except( Client.All ) )
+			foreach ( var client in Rows.Keys.Except( Game.Clients ) )
 			{
 				if ( Rows.TryGetValue( client, out var row ) )
 				{
@@ -182,7 +182,7 @@ namespace Ricochet
 			}
 		}
 
-		protected T AddClient( Client entry )
+		protected T AddClient( IClient entry )
 		{
 			var p = Canvas.AddChild<T>();
 			p.Client = entry;
@@ -192,7 +192,7 @@ namespace Ricochet
 
 	public class RicochetScoreboardEntry : Panel
 	{
-		public Client Client;
+		public IClient Client;
 		public Label PlayerName;
 		public Label Kills;
 		public Label Voice;
@@ -230,17 +230,17 @@ namespace Ricochet
 		{
 			PlayerName.Text = Client.Name;
 			Kills.Text = Client.GetInt( "kills" ).ToString();
-			Voice.Text = Client.VoiceLevel.ToString();
+			Voice.Text = Client.Voice.CurrentLevel.ToString();
 			Ping.Text = Client.Ping.ToString();
-			SetClass( "me", Client == Local.Client );
+			SetClass( "me", Client == Game.LocalClient );
 
 			Color color = ( Client.Pawn as RicochetPlayer ).TeamColor;
-			if ( Client != Local.Client )
+			if ( Client != Game.LocalClient )
 			{
 				PlayerName.Style.FontColor = color;
 				Kills.Style.FontColor = color;
 				Ping.Style.FontColor = color;
-				if ( Client.VoiceLevel > 0 )
+				if ( Client.Voice.CurrentLevel > 0 )
 				{
 					Voice.Style.FontColor = color;
 				}

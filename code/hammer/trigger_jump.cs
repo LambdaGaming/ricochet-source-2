@@ -4,8 +4,8 @@ using System;
 namespace Ricochet
 {
 	[Library( "trigger_jump" )]
-	[SandboxEditor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[SandboxEditor.Solid]
+	[Editor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+	[Editor.Solid]
 	public partial class TriggerJump : BaseTrigger
 	{
 		[Property( Title = "Target" )]
@@ -19,7 +19,7 @@ namespace Ricochet
 		{
 			base.StartTouch( ent );
 
-			if ( IsClient ) return;
+			if ( Game.IsClient ) return;
 
 			var ply = ent as RicochetPlayer;
 			Entity target = FindByName( Target );

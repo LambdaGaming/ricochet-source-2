@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Ricochet
 {
-	public partial class Ricochet : Game
+	public partial class Ricochet : GameManager
 	{
 		public static int TeamCount { get; set; } = 2;
 		public static int[] TotalTeams { get; set; } = new int[TeamCount];
@@ -52,7 +52,7 @@ namespace Ricochet
 
 		public Ricochet()
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				new RicochetHUD();
 			}
@@ -77,18 +77,18 @@ namespace Ricochet
 			}
 		}
 
-		private void CheckRoundState( Client cl )
+		private void CheckRoundState( IClient cl )
 		{
 			if ( CurrentRound is ArenaRound )
 			{
 				if ( CurrentRound.CurrentState == RoundState.Waiting )
 				{
-					if ( Client.All.Count >= ArenaRound.MinPlayers )
+					if ( Game.Clients.Count >= ArenaRound.MinPlayers )
 					{
 						CurrentRound.StartRound();
 						return;
 					}
-					ChatBox.AddInformation( To.Everyone, $"Waiting for {ArenaRound.MinPlayers - Client.All.Count} more players..." );
+					ChatBox.AddInformation( To.Everyone, $"Waiting for {ArenaRound.MinPlayers - Game.Clients.Count} more players..." );
 				}
 				else
 				{
@@ -101,7 +101,7 @@ namespace Ricochet
 		public static List<RicochetPlayer> GetPlayers( bool spectatorsonly = false )
 		{
 			List<RicochetPlayer> players = new();
-			foreach ( Client cl in Client.All )
+			foreach ( IClient cl in Game.Clients )
 			{
 				var ply = cl.Pawn as RicochetPlayer;
 				if ( ply.IsValid() )
@@ -146,7 +146,7 @@ namespace Ricochet
 			base.MoveToSpawnpoint( pawn );
 		}
 
-		public override void ClientJoined( Client client )
+		public override void ClientJoined( IClient client )
 		{
 			base.ClientJoined( client );
 			var player = new RicochetPlayer();
@@ -155,31 +155,31 @@ namespace Ricochet
 			CheckRoundState( client );
 		}
 
-		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
+		public override void ClientDisconnect( IClient client, NetworkDisconnectionReason reason )
 		{
 			var ply = client.Pawn as RicochetPlayer;
 			TotalTeams[ply.Team]--;
 			base.ClientDisconnect( client, reason );
 		}
 
-		public override void OnKilled( Client client, Entity pawn )
+		public override void OnKilled( IClient client, Entity pawn )
 		{
-			Host.AssertServer();
+			Game.AssertServer();
 			Log.Info( $"{client.Name} was killed by {( pawn as RicochetPlayer ).LastDeathReason}." );
 			if ( pawn.LastAttacker != null )
 			{
 				if ( pawn.LastAttacker.Client != null )
 				{
-					OnKilledMessage( pawn.LastAttacker.Client.PlayerId, pawn.LastAttacker.Client.Name, client.PlayerId, client.Name, GetDeathImage( pawn ) );
+					OnKilledMessage( pawn.LastAttacker.Client.SteamId, pawn.LastAttacker.Client.Name, client.SteamId, client.Name, GetDeathImage( pawn ) );
 				}
 				else
 				{
-					OnKilledMessage( pawn.LastAttacker.NetworkIdent, pawn.LastAttacker.ToString(), client.PlayerId, client.Name, GetDeathImage( pawn ) );
+					OnKilledMessage( pawn.LastAttacker.NetworkIdent, pawn.LastAttacker.ToString(), client.SteamId, client.Name, GetDeathImage( pawn ) );
 				}
 			}
 			else
 			{
-				OnKilledMessage( 0, "", client.PlayerId, client.Name, GetDeathImage( pawn ) );
+				OnKilledMessage( 0, "", client.SteamId, client.Name, GetDeathImage( pawn ) );
 			}
 		}
 

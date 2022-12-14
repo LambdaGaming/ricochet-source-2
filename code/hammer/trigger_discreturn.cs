@@ -3,8 +3,8 @@ using Sandbox;
 namespace Ricochet
 {
 	[Library( "trigger_discreturn" )]
-	[SandboxEditor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[SandboxEditor.Solid]
+	[Editor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+	[Editor.Solid]
 	public partial class TriggerDiscReturn : BaseTrigger
 	{
 		public override void StartTouch( Entity ent )

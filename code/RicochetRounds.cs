@@ -59,20 +59,20 @@ namespace Ricochet
 		public override void StartRound()
 		{
 			Random rand = new();
-			List<Client> plylist = new( Client.All );
-			Client plyone = plylist[rand.Next( plylist.Count )];
+			List<IClient> plylist = new( Game.Clients );
+			IClient plyone = plylist[rand.Next( plylist.Count )];
 			PlayerOne = plyone.Pawn as RicochetPlayer;
 			PlayerOne.Team = 0;
 			PlayerOne.Respawn();
 			plylist.Remove( plyone ); // Remove the first selected player so they can't be chosen for player 2
 
-			Client plytwo = plylist[rand.Next( plylist.Count )];
+			IClient plytwo = plylist[rand.Next( plylist.Count )];
 			PlayerTwo = plytwo.Pawn as RicochetPlayer;
 			PlayerTwo.Team = 1;
 			PlayerTwo.Respawn();
 			plylist.Remove( plytwo );
 
-			foreach ( Client cl in plylist )
+			foreach ( IClient cl in plylist )
 			{
 				( cl.Pawn as RicochetPlayer ).SetSpectator();
 			}
