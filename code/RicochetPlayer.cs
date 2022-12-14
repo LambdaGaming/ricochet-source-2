@@ -79,6 +79,13 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
+
+			PawnController controller = GetActiveController();
+			if ( controller != null )
+			{
+				SimulateAnimation( controller );
+			}
+
 			if ( Game.IsServer && DiscCooldown < Time.Now && Alive() && !IsSpectator && Ricochet.CurrentRound.CurrentState == RoundState.Active )
 			{
 				if ( Input.Pressed( InputButton.PrimaryAttack ) )
@@ -356,7 +363,7 @@ namespace Ricochet
 				Camera.FieldOfView = 90;
 				Camera.FirstPersonViewer = null;
 
-				Vector3 targetpos = Position;
+				Vector3? targetpos = null;
 				if ( IsSpectator )
 				{
 					foreach ( IClient client in Game.Clients )
@@ -376,8 +383,8 @@ namespace Ricochet
 						Position = Corpse.Position;
 					}
 				}
-
-				Camera.Position = targetpos + ViewAngles.ToRotation().Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 );
+				targetpos ??= Position;
+				Camera.Position = ( Vector3 ) ( targetpos + ViewAngles.ToRotation().Forward * ( -130 * 1 ) + Vector3.Up * ( 20 * 1 ) );
 			}
 			else
 			{
@@ -385,6 +392,45 @@ namespace Ricochet
 				Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 				Camera.FirstPersonViewer = this;
 				Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+			}
+		}
+
+		void SimulateAnimation( PawnController controller )
+		{
+			if ( controller == null ) return;
+
+			// where should we be rotated to
+			var turnSpeed = 0.02f;
+
+			Rotation rotation;
+
+			// If we're a bot, spin us around 180 degrees.
+			if ( Client.IsBot )
+				rotation = ViewAngles.WithYaw( ViewAngles.yaw + 180f ).ToRotation();
+			else
+				rotation = ViewAngles.ToRotation();
+
+			var idealRotation = Rotation.LookAt( rotation.Forward.WithZ( 0 ), Vector3.Up );
+			Rotation = Rotation.Slerp( Rotation, idealRotation, controller.WishVelocity.Length * Time.Delta * turnSpeed );
+			Rotation = Rotation.Clamp( idealRotation, 45.0f, out var shuffle ); // lock facing to within 45 degrees of look direction
+
+			CitizenAnimationHelper animHelper = new CitizenAnimationHelper( this );
+			animHelper.WithWishVelocity( controller.WishVelocity );
+			animHelper.WithVelocity( controller.Velocity );
+			animHelper.WithLookAt( EyePosition + EyeRotation.Forward * 100.0f, 1.0f, 1.0f, 0.5f );
+			animHelper.AimAngle = rotation;
+			animHelper.FootShuffle = shuffle;
+			animHelper.VoiceLevel = (Game.IsClient && Client.IsValid()) ? Client.Voice.LastHeard < 0.5f ? Client.Voice.CurrentLevel : 0.0f : 0.0f;
+			animHelper.IsGrounded = GroundEntity != null;
+
+			if ( ActiveChild is BaseCarriable carry )
+			{
+				carry.SimulateAnimator( animHelper );
+			}
+			else
+			{
+				animHelper.HoldType = CitizenAnimationHelper.HoldTypes.None;
+				animHelper.AimBodyWeight = 0.5f;
 			}
 		}
 	}
