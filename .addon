@@ -7,10 +7,11 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": [],
+  "ResourcePaths": [
+    "/ui/*"
+  ],
   "HasCode": true,
   "CodePath": "code",
-  "RootNamespace": "Ricochet",
   "Metadata": {
     "MapList": [
       "lambdagaming.rc_deathmatch"
