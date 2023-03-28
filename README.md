@@ -15,8 +15,11 @@
  If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html)
 
 # Tools & Resources Used
-- [Blender](https://www.blender.org/)
-- [SourceIO](https://github.com/REDxEYE/SourceIO)
-- [GIMP](https://www.gimp.org/)
-- [bigjpg.com](https://bigjpg.com/)
-- [Ricochet source code](https://github.com/ValveSoftware/halflife/tree/master/ricochet)
+## Code
+Code was edited with Visual Studio 2022. I used the [Ricochet source code] as a reference for many things such as the entities and certain parts of the HUD. (https://github.com/ValveSoftware/halflife/tree/master/ricochet)
+
+## Maps & Models
+Models were ported using [Blender](https://www.blender.org/) and [SourceIO](https://github.com/REDxEYE/SourceIO). The best way of porting the maps that I could find was to use [Godot 3](https://godotengine.org/download/3.x/windows/) with a plugin called [GodotGoldSrcBSP](https://github.com/DataPlusProgram/GodotGoldSrcBSP). I imported the original maps into Godot using that plugin and then exported the scene as glTF. From there, I imported the glTF file into Blender, removed some unnecessary objects, and exported it as FBX at 20% scale. I then imported the FBX into hammer and manually added textures and entities.
+
+## Textures
+Textures were extracted with [GCFScape](https://valvedev.info/tools/gcfscape/) and converted into their proper format with [GIMP.](https://www.gimp.org/) Certain textures were also AI upscaled using [bigjpg.com.](https://bigjpg.com/)
