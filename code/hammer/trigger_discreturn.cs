@@ -1,10 +1,9 @@
+using Editor;
 using Sandbox;
 
 namespace Ricochet
 {
-	[Library( "trigger_discreturn" )]
-	[Editor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Editor.Solid]
+	[Library( "trigger_discreturn" ), HammerEntity, Solid, AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
 	public partial class TriggerDiscReturn : BaseTrigger
 	{
 		public override void StartTouch( Entity ent )

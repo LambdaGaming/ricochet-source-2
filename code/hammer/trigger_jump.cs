@@ -1,11 +1,10 @@
+using Editor;
 using Sandbox;
 using System;
 
 namespace Ricochet
 {
-	[Library( "trigger_jump" )]
-	[Editor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Editor.Solid]
+	[Library( "trigger_jump" ), HammerEntity, Solid, AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
 	public partial class TriggerJump : BaseTrigger
 	{
 		[Property( Title = "Target" )]

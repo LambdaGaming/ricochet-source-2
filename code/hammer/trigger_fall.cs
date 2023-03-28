@@ -1,10 +1,9 @@
+using Editor;
 using Sandbox;
 
 namespace Ricochet
 {
-	[Library( "trigger_fall" )]
-	[Editor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Editor.Solid]
+	[Library( "trigger_fall" ), HammerEntity, Solid, AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
 	public partial class TriggerFall : BaseTrigger
 	{
 		public override void StartTouch( Entity ent )
