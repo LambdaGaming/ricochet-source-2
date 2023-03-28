@@ -16,7 +16,7 @@
 
 # Tools & Resources Used
 ## Code
-Code was edited with Visual Studio 2022. I used the [Ricochet source code] as a reference for many things such as the entities and certain parts of the HUD. (https://github.com/ValveSoftware/halflife/tree/master/ricochet)
+Code was edited with Visual Studio 2022. I used the [Ricochet source code](https://github.com/ValveSoftware/halflife/tree/master/ricochet) as a reference for many things such as the entities and certain parts of the HUD. 
 
 ## Maps & Models
 Models were ported using [Blender](https://www.blender.org/) and [SourceIO](https://github.com/REDxEYE/SourceIO). The best way of porting the maps that I could find was to use [Godot 3](https://godotengine.org/download/3.x/windows/) with a plugin called [GodotGoldSrcBSP](https://github.com/DataPlusProgram/GodotGoldSrcBSP). I imported the original maps into Godot using that plugin and then exported the scene as glTF. From there, I imported the glTF file into Blender, removed some unnecessary objects, and exported it as FBX at 20% scale. I then imported the FBX into hammer and manually added textures and entities.
