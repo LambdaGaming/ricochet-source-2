@@ -1,5 +1,5 @@
 # Ricochet: Source 2
- Ricochet in s&box. The main game is complete and work has now started on making small improvements and fixing bugs. I started this project mainly to experiment with s&box, so major changes that greatly differ from the original game are not planned. Credit goes to Valve for the original game and its resources.
+ Ricochet in s&box. The main game is complete and work has now started on making small improvements and fixing bugs. Credit goes to Valve for the original game and its resources.
 
 # Round Types
 - Deathmatch - Normal deathmatch, each player is assigned a separate team. Round starts as soon as the first player joins.
@@ -12,7 +12,7 @@
 - rc_rounds - Max rounds to play before the map changes. (Currently doesn't do anything since there's only one map right now.)
 
 # Issues & Pull Requests
- If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html)
+If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html) Please keep in mind that this is intended to be a port of the original game with minor improvements, and not a sequel with major changes. I will not accept suggestions or PRs that go against this. The experimental VR mode is the only exception to this.
 
 # Tools & Resources Used
 ## Code
