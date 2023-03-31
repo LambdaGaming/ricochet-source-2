@@ -12,13 +12,14 @@
   ],
   "HasCode": true,
   "CodePath": "code",
+  "PackageReferences": [],
   "Metadata": {
     "MapList": [
       "lambdagaming.rc_deathmatch"
     ],
     "MinPlayers": 1,
     "MaxPlayers": 32,
-    "MapSelect": "Official",
+    "MapSelect": "Tagged",
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "RankType": "None",
@@ -67,6 +68,10 @@
           "a": "solid",
           "b": "debris",
           "r": "Collide"
+        },
+        {
+          "a": "player",
+          "b": "player"
         }
       ]
     },
@@ -92,6 +97,7 @@
     "DefaultLeaderboards": null,
     "Summary": "Ricochet in S\u0026Box.",
     "Description": "Ricochet ported to S\u0026Box. There\u0027s a few bugs but the game is fully playable for the most part.\r\n\r\nSource code and more info on GitHub:\r\nhttps://github.com/LambdaGaming/ricochet-source-2",
-    "Public": true
+    "Public": true,
+    "CsProjName": ""
   }
 }

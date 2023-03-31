@@ -1,10 +1,11 @@
-﻿using Sandbox;
+﻿using Editor;
+using Sandbox;
 using System;
 using System.Threading.Tasks;
 
 namespace Ricochet
 {
-	[Library( "powerup" )]
+	[Library( "powerup" ), HammerEntity]
 	public partial class PowerupEnt : AnimatedEntity
 	{
 		[Net] public Powerup CurrentPowerup { get; set; } = 0;

@@ -1,11 +1,10 @@
+using Editor;
 using Sandbox;
 using System;
 
 namespace Ricochet
 {
-	[Library( "trigger_jump" )]
-	[Editor.AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	[Editor.Solid]
+	[Library( "trigger_jump" ), HammerEntity, Solid, AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
 	public partial class TriggerJump : BaseTrigger
 	{
 		[Property( Title = "Target" )]
@@ -39,7 +38,7 @@ namespace Ricochet
 
 				Vector3 velocity = ( target.Position - ply.Position ) * ( time1 + time2 );
 				velocity.z = gravity * time1;
-				velocity.x *= 0.80f; // Scale back the velocity until the map gets reimported to the correct scale
+				velocity.x *= 0.80f; // Scale back the velocity to adjust for GoldSrc -> Source 2 scaling
 				velocity.y *= 0.80f;
 
 				ply.ApplyForce( velocity );
