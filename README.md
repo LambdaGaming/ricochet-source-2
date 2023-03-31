@@ -14,7 +14,7 @@
 # Official Maps
 - [rc_arena](https://github.com/LambdaGaming/rc_arena)
 - [rc_deathmatch](https://github.com/LambdaGaming/rc_deathmatch)
-- rc_deathmatch2 (WIP)
+- [rc_deathmatch2](https://github.com/LambdaGaming/rc_deathmatch2)
 
 # Issues & Pull Requests
 If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html) Please keep in mind that this is intended to be a port of the original game with minor improvements, and not a sequel with major changes. I will not accept suggestions or PRs that go against this. The experimental VR mode is the only exception to this.
