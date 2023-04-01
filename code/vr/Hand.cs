@@ -34,11 +34,13 @@ namespace Ricochet
 	{
 		protected override string ModelPath => "models/disc/disc.vmdl";
 		public override Input.VrHand InputHand => Input.VR.RightHand;
+		public override float Scale => 0.25f;
 	}
 
 	public partial class LeftHand : Hand
 	{
-		protected override string ModelPath => "models/disc/disc.vmdl";
+		protected override string ModelPath => "models/disc_hard/disc_hard.vmdl";
 		public override Input.VrHand InputHand => Input.VR.LeftHand;
+		public override float Scale => 0.25f;
 	}
 }
