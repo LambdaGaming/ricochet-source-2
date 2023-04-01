@@ -140,8 +140,16 @@ namespace Ricochet
 			Vector3 vecdir;
 			if ( Client.IsUsingVr )
 			{
-				vecsrc = RightHand.Position + ( ( RightHand.Rotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 1 ) );
-				vecdir = RightHand.Rotation.Forward;
+				if ( decap )
+				{
+					vecsrc = LeftHand.Position + ( ( LeftHand.Rotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 1 ) );
+					vecdir = LeftHand.Rotation.Forward;
+				}
+				else
+				{
+					vecsrc = RightHand.Position + ( ( RightHand.Rotation.Forward.WithZ( 0 ) * 25 ) + ( Rotation.Up * 1 ) );
+					vecdir = RightHand.Rotation.Forward;
+				}
 			}
 			else
 			{
@@ -473,7 +481,7 @@ namespace Ricochet
 			Rotation = Rotation.Slerp( Rotation, idealRotation, controller.WishVelocity.Length * Time.Delta * turnSpeed );
 			Rotation = Rotation.Clamp( idealRotation, 45.0f, out var shuffle ); // lock facing to within 45 degrees of look direction
 
-			CitizenAnimationHelper animHelper = new CitizenAnimationHelper( this );
+			CitizenAnimationHelper animHelper = new( this );
 			animHelper.WithWishVelocity( controller.WishVelocity );
 			animHelper.WithVelocity( controller.Velocity );
 			animHelper.WithLookAt( EyePosition + EyeRotation.Forward * 100.0f, 1.0f, 1.0f, 0.5f );
