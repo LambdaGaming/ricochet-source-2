@@ -11,6 +11,9 @@ namespace Ricochet
 		public static int[] TotalTeams { get; set; } = new int[TeamCount];
 		public static BaseRound CurrentRound { get; set; }
 
+		[ConVar.Server( "rc_allowvr", Help = "Allow VR players to join the game." )]
+		public static bool AllowVRPlayers { get; set; } = true;
+
 		[ConVar.Server( "rc_roundtype", Help = "Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing." )]
 		public static RoundType InitialRoundType { get; set; } = RoundType.Deathmatch;
 
@@ -153,6 +156,10 @@ namespace Ricochet
 			client.Pawn = player;
 			player.Respawn();
 			CheckRoundState( client );
+			if ( client.IsUsingVr && !AllowVRPlayers )
+			{
+				client.Kick();
+			}
 		}
 
 		public override void ClientDisconnect( IClient client, NetworkDisconnectionReason reason )
