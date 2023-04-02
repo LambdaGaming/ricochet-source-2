@@ -176,7 +176,8 @@ namespace Ricochet
 		public override void OnKilled( IClient client, Entity pawn )
 		{
 			Game.AssertServer();
-			Log.Info( $"{client.Name} was killed by {( pawn as RicochetPlayer ).LastDeathReason}." );
+			var ply = pawn as RicochetPlayer;
+			Log.Info( $"{client.Name} was killed by {ply.LastDeathReason}." );
 			if ( pawn.LastAttacker != null )
 			{
 				if ( pawn.LastAttacker.Client != null )
@@ -191,6 +192,10 @@ namespace Ricochet
 			else
 			{
 				OnKilledMessage( 0, "", client.SteamId, client.Name, GetDeathImage( pawn ) );
+			}
+			if ( client.IsUsingVr )
+			{
+				ply.DeleteVRHands();
 			}
 		}
 
