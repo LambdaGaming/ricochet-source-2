@@ -394,12 +394,17 @@ namespace Ricochet
 
 		private void CreateVRHands()
 		{
-			RightHand?.Delete();
-			LeftHand?.Delete();
+			DeleteVRHands();
 			RightHand = new() { Owner = this };
 			LeftHand = new() { Owner = this };
 		}
 		
+		public void DeleteVRHands()
+		{
+			RightHand?.Delete();
+			LeftHand?.Delete();
+		}
+
 		public override void FrameSimulate( IClient cl )
 		{
 			Camera.Rotation = ViewAngles.ToRotation();

@@ -166,6 +166,10 @@ namespace Ricochet
 		{
 			var ply = client.Pawn as RicochetPlayer;
 			TotalTeams[ply.Team]--;
+			if ( client.IsUsingVr )
+			{
+				ply.DeleteVRHands();
+			}
 			base.ClientDisconnect( client, reason );
 		}
 
