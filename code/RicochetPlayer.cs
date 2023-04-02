@@ -27,7 +27,7 @@ namespace Ricochet
 		[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 		[Net] public DeathReason LastDeathReason { get; set; }
 		[Net] public bool IsSpectator { get; set; } = false;
-		[Net, Local] public RightHand RightHand { get; set; }
+		[Net, Local] public RightHand RightHand { get; set; } // Apparently the Local attribute isn't implemented yet, so hands will appear for other clients for now
 		[Net, Local] public LeftHand LeftHand { get; set; }
 		[Net, Predicted] public bool DeathCamera { get; set; }
 		public float DiscCooldown { get; set; }
@@ -91,7 +91,6 @@ namespace Ricochet
 		{
 			base.Simulate( cl );
 			SimulateActiveChild( cl, ActiveChild );
-			SetVrAnimProperties();
 			RightHand?.Simulate( cl );
 			LeftHand?.Simulate( cl );
 
@@ -391,24 +390,6 @@ namespace Ricochet
 			DeathCamera = false;
 			EnableAllCollisions = true;
 			EnableDrawing = true;
-		}
-
-		public void SetVrAnimProperties()
-		{
-			if ( LifeState != LifeState.Alive || !Input.VR.IsActive ) return;
-			SetAnimParameter( "b_vr", true );
-
-			var rightHandLocal = Transform.ToLocal( RightHand.GetBoneTransform( 0 ) );
-			var leftHandLocal = Transform.ToLocal( LeftHand.GetBoneTransform( 0 ) );
-			var handOffset = Vector3.Zero;
-
-			SetAnimParameter( "right_hand_ik.position", rightHandLocal.Position + ( handOffset * rightHandLocal.Rotation ) );
-			SetAnimParameter( "left_hand_ik.position", leftHandLocal.Position + ( handOffset * leftHandLocal.Rotation ) );
-			SetAnimParameter( "right_hand_ik.rotation", rightHandLocal.Rotation );
-			SetAnimParameter( "left_hand_ik.rotation", leftHandLocal.Rotation * Rotation.From( 0, 0, 180 ) );
-
-			float height = Input.VR.Head.Position.z - Position.z;
-			SetAnimParameter( "duck", 1.0f - ( ( height - 32f ) / 32f ) );
 		}
 
 		private void CreateVRHands()
