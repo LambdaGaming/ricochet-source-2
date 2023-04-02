@@ -442,7 +442,7 @@ namespace Ricochet
 			base.Spawn();
 			SetModel( "models/citizen/citizen.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
-			Tags.Add( "ragdoll", "solid", "debris" );
+			Tags.Add( "ragdoll", "debris" );
 		}
 		
 		public void SetHead()
@@ -451,7 +451,7 @@ namespace Ricochet
 			{
 				SetBodyGroup( i, 1 );
 			}
-			Velocity += Velocity.WithZ( 3000 );
+			Velocity += Velocity.WithZ( 1000 );
 		}
 
 		public void SetBody()

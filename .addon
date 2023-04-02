@@ -31,7 +31,8 @@
         "ladder": "Ignore",
         "water": "Trigger",
         "debris": "Unset",
-        "player": "Unset"
+        "player": "Unset",
+        "ragdoll": "Ignore"
       },
       "Pairs": [
         {
@@ -72,6 +73,10 @@
         {
           "a": "player",
           "b": "player"
+        },
+        {
+          "a": "player",
+          "b": "ragdoll"
         }
       ]
     },
