@@ -15,7 +15,9 @@
   "PackageReferences": [],
   "Metadata": {
     "MapList": [
-      "lambdagaming.rc_deathmatch"
+      "lambdagaming.rc_deathmatch",
+      "lambdagaming.rc_arena",
+      "lambdagaming.rc_deathmatch_2"
     ],
     "MinPlayers": 1,
     "MaxPlayers": 32,
@@ -28,8 +30,6 @@
       "Defaults": {
         "solid": "Collide",
         "trigger": "Trigger",
-        "ladder": "Ignore",
-        "water": "Trigger",
         "debris": "Unset",
         "player": "Unset",
         "ragdoll": "Ignore"
@@ -76,6 +76,10 @@
         },
         {
           "a": "player",
+          "b": "ragdoll"
+        },
+        {
+          "a": "ragdoll",
           "b": "ragdoll"
         }
       ]
