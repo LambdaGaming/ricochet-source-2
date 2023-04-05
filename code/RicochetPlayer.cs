@@ -391,8 +391,8 @@ namespace Ricochet
 		private void CreateVRHands()
 		{
 			DeleteVRHands();
-			RightHand = new() { Owner = this };
-			LeftHand = new() { Owner = this };
+			RightHand = new() { Owner = this, Scale = 0.5f };
+			LeftHand = new() { Owner = this, Scale = 0.5f };
 		}
 		
 		public void DeleteVRHands()
