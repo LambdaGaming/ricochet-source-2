@@ -159,14 +159,10 @@ namespace Ricochet
 			Disc maindisc = Disc.CreateDisc( vecsrc, vecdir, this, decap, PowerupFlags );
 			if ( HasPowerup( Powerup.Triple ) )
 			{
-				Vector3 firedir1 = Vector3.Zero;
-				firedir1.y = maindisc.Velocity.y + 7;
-				Disc disc = Disc.CreateDisc( vecsrc, firedir1, this, decap, PowerupFlags );
+				Disc disc = Disc.CreateDisc( vecsrc, EyeRotation.Right, this, decap, PowerupFlags );
 				disc.IsExtra = true;
 
-				Vector3 firedir2 = Vector3.Zero;
-				firedir2.x = maindisc.Velocity.x - 7;
-				Disc disc2 = Disc.CreateDisc( vecsrc, firedir2, this, decap, PowerupFlags );
+				Disc disc2 = Disc.CreateDisc( vecsrc, EyeRotation.Right * -1, this, decap, PowerupFlags );
 				disc2.IsExtra = true;
 			}
 
@@ -495,7 +491,7 @@ namespace Ricochet
 			base.Spawn();
 			SetModel( "models/citizen/citizen.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
-			Tags.Add( "ragdoll", "solid", "debris" );
+			Tags.Add( "ragdoll", "debris" );
 		}
 		
 		public void SetHead()
@@ -504,7 +500,7 @@ namespace Ricochet
 			{
 				SetBodyGroup( i, 1 );
 			}
-			Velocity += Velocity.WithZ( 3000 );
+			Velocity += Velocity.WithZ( 1000 );
 		}
 
 		public void SetBody()
