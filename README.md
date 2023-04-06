@@ -10,6 +10,15 @@
 - rc_roundtype - Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing.
 - rc_minplayers - Minimum amount of players required to start an arena match.
 - rc_rounds - Max rounds to play before the map changes. (Currently doesn't do anything since there's only one map right now.)
+- rc_allowvr - Allow VR players to join the game
+
+# VR Mode
+VR is now supported, but it is currently experimental. The game should be fully playable but do not expect a refined experience that is equal to or better than playing normally. There are a few things to make note of before playing in VR:
+- This game involves quickly jumping between platforms and falling into a void, so if you are afraid of heights or get easily motion sick, you probably shouldn't play this in VR.
+- This game was designed to be played standing or seated. Room-scale works but is not fully supported, so walking away from the center of your play area might cause weird things to happen.
+- Left trigger fires the hard disc, and right trigger fires the regular disc. Your hands will be the models of these discs so you can tell the difference.
+- Discs are launched from the position of the player's hand, instead of the center of their body like normal. This means that VR players have a slight advantage since they can fire above and below the bouncers that normally deflect discs.
+- VR players can play with normal players, but servers have the option to not allow VR players to join due to the advantage mentioned above.
 
 # Official Maps
 - [rc_arena](https://github.com/LambdaGaming/rc_arena)
