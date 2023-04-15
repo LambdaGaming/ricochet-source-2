@@ -83,9 +83,11 @@ namespace Ricochet
 
 		public override void EndRound()
 		{
-			if ( TotalRounds >= MaxRounds )
+			if ( Game.IsServer && TotalRounds >= MaxRounds )
 			{
-				// TODO: Implement map change once more maps are available
+				Random rand = new();
+				string[] maps = { "lambdagaming.rc_deathmatch", "lambdagaming.rc_deathmatch_2", "lambdagaming.rc_arena" };
+				Game.ChangeLevel( maps[rand.Next( maps.Length )] );
 			}
 			CurrentState = RoundState.End;
 			_ = RestartRound();

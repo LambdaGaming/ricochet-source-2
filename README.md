@@ -9,7 +9,7 @@
 # Server Commands
 - rc_roundtype - Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing.
 - rc_minplayers - Minimum amount of players required to start an arena match.
-- rc_rounds - Max rounds to play before the map changes. (Currently doesn't do anything since there's only one map right now.)
+- rc_rounds - Max arena rounds to play before the map changes.
 - rc_allowvr - Allow VR players to join the game
 
 # VR Mode
