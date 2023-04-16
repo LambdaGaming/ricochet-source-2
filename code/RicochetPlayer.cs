@@ -41,6 +41,9 @@ namespace Ricochet
 
 		public override void Respawn()
 		{
+			if ( Ricochet.CurrentRound is ArenaRound && Ricochet.CurrentRound.CurrentState == RoundState.Active )
+				return;
+
 			base.Respawn();
 			SetModel( "models/citizen/citizen.vmdl" );
 
