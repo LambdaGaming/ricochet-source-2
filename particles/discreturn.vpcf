@@ -2,6 +2,7 @@
 {
 	_class = "CParticleSystemDefinition"
 	m_nBehaviorVersion = 10
+	m_nMaxParticles = 1
 	m_controlPointConfigurations = 
 	[
 		{
@@ -11,15 +12,19 @@
 	m_Emitters = 
 	[
 		{
-			_class = "C_OP_MaintainEmitter"
-			m_nParticlesToMaintain = 1
-			m_flEmissionRate = 0.0
+			_class = "C_OP_InstantaneousEmitter"
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_CreateWithinBox"
 		},
 	]
 	m_Operators = 
 	[
 		{
-			_class = "C_OP_EndCapDecay"
+			_class = "C_OP_FadeAndKill"
 		},
 	]
 	m_Renderers = 
