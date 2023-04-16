@@ -192,6 +192,7 @@ namespace Ricochet
 			
 			if ( Ricochet.CurrentRound is ArenaRound )
 			{
+				ArenaRound.CurrentPlayers.Remove( this );
 				Ricochet.CurrentRound.EndRound();
 			}
 		}

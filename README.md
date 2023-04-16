@@ -4,11 +4,11 @@
 # Round Types
 - Deathmatch - Normal deathmatch, each player is assigned a separate team. Round starts as soon as the first player joins.
 - Team Deathmatch - Same as deathmatch but players are split into red and blue teams.
-- Arena - 1v1 mode. Two players are selected at random at the start of the round, the rest are spectators. The round ends when one of the players die.
+- Arena - Organized team battles. Two teams of players are randomly selected at the start of the round, and the rest are spectators. If there was a previous match with a winner, the winning team will play again. The round ends when all players on one team die.
 
 # Server Commands
 - rc_roundtype - Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing.
-- rc_minplayers - Minimum amount of players required to start an arena match.
+- rc_playersperteam - Amount of players that should be on each team during an arena round.
 - rc_rounds - Max arena rounds to play before the map changes.
 - rc_allowvr - Allow VR players to join the game
 

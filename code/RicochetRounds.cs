@@ -41,11 +41,11 @@ namespace Ricochet
 	public class ArenaRound : BaseRound
 	{
 		public static int TotalRounds { get; set; } = 0;
-		public RicochetPlayer PlayerOne { get; set; }
-		public RicochetPlayer PlayerTwo { get; set; }
+		public static List<RicochetPlayer> LastWinners = new();
+		public static List<RicochetPlayer> CurrentPlayers = new();
 
-		[ConVar.Server( "rc_minplayers", Help = "Minimum amount of players required to start an arena match." )]
-		public static int MinPlayers { get; set; } = 2;
+		[ConVar.Server( "rc_playersperteam", Help = "Amount of players that should be on each team during an arena round." )]
+		public static int PlayersPerTeam { get; set; } = 1;
 
 		[ConVar.Server( "rc_rounds", Help = "Max rounds to play before the map changes." )]
 		public static int MaxRounds { get; set; } = 3;
@@ -60,35 +60,73 @@ namespace Ricochet
 		{
 			Random rand = new();
 			List<IClient> plylist = new( Game.Clients );
-			IClient plyone = plylist[rand.Next( plylist.Count )];
-			PlayerOne = plyone.Pawn as RicochetPlayer;
-			PlayerOne.Team = 0;
-			PlayerOne.Respawn();
-			plylist.Remove( plyone ); // Remove the first selected player so they can't be chosen for player 2
+			foreach ( RicochetPlayer ply in LastWinners )
+			{
+				// Make sure a winning player didn't leave
+				if ( !ply.IsValid() )
+					LastWinners.Remove( ply );
+			}
 
-			IClient plytwo = plylist[rand.Next( plylist.Count )];
-			PlayerTwo = plytwo.Pawn as RicochetPlayer;
-			PlayerTwo.Team = 1;
-			PlayerTwo.Respawn();
-			plylist.Remove( plytwo );
+			if ( LastWinners.Count > 0 )
+			{
+				foreach ( RicochetPlayer ply in LastWinners )
+				{
+					// Spawn winning team first
+					ply.Team = 0;
+					ply.Respawn();
+					plylist.Remove( ply.Client );
+					CurrentPlayers.Add( ply );
+				}
+			}
+			else
+			{
+				for ( int i = 0; i < PlayersPerTeam; i++ )
+				{
+					// Spawn random team 1
+					RicochetPlayer ply = plylist[rand.Next( plylist.Count )].Pawn as RicochetPlayer;
+					ply.Team = 0;
+					ply.Respawn();
+					plylist.Remove( ply.Client );
+					CurrentPlayers.Add( ply );
+				}
+			}
+
+			for ( int i = 0; i < PlayersPerTeam; i++ )
+			{
+				// Spawn random team 2
+				RicochetPlayer ply = plylist[rand.Next( plylist.Count )].Pawn as RicochetPlayer;
+				ply.Team = 1;
+				ply.Respawn();
+				plylist.Remove( ply.Client );
+				CurrentPlayers.Add( ply );
+			}
 
 			foreach ( IClient cl in plylist )
 			{
+				// Spawn remaining players as spectators
 				( cl.Pawn as RicochetPlayer ).SetSpectator();
 			}
-
 			_ = RoundCountdown();
 			TotalRounds++;
 		}
 
 		public override void EndRound()
 		{
+			int aliveTeam = CurrentPlayers[0].Team;
+			foreach ( RicochetPlayer ply in CurrentPlayers )
+			{
+				// Don't end round if at least 2 players of opposing teams are still alive
+				if ( aliveTeam != ply.Team )
+					return;
+			}
+
 			if ( Game.IsServer && TotalRounds >= MaxRounds )
 			{
 				Random rand = new();
 				string[] maps = { "lambdagaming.rc_deathmatch", "lambdagaming.rc_deathmatch_2", "lambdagaming.rc_arena" };
 				Game.ChangeLevel( maps[rand.Next( maps.Length )] );
 			}
+			CurrentPlayers.Clear();
 			CurrentState = RoundState.End;
 			_ = RestartRound();
 		}

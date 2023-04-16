@@ -2,6 +2,7 @@
 using Sandbox.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ricochet
 {
@@ -16,8 +17,6 @@ namespace Ricochet
 
 		[ConVar.Server( "rc_roundtype", Help = "Type of round. 0 for deathmatch, 1 for team deathmatch, and 2 for arena. Requires server reload after changing." )]
 		public static RoundType InitialRoundType { get; set; } = RoundType.Deathmatch;
-
-		// TODO: Add option to select initial round type from the game creation menu once Facepunch adds support for that
 
 		public static readonly int[,] TeamColors = new int[31, 3] {
 			{ 250, 0, 0 },
@@ -86,19 +85,21 @@ namespace Ricochet
 			{
 				if ( CurrentRound.CurrentState == RoundState.Waiting )
 				{
-					if ( Game.Clients.Count >= ArenaRound.MinPlayers )
+					if ( Game.Clients.Count >= ArenaRound.PlayersPerTeam * 2 )
 					{
 						CurrentRound.StartRound();
 						return;
 					}
-					ChatBox.AddInformation( To.Everyone, $"Waiting for {ArenaRound.MinPlayers - Game.Clients.Count} more players..." );
+					ChatBox.AddInformation( To.Everyone, $"Waiting for {( ArenaRound.PlayersPerTeam * 2 ) - Game.Clients.Count} more players..." );
 				}
 				else
 				{
-					( cl.Pawn as RicochetPlayer ).SetSpectator();
 					ChatBox.AddInformation( To.Single( cl ), "An arena game is currently active. You are now a spectator." );
 				}
+				( cl.Pawn as RicochetPlayer ).SetSpectator();
+				return;
 			}
+			( cl.Pawn as RicochetPlayer ).Respawn();
 		}
 
 		public static List<RicochetPlayer> GetPlayers( bool spectatorsonly = false )
@@ -133,9 +134,9 @@ namespace Ricochet
 			if ( CurrentRound is ArenaRound )
 			{
 				Random rand = new();
-				var ply = pawn as RicochetPlayer;
-				string color = ply.Team == 0 ? "red" : "blue";
-				Entity spawnpoint = FindByName( $"spawn_{color}{rand.Next( 1, 5 )}" );
+				string color = ( pawn as RicochetPlayer ).Team == 0 ? "red" : "blue";
+				IEnumerable<Entity> ents = FindAllByName( $"spawn_{color}" );
+				Entity spawnpoint = ents.ElementAt( rand.Next( ents.Count() ) );
 				
 				if ( spawnpoint == null )
                 {
@@ -152,9 +153,8 @@ namespace Ricochet
 		public override void ClientJoined( IClient client )
 		{
 			base.ClientJoined( client );
-			var player = new RicochetPlayer();
+			RicochetPlayer player = new();
 			client.Pawn = player;
-			player.Respawn();
 			CheckRoundState( client );
 			if ( client.IsUsingVr && !AllowVRPlayers )
 			{

@@ -13,6 +13,7 @@
   "HasCode": true,
   "CodePath": "code",
   "PackageReferences": [],
+  "EditorReferences": null,
   "Metadata": {
     "MapList": [
       "lambdagaming.rc_deathmatch",
@@ -108,6 +109,60 @@
     "Summary": "Ricochet in S\u0026Box.",
     "Description": "Ricochet ported to S\u0026Box. There\u0027s a few bugs but the game is fully playable for the most part.\r\n\r\nSource code and more info on GitHub:\r\nhttps://github.com/LambdaGaming/ricochet-source-2",
     "Public": true,
-    "CsProjName": ""
+    "CsProjName": "",
+    "PackageSettings": [
+      {
+        "DisplayType": "Choice",
+        "Choices": [
+          {
+            "Value": "0",
+            "Name": "Deathmatch"
+          },
+          {
+            "Value": "1",
+            "Name": "Team Deathmatch"
+          },
+          {
+            "Value": "2",
+            "Name": "Arena"
+          }
+        ],
+        "ConVarName": "rc_roundtype",
+        "DisplayName": "Round Type",
+        "DefaultValue": "0",
+        "Description": "Type of round to start the game with.",
+        "Group": ""
+      },
+      {
+        "DisplayType": "Integer",
+        "Choices": [],
+        "ConVarName": "rc_playersperteam",
+        "DisplayName": "Arena Players Per Team",
+        "DefaultValue": "0",
+        "Description": "Amount of players that should be on each team during an arena round.",
+        "Group": "",
+        "Minimum": 1,
+        "Maximum": 16
+      },
+      {
+        "DisplayType": "Integer",
+        "Choices": [],
+        "ConVarName": "rc_rounds",
+        "DisplayName": "Arena Rounds",
+        "DefaultValue": "3",
+        "Description": "Max arena rounds to play before the map changes. Set to 0 for never changing.",
+        "Group": "",
+        "Maximum": 10
+      },
+      {
+        "DisplayType": "Boolean",
+        "Choices": [],
+        "ConVarName": "rc_allowvr",
+        "DisplayName": "Allow VR Players",
+        "DefaultValue": "true",
+        "Description": "Allow VR players to join the game. VR players have an advantage of being able to fire discs at certain positions that may bypass normal obstacles, due to the discs firing from their freely moving hands instead of their body. If you do not want players with this advantage joining, disable the option.",
+        "Group": ""
+      }
+    ]
   }
 }
