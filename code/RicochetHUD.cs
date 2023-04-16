@@ -233,8 +233,9 @@ namespace Ricochet
 			Voice.Text = Client.Voice.CurrentLevel.ToString();
 			Ping.Text = Client.Ping.ToString();
 			SetClass( "me", Client == Game.LocalClient );
-
-			Color color = ( Client.Pawn as RicochetPlayer ).TeamColor;
+			
+			var ply = Client.Pawn as RicochetPlayer;
+			Color color = ply.IsSpectator ? Color.White : ply.TeamColor;
 			if ( Client != Game.LocalClient )
 			{
 				PlayerName.Style.FontColor = color;
