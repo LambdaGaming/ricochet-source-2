@@ -161,7 +161,7 @@ namespace Ricochet
 		{
 			base.Tick();
 
-			SetClass( "open", Input.Down( InputButton.Score ) );
+			SetClass( "open", Input.Down( "score" ) );
 
 			if ( !IsVisible )
 				return;
