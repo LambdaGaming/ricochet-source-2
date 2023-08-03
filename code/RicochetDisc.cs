@@ -17,7 +17,9 @@ namespace Ricochet
 		private Sound DecapLoop { get; set; }
 		private float SetZ { get; set; }
 		private Vector3 FireDir { get; set; }
+
 		public static readonly int DiscPushMultiplier = 1000;
+		private PointLightEntity DiscLight;
 
 		public new void Spawn()
 		{
@@ -32,6 +34,15 @@ namespace Ricochet
 			PhysicsBody.DragEnabled = false;
 			Tags.Add( "trigger", "disc" );
 			RenderColor = ( Owner as RicochetPlayer ).TeamColor;
+
+			DiscLight = new PointLightEntity
+			{
+				Color = RenderColor,
+				LightSize = 0.01f,
+				Brightness = 0.1f,
+				Position = Position,
+				Parent = this
+			};
 
 			using ( Prediction.Off() )
 			{
