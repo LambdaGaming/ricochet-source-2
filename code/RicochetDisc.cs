@@ -146,7 +146,7 @@ namespace Ricochet
 			ply.LastAttackerWeapon = null;
 		}
 		
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected void Tick()
 		{
 			Velocity = ( DiscVelocity * Velocity.Normal ).WithZ( 0 );

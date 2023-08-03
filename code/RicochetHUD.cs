@@ -36,7 +36,7 @@ namespace Ricochet
 			}
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		public void UpdateDiscImages()
 		{
 			RicochetPlayer ply = Game.LocalPawn as RicochetPlayer;

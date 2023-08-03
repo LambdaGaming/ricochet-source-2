@@ -26,7 +26,7 @@ namespace Ricochet
 			{
 				var gravity = 600.0f;
 				Vector3 midpoint = ply.Position + ( target.Position - ply.Position ) * 0.5f;
-				TraceResult tr = Trace.Ray( midpoint, midpoint + new Vector3( 0, 0, Height ) ).WorldOnly().Run();
+				TraceResult tr = Trace.Ray( midpoint, midpoint + new Vector3( 0, 0, Height ) ).StaticOnly().Run();
 				midpoint = tr.EndPosition;
 
 				float distance1 = ( midpoint.z - ply.Position.z );

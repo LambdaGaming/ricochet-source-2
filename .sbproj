@@ -221,6 +221,18 @@
         }
       ]
     },
-    "TickRate": 50
+    "TickRate": 50,
+    "LaunchConfigs": [
+      {
+        "Name": "Default",
+        "GameIdent": "lambdagaming.ricochet#local",
+        "MapName": "lambdagaming.rc_deathmatch",
+        "MaxPlayers": 2,
+        "GameSettings": {},
+        "Addons": "",
+        "PreLaunchCommand": "",
+        "PostLaunchCommand": ""
+      }
+    ]
   }
 }
