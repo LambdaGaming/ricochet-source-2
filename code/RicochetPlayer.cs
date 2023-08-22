@@ -185,6 +185,8 @@ namespace Ricochet
 			EnableAllCollisions = false;
 			EnableDrawing = false;
 
+			if ( !Client.IsValid() ) return;
+
 			if ( !Client.IsUsingVr )
 			{
 				DeathCamera = true;
