@@ -69,10 +69,9 @@ public class Disc : ModelEntity
 	
 	public override void StartTouch( Entity ent )
 	{
-		var ply = ent as RicochetPlayer;
 		var owner = Owner as RicochetPlayer;
 		if ( ent is PowerupEnt || !Game.IsServer ) return;
-		if ( ply.IsValid() )
+		if ( ent is RicochetPlayer ply && ply.IsValid() )
 		{
 			if ( ent == Owner )
 			{
@@ -239,9 +238,11 @@ public class Disc : ModelEntity
 		{
 			DecapLoop.Stop();
 		}
-		if ( IsExtra )
+
+		if ( IsExtra || !ply.IsValid() )
 		{
-			Delete();
+			if ( Game.IsServer )
+				Delete();
 			return;
 		}
 		else if ( IsSecondary )
@@ -252,9 +253,8 @@ public class Disc : ModelEntity
 		{
 			ply.GiveDisc( 1 );
 		}
+
 		if ( Game.IsServer )
-		{
 			Delete();
-		}
 	}
 }
