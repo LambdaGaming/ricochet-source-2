@@ -1,52 +1,51 @@
 using Editor;
 using Sandbox;
 
-namespace Ricochet
+namespace Ricochet;
+
+[Library( "trigger_fall" ), HammerEntity, Solid, AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
+public partial class TriggerFall : BaseTrigger
 {
-	[Library( "trigger_fall" ), HammerEntity, Solid, AutoApplyMaterial( "materials/tools/toolstrigger.vmat" )]
-	public partial class TriggerFall : BaseTrigger
+	public override void StartTouch( Entity ent )
 	{
-		public override void StartTouch( Entity ent )
+		base.StartTouch( ent );
+		if ( ent.IsValid() )
 		{
-			base.StartTouch( ent );
-			if ( ent.IsValid() )
+			var ply = ent as RicochetPlayer;
+			if ( ply.IsValid() && ply.Alive() )
 			{
-				var ply = ent as RicochetPlayer;
-				if ( ply.IsValid() && ply.Alive() )
+				if ( Ricochet.CurrentRound.CurrentState == RoundState.Waiting )
 				{
-					if ( Ricochet.CurrentRound.CurrentState == RoundState.Waiting )
-					{
-						ply.Respawn();
-						return;
-					}
-					else if ( Ricochet.CurrentRound.CurrentState == RoundState.End )
-					{
-						return;
-					}
-
-					if ( ply.LastAttackWeaponBounces <= 0 && ply.LastAttacker == null )
-					{
-						ply.LastDeathReason = DeathReason.Fall;
-					}
-					else
-					{
-						ply.LastDeathReason = DeathReason.Disc;
-					}
-
-					RicochetCorpse body = new();
-					body.Position = ply.Position;
-					body.Velocity = ply.Velocity;
-					ply.Corpse = body;
-					ply.SyncCorpse( body );
-
-					DamageInfo dmg = new() {
-						Damage = 1000,
-						Attacker = ply.LastAttacker,
-						Weapon = ply.LastAttackerWeapon
-					};
-					ply.TakeDamage( dmg );
-					ply.Corpse.PlaySound( "scream" );
+					ply.Respawn();
+					return;
 				}
+				else if ( Ricochet.CurrentRound.CurrentState == RoundState.End )
+				{
+					return;
+				}
+
+				if ( ply.LastAttackWeaponBounces <= 0 && ply.LastAttacker == null )
+				{
+					ply.LastDeathReason = DeathReason.Fall;
+				}
+				else
+				{
+					ply.LastDeathReason = DeathReason.Disc;
+				}
+
+				RicochetCorpse body = new();
+				body.Position = ply.Position;
+				body.Velocity = ply.Velocity;
+				ply.Corpse = body;
+				ply.SyncCorpse( body );
+
+				DamageInfo dmg = new() {
+					Damage = 1000,
+					Attacker = ply.LastAttacker,
+					Weapon = ply.LastAttackerWeapon
+				};
+				ply.TakeDamage( dmg );
+				ply.Corpse.PlaySound( "scream" );
 			}
 		}
 	}

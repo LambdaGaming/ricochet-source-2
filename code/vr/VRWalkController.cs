@@ -1,88 +1,87 @@
 ﻿using Sandbox;
 
-namespace Ricochet
+namespace Ricochet;
+
+public class VRWalkController : RicochetWalkController
 {
-	public class VRWalkController : RicochetWalkController
+	public override void UpdateBBox()
 	{
-		public override void UpdateBBox()
+		Transform headLocal = Pawn.Transform.ToLocal( Input.VR.Head );
+		var girth = BodyGirth * 0.5f;
+		var mins = ( new Vector3( -girth, -girth, 0 ) + headLocal.Position.WithZ( 0 ) * Rotation ) * Pawn.Scale;
+		var maxs = ( new Vector3( +girth, +girth, BodyHeight ) + headLocal.Position.WithZ( 0 ) * Rotation ) * Pawn.Scale;
+		SetBBox( mins, maxs );
+	}
+
+	public override void FrameSimulate()
+	{
+		base.FrameSimulate();
+		EyeRotation = Input.VR.Head.Rotation;
+	}
+
+	public override void Simulate()
+	{
+		EyeLocalPosition = Vector3.Up * ( EyeHeight * Pawn.Scale );
+		UpdateBBox();
+
+		EyeLocalPosition += TraceOffset;
+		EyeRotation = Input.VR.Head.Rotation;
+
+		if ( Unstuck.TestAndFix() )
+			return;
+
+		if ( Impulse.Length > 0 )
 		{
-			Transform headLocal = Pawn.Transform.ToLocal( Input.VR.Head );
-			var girth = BodyGirth * 0.5f;
-			var mins = ( new Vector3( -girth, -girth, 0 ) + headLocal.Position.WithZ( 0 ) * Rotation ) * Pawn.Scale;
-			var maxs = ( new Vector3( +girth, +girth, BodyHeight ) + headLocal.Position.WithZ( 0 ) * Rotation ) * Pawn.Scale;
-			SetBBox( mins, maxs );
+			ClearGroundEntity();
+			Velocity = Impulse;
+			Impulse = 0f;
 		}
 
-		public override void FrameSimulate()
+		// Start Gravity
+		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+		Velocity += new Vector3( 0, 0, BaseVelocity.z ) * Time.Delta;
+		BaseVelocity = BaseVelocity.WithZ( 0 );
+
+		// Fricion is handled before we add in any base velocity. That way, if we are on a conveyor,
+		//  we don't slow when standing still, relative to the conveyor.
+		bool bStartOnGround = GroundEntity != null;
+		if ( bStartOnGround )
 		{
-			base.FrameSimulate();
-			EyeRotation = Input.VR.Head.Rotation;
+			Velocity = Velocity.WithZ( 0 );
+			if ( GroundEntity != null )
+			{
+				ApplyFriction( GroundFriction * SurfaceFriction );
+			}
 		}
 
-		public override void Simulate()
+		// Work out wish velocity.. just take input, rotate it to view, clamp to -1, 1
+		WishVelocity = Vector3.Zero;
+		WishVelocity += Input.VR.LeftHand.Joystick.Value.y * Input.VR.Head.Rotation.Forward;
+		WishVelocity += Input.VR.LeftHand.Joystick.Value.x * Input.VR.Head.Rotation.Right;
+		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
+		WishVelocity = WishVelocity.WithZ( 0 );
+		WishVelocity = WishVelocity.Normal * inSpeed;
+		WishVelocity *= GetWishSpeed();
+
+		bool bStayOnGround = false;
+		if ( GroundEntity != null )
 		{
-			EyeLocalPosition = Vector3.Up * ( EyeHeight * Pawn.Scale );
-			UpdateBBox();
+			bStayOnGround = true;
+			WalkMove();
+		}
+		else
+		{
+			AirMove();
+		}
 
-			EyeLocalPosition += TraceOffset;
-			EyeRotation = Input.VR.Head.Rotation;
+		CategorizePosition( bStayOnGround );
 
-			if ( Unstuck.TestAndFix() )
-				return;
+		// FinishGravity
+		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 
-			if ( Impulse.Length > 0 )
-			{
-				ClearGroundEntity();
-				Velocity = Impulse;
-				Impulse = 0f;
-			}
-
-			// Start Gravity
-			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
-			Velocity += new Vector3( 0, 0, BaseVelocity.z ) * Time.Delta;
-			BaseVelocity = BaseVelocity.WithZ( 0 );
-
-			// Fricion is handled before we add in any base velocity. That way, if we are on a conveyor,
-			//  we don't slow when standing still, relative to the conveyor.
-			bool bStartOnGround = GroundEntity != null;
-			if ( bStartOnGround )
-			{
-				Velocity = Velocity.WithZ( 0 );
-				if ( GroundEntity != null )
-				{
-					ApplyFriction( GroundFriction * SurfaceFriction );
-				}
-			}
-
-			// Work out wish velocity.. just take input, rotate it to view, clamp to -1, 1
-			WishVelocity = Vector3.Zero;
-			WishVelocity += Input.VR.LeftHand.Joystick.Value.y * Input.VR.Head.Rotation.Forward;
-			WishVelocity += Input.VR.LeftHand.Joystick.Value.x * Input.VR.Head.Rotation.Right;
-			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
-			WishVelocity = WishVelocity.WithZ( 0 );
-			WishVelocity = WishVelocity.Normal * inSpeed;
-			WishVelocity *= GetWishSpeed();
-
-			bool bStayOnGround = false;
-			if ( GroundEntity != null )
-			{
-				bStayOnGround = true;
-				WalkMove();
-			}
-			else
-			{
-				AirMove();
-			}
-
-			CategorizePosition( bStayOnGround );
-
-			// FinishGravity
-			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
-
-			if ( GroundEntity != null )
-			{
-				Velocity = Velocity.WithZ( 0 );
-			}
+		if ( GroundEntity != null )
+		{
+			Velocity = Velocity.WithZ( 0 );
 		}
 	}
 }
