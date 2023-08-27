@@ -1,0 +1,21 @@
+﻿@using Sandbox;
+@using Sandbox.Menu;
+@using Sandbox.UI;
+@inherits NavHostPanel
+@implements IGameMenuPanel
+@namespace Ricochet.Menu
+
+@code
+{
+	public RootMenu()
+	{
+		DefaultUrl = "/";
+		AddDestination( "/", typeof( Menu ) );
+		AddDestination( "/creategame", typeof( CreateGame ) );
+		//AddDestination( "/findgame", typeof( FindGame ) );
+		//AddDestination( "/options", typeof( Options ) );
+		if ( Game.InGame ) Navigate( "/" );
+		BindClass( "ingame", () => Game.InGame );
+		BindClass( "notingame", () => !Game.InGame );
+	}
+}

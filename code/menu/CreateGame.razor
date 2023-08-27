@@ -1,0 +1,34 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+@inherits Panel
+@namespace Ricochet.Menu
+@attribute [StyleSheet]
+
+<root class="root">
+    <div class="createGameBox">
+        <label class="popupText">Create Server</label>
+        <div class="inner">
+            <label for="mapselect">Map</label>
+            <select id="mapselect">
+                <option value="0">Random Map</option>
+                <option value="lambdagaming.rc_arena">rc_arena</option>
+                <option value="lambdagaming.rc_deathmatch">rc_deathmatch</option>
+                <option value="lambdagaming.rc_deathmatch_2">rc_deathmatch2</option>
+            </select>
+        </div>
+        <div class="buttonRow">
+            <button onclick="@Start">Start</button>
+            <button onclick="@Cancel">Cancel</button>
+        </div>
+    </div>
+</root>
+
+@code
+{
+	public string Map { get; set; }
+	public int MaxPlayers { get; set; }
+
+	public void Start() => Delete();
+
+	public void Cancel() => this.Navigate( "/" );
+}

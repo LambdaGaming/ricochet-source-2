@@ -1,0 +1,51 @@
+﻿@using Sandbox;
+@using Sandbox.Menu;
+@using Sandbox.UI;
+@attribute [StyleSheet]
+@namespace Ricochet.Menu
+
+<root class="root">
+	<div class="listContainer">
+		<div class="list">
+			<div class="enableingame">
+				<button onmousedown="@ClickSound" onclick="@Resume">Resume</button>
+			</div>
+			<div class="enableingame">
+				<button onmousedown="@ClickSound" onclick="@Disconnect">Disconnect</button>
+			</div>
+			<div>
+				<button onmousedown="@ClickSound" onclick="@FindGame">Find Server</button>
+			</div>
+			<div>
+				<button onmousedown="@ClickSound" onclick="@CreateGame">Create Server</button>
+			</div>
+			<div>
+				<button onmousedown="@ClickSound" onclick="@Options">Options</button>
+			</div>
+			<div>
+				<button onmousedown="@ClickSound" onclick="@Quit">Quit</button>
+			</div>
+			<label class="title">Ricochet: Source 2</label>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	SoundHandle MusicHandle;
+	SoundHandle ClickSoundHandle;
+
+	public void ClickSound() => ClickSoundHandle = Audio.Play( "click" );
+
+	public void Resume() => Game.Menu.HideMenu();
+
+	public void Disconnect() => Game.Menu.LeaveServer( "Client disconnect" );
+
+	public void CreateGame() => this.Navigate( "/creategame" );
+
+	public void FindGame() => this.Navigate( "/findgame" );
+
+	public void Options() => this.Navigate( "/options" );
+
+	public void Quit() => Game.Menu.Close();
+}

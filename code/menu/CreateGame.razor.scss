@@ -1,0 +1,53 @@
+﻿@import "Menu.razor.scss";
+
+.createGameBox {
+    margin: auto;
+    width: 348px;
+    height: 460px;
+    background-color: #4C5844;
+    border-width: 1px;
+    border-bottom-color: #34402C;
+    border-right-color: #34402C;
+    border-top-color: #707c68;
+    border-left-color: #707c68;
+    padding: 5px;
+    flex-direction: column;
+
+    .inner {
+        border-width: 1px;
+        border-bottom-color: #34402C;
+        border-right-color: #34402C;
+        border-top-color: #707c68;
+        border-left-color: #707c68;
+        width: 95%;
+        height: 364px;
+        margin: auto;
+    }
+
+    .button {
+        font-size: 14px;
+        width: 70px;
+        height: 22px;
+        border-width: 1px;
+        border-bottom-color: #34402C;
+        border-right-color: #34402C;
+        border-top-color: #707c68;
+        border-left-color: #707c68;
+        margin-right: 10px;
+    }
+
+    .buttonRow {
+        flex-direction: row;
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .select {
+        color: #3e4637;
+    }
+}
+
+.popupText {
+    color: white;
+    font-size: 15px;
+}
