@@ -1,5 +1,6 @@
 ﻿@using Sandbox;
 @using Sandbox.UI;
+@using System;
 @using System.Collections.Generic;
 @inherits Panel
 @namespace Ricochet.Menu
@@ -9,8 +10,18 @@
     <div class="createGameBox outerBorder">
         <label class="popupText">Create Server</label>
         <div class="inner outerBorder">
-            <label for="mapselect">Map</label>
-			<DropDown class="innerBorder" Value:bind=@Map Options=@MapOptions></DropDown>
+			<div class="row">
+				<label>Map</label>
+				<DropDown class="innerBorder" Value:bind=@Map Options=@MapOptions></DropDown>
+			</div>
+			<div class="row">
+				<label>Hostname</label>
+				<TextEntry class="innerBorder" Value:bind="@Hostname"></TextEntry>
+			</div>
+			<div class ="row">
+				<label>Max Players</label>
+				<TextEntry class="innerBorder" Value:bind="@MaxPlayers" Numeric="@true"></TextEntry>
+			</div>
         </div>
         <div class="buttonRow">
             <button class="outerBorder" onclick="@Start">Start</button>
@@ -21,6 +32,7 @@
 
 @code
 {
+	Random rand = new Random();
 	List<Option> MapOptions = new() {
 		new Option( "< Random Map >", "" ),
 		new Option( "rc_arena", "lambdagaming.rc_arena" ),
@@ -29,9 +41,29 @@
 	};
 
 	public string Map { get; set; }
+	public string Hostname { get; set; }
 	public int MaxPlayers { get; set; }
-
-	public void Start() => Delete();
+	public int RoundType { get; set; }
+	public int PlayersPerTeam { get; set; }
+	public int ArenaRounds { get; set; }
+	public bool AllowVR { get; set; }
 
 	public void Cancel() => this.Navigate( "/" );
+
+	public async void Start()
+	{
+		string finalMap = Map;
+		if ( string.IsNullOrWhiteSpace( Map ) )
+			finalMap = ( string ) MapOptions[rand.Next( MapOptions.Count )].Value;
+
+		var lobby = await Game.Menu.CreateLobbyAsync( MaxPlayers );
+		string name = string.IsNullOrWhiteSpace( Hostname ) ? $"{lobby.Owner.Name}'s Ricochet server" : Hostname;
+		lobby.Title = name;
+		lobby.Map = finalMap;
+		//lobby.ConVars.Add( "rc_roundtype", RoundType );
+		//lobby.ConVars.Add( "rc_playersperteam", PlayersPerTeam );
+		//lobby.ConVars.Add( "rc_rounds", ArenaRounds );
+		//lobby.ConVars.Add( "rc_allowvr", AllowVR );
+		_ = lobby.LaunchGameAsync();
+	}
 }

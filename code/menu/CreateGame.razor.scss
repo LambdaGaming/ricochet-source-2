@@ -32,9 +32,14 @@
         padding-top: 10px;
         padding-right: 8px;
         overflow: scroll;
+        flex-direction: column;
 
         .label {
             font-size: 16px;
+        }
+
+        .row {
+            margin-bottom: 8px;
         }
     }
 
@@ -59,6 +64,14 @@
         background-color: #3e4637;
         margin-left: auto;
         margin-right: 0;
+    }
+
+    .textentry {
+        width: 120px;
+        background-color: #3e4637;
+        margin-left: auto;
+        margin-right: 0;
+        height: 20px;
     }
 }
 
