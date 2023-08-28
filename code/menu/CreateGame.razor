@@ -15,12 +15,27 @@
 				<DropDown class="innerBorder" Value:bind=@Map Options=@MapOptions></DropDown>
 			</div>
 			<div class="row">
+				<label>Round Type</label>
+				<DropDown class="innerBorder" Value:bind=@RoundType Options=@RoundTypeOptions></DropDown>
+			</div>
+			<div class="row">
 				<label>Hostname</label>
 				<TextEntry class="innerBorder" Value:bind="@Hostname"></TextEntry>
 			</div>
 			<div class ="row">
 				<label>Max Players</label>
 				<TextEntry class="innerBorder" Value:bind="@MaxPlayers" Numeric="@true"></TextEntry>
+			</div>
+			<div class ="row">
+				<label>Players Per Team</label>
+				<TextEntry class="innerBorder" Value:bind="@PlayersPerTeam" Numeric="@true"></TextEntry>
+			</div>
+			<div class ="row">
+				<label>Max Rounds</label>
+				<TextEntry class="innerBorder" Value:bind="@ArenaRounds" Numeric="@true"></TextEntry>
+			</div>
+			<div class="row">
+				<Checkbox LabelText="Allow VR Players" Value:bind="@AllowVR"></Checkbox>
 			</div>
         </div>
         <div class="buttonRow">
@@ -39,6 +54,11 @@
 		new Option( "rc_deathmatch", "lambdagaming.rc_deathmatch" ),
 		new Option( "rc_deathmatch2", "lambdagaming.rc_deathmatch_2" )
 	};
+	List<Option> RoundTypeOptions = new() {
+		new Option( "Deathmatch", 0 ),
+		new Option( "Team Deathmatch", 1 ),
+		new Option( "Arena", 2 )
+	};
 
 	public string Map { get; set; }
 	public string Hostname { get; set; }
@@ -52,18 +72,25 @@
 
 	public async void Start()
 	{
-		string finalMap = Map;
 		if ( string.IsNullOrWhiteSpace( Map ) )
-			finalMap = ( string ) MapOptions[rand.Next( MapOptions.Count )].Value;
+			Map = ( string ) MapOptions[rand.Next( MapOptions.Count )].Value;
+
+		if ( RoundType == null ) RoundType = 0;
+
+		if ( MaxPlayers <= 0 || MaxPlayers > 32 )
+			MaxPlayers = 32;
+		if ( RoundType == 2 && ( PlayersPerTeam <= 0 || PlayersPerTeam > 16 ) )
+			PlayersPerTeam = 16;
+		if ( RoundType == 2 && ArenaRounds <= 0  )
+			ArenaRounds = 3;
 
 		var lobby = await Game.Menu.CreateLobbyAsync( MaxPlayers );
-		string name = string.IsNullOrWhiteSpace( Hostname ) ? $"{lobby.Owner.Name}'s Ricochet server" : Hostname;
-		lobby.Title = name;
-		lobby.Map = finalMap;
-		//lobby.ConVars.Add( "rc_roundtype", RoundType );
-		//lobby.ConVars.Add( "rc_playersperteam", PlayersPerTeam );
-		//lobby.ConVars.Add( "rc_rounds", ArenaRounds );
-		//lobby.ConVars.Add( "rc_allowvr", AllowVR );
+		lobby.Title = string.IsNullOrWhiteSpace( Hostname ) ? $"{lobby.Owner.Name}'s Ricochet server" : Hostname;
+		lobby.Map = Map;
+		lobby.ConVars.Add( "rc_roundtype", RoundType.ToString() );
+		lobby.ConVars.Add( "rc_playersperteam", PlayersPerTeam.ToString() );
+		lobby.ConVars.Add( "rc_rounds", ArenaRounds.ToString() );
+		lobby.ConVars.Add( "rc_allowvr", AllowVR.ToString() );
 		_ = lobby.LaunchGameAsync();
 	}
 }

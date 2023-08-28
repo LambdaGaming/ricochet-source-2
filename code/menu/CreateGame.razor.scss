@@ -73,6 +73,23 @@
         margin-right: 0;
         height: 20px;
     }
+
+    .checkbox {
+        cursor: pointer;
+        
+        > .checkmark {
+            border: 1px solid #707c68;
+            margin-right: 5px;
+            color: transparent;
+            text-align: center;
+        }
+
+        &.checked {
+            > .checkmark {
+                color: white;
+            }
+        }
+    }
 }
 
 .popupText {
