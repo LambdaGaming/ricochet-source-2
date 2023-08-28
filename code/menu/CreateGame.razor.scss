@@ -1,39 +1,50 @@
 ﻿@import "Menu.razor.scss";
 
-.createGameBox {
-    margin: auto;
-    width: 348px;
-    height: 460px;
-    background-color: #4C5844;
+.outerBorder {
     border-width: 1px;
     border-bottom-color: #34402C;
     border-right-color: #34402C;
     border-top-color: #707c68;
     border-left-color: #707c68;
+}
+
+.innerBorder {
+    border-width: 1px;
+    border-bottom-color: #707c68;
+    border-right-color: #707c68;
+    border-top-color: #34402C;
+    border-left-color: #34402C;
+}
+
+.createGameBox {
+    margin: auto;
+    width: 348px;
+    height: 460px;
+    background-color: #4C5844;
     padding: 5px;
     flex-direction: column;
 
     .inner {
-        border-width: 1px;
-        border-bottom-color: #34402C;
-        border-right-color: #34402C;
-        border-top-color: #707c68;
-        border-left-color: #707c68;
         width: 95%;
         height: 364px;
         margin: auto;
+        padding-left: 14px;
+        padding-top: 10px;
+        padding-right: 8px;
+        overflow: scroll;
+
+        .label {
+            font-size: 16px;
+        }
     }
 
     .button {
         font-size: 14px;
         width: 70px;
         height: 22px;
-        border-width: 1px;
-        border-bottom-color: #34402C;
-        border-right-color: #34402C;
-        border-top-color: #707c68;
-        border-left-color: #707c68;
         margin-right: 10px;
+        padding-left: 4px;
+        padding-top: 2px;
     }
 
     .buttonRow {
@@ -42,8 +53,12 @@
         margin-right: 0;
     }
 
-    .select {
-        color: #3e4637;
+    .dropdown {
+        padding: 0;
+        width: 172px;
+        background-color: #3e4637;
+        margin-left: auto;
+        margin-right: 0;
     }
 }
 

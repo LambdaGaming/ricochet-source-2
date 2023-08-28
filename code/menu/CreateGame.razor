@@ -1,30 +1,33 @@
 ﻿@using Sandbox;
 @using Sandbox.UI;
+@using System.Collections.Generic;
 @inherits Panel
 @namespace Ricochet.Menu
 @attribute [StyleSheet]
 
 <root class="root">
-    <div class="createGameBox">
+    <div class="createGameBox outerBorder">
         <label class="popupText">Create Server</label>
-        <div class="inner">
+        <div class="inner outerBorder">
             <label for="mapselect">Map</label>
-            <select id="mapselect">
-                <option value="0">Random Map</option>
-                <option value="lambdagaming.rc_arena">rc_arena</option>
-                <option value="lambdagaming.rc_deathmatch">rc_deathmatch</option>
-                <option value="lambdagaming.rc_deathmatch_2">rc_deathmatch2</option>
-            </select>
+			<DropDown class="innerBorder" Value:bind=@Map Options=@MapOptions></DropDown>
         </div>
         <div class="buttonRow">
-            <button onclick="@Start">Start</button>
-            <button onclick="@Cancel">Cancel</button>
+            <button class="outerBorder" onclick="@Start">Start</button>
+            <button class="outerBorder" onclick="@Cancel">Cancel</button>
         </div>
     </div>
 </root>
 
 @code
 {
+	List<Option> MapOptions = new() {
+		new Option( "< Random Map >", "" ),
+		new Option( "rc_arena", "lambdagaming.rc_arena" ),
+		new Option( "rc_deathmatch", "lambdagaming.rc_deathmatch" ),
+		new Option( "rc_deathmatch2", "lambdagaming.rc_deathmatch_2" )
+	};
+
 	public string Map { get; set; }
 	public int MaxPlayers { get; set; }
 
