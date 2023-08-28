@@ -92,5 +92,6 @@
 		lobby.ConVars.Add( "rc_rounds", ArenaRounds.ToString() );
 		lobby.ConVars.Add( "rc_allowvr", AllowVR.ToString() );
 		_ = lobby.LaunchGameAsync();
+		Cancel();
 	}
 }

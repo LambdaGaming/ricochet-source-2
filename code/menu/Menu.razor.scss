@@ -22,6 +22,22 @@
     }
 }
 
+.outerBorder {
+    border-width: 1px;
+    border-bottom-color: #34402C;
+    border-right-color: #34402C;
+    border-top-color: #707c68;
+    border-left-color: #707c68;
+}
+
+.innerBorder {
+    border-width: 1px;
+    border-bottom-color: #707c68;
+    border-right-color: #707c68;
+    border-top-color: #34402C;
+    border-left-color: #34402C;
+}
+
 .listContainer {
     position: relative;
     min-height: 100%;

@@ -1,0 +1,51 @@
+﻿@import "Menu.razor.scss";
+
+.loadingBox {
+    margin: auto;
+    width: 380px;
+    height: 112px;
+    background-color: #4C5844;
+    flex-direction: column;
+    padding: 15px;
+    font-size: 14px;
+
+    .row {
+        margin-bottom: 20px;
+    }
+
+    .loading {
+        color: white;
+    }
+
+    .status {
+        color: #9faa95;
+    }
+
+    .progress {
+        background-color: #3d4536;
+        width: 258px;
+        height: 22px;
+
+        .bar {
+            background-color: #c4b44f;
+            position: absolute;
+            height: 100%;
+        }
+    }
+
+    .text-right {
+        margin-right: auto;
+        margin-left: auto;
+        color: white;
+    }
+
+    .button {
+        font-size: 14px;
+        width: 70px;
+        height: 22px;
+        margin-left: auto;
+        margin-right: 0;
+        padding-left: 4px;
+        padding-top: 2px;
+    }
+}

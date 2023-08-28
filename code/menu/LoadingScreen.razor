@@ -1,0 +1,36 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Menu;
+@inherits RootPanel
+@implements ILoadingScreenPanel
+@namespace Ricochet.Menu
+@attribute [StyleSheet]
+
+<root class="root">
+	<div class="loadingBox">
+		<div class="row">
+			<label class="loading">Loading...</label>
+		</div>
+		<div class="row">
+			<label class="status">@Progress.Title</label>
+		</div>
+		<div class="row">
+			<div class="innerBorder progress">
+				<div class="bar" style="width: @(Progress.Percent)%;"></div>
+				<div class="text-right"><span>@(Progress.Mbps.ToString( "0" ))</span><span class="unit">Mbps</span></div>
+			</div>
+			<button class="outerBorder" onclick="@Game.Menu.CancelLoading">Cancel</button>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	public LoadingProgress Progress;
+
+	public void OnLoadingProgress( LoadingProgress progress )
+	{
+		Progress = progress;
+		StateHasChanged();
+	}
+}
