@@ -1,0 +1,34 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Services;
+@inherits Panel
+@namespace Ricochet.Menu
+@attribute [StyleSheet]
+
+<root class="root">
+	<div class="browserWindow outerBorder">
+		<label>Servers</label>
+		<div class="inner innerBorder">
+			<ServerListPanel @ref="List" OnSelected="@OnServerSelected" ShowGame=@false FilterByGame=lambdagaming.ricochet></ServerListPanel>
+		</div>
+		<div class="buttonBox outerBorder">
+            <TextEntry class="search innerBorder" OnTextEdited=@( ( string w) => { List.TextFilter = w; } ) placeholder="Search.."></TextEntry>
+			<div class="row">
+				<button class="outerBorder" @onclick=@( () => List.Refresh() )>Refresh</button>
+				<button class="outerBorder" onclick="@Cancel">Cancel</button>
+			</div>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	ServerListPanel List;
+
+	public void Cancel() => this.Navigate( "/" );
+
+	public void OnServerSelected( ServerList.Entry server )
+	{
+		Game.Menu.ConnectToServer( server.SteamId );
+	}
+}

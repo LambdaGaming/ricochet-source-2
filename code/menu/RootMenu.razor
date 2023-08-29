@@ -12,7 +12,7 @@
 		DefaultUrl = "/";
 		AddDestination( "/", typeof( Menu ) );
 		AddDestination( "/creategame", typeof( CreateGame ) );
-		//AddDestination( "/findgame", typeof( FindGame ) );
+		AddDestination( "/findgame", typeof( FindGame ) );
 		//AddDestination( "/options", typeof( Options ) );
 		if ( Game.InGame ) Navigate( "/" );
 		BindClass( "ingame", () => Game.InGame );
