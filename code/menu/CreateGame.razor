@@ -72,8 +72,13 @@
 
 	public async void Start()
 	{
+		await Game.Menu.CreateLobbyAsync( MaxPlayers );
+
 		if ( string.IsNullOrWhiteSpace( Map ) )
 			Map = ( string ) MapOptions[rand.Next( MapOptions.Count )].Value;
+
+		if ( string.IsNullOrWhiteSpace( Hostname ) )
+			Hostname = $"{Game.Menu.Lobby.Owner.Name}'s Ricochet server";
 
 		if ( RoundType == null ) RoundType = 0;
 
@@ -84,14 +89,13 @@
 		if ( RoundType == 2 && ArenaRounds <= 0  )
 			ArenaRounds = 3;
 
-		var lobby = await Game.Menu.CreateLobbyAsync( MaxPlayers );
-		lobby.Title = string.IsNullOrWhiteSpace( Hostname ) ? $"{lobby.Owner.Name}'s Ricochet server" : Hostname;
-		lobby.Map = Map;
-		lobby.ConVars.Add( "rc_roundtype", RoundType.ToString() );
-		lobby.ConVars.Add( "rc_playersperteam", PlayersPerTeam.ToString() );
-		lobby.ConVars.Add( "rc_rounds", ArenaRounds.ToString() );
-		lobby.ConVars.Add( "rc_allowvr", AllowVR.ToString() );
-		_ = lobby.LaunchGameAsync();
+		Game.Menu.Lobby.Title = Hostname;
+		Game.Menu.Lobby.Map = Map;
+		Game.Menu.Lobby.ConVars.Add( "rc_roundtype", RoundType.ToString() );
+		Game.Menu.Lobby.ConVars.Add( "rc_playersperteam", PlayersPerTeam.ToString() );
+		Game.Menu.Lobby.ConVars.Add( "rc_rounds", ArenaRounds.ToString() );
+		Game.Menu.Lobby.ConVars.Add( "rc_allowvr", AllowVR.ToString() );
+		_ = Game.Menu.Lobby.LaunchGameAsync();
 		Cancel();
 	}
 }
