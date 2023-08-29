@@ -55,13 +55,11 @@
     }
 
     ServerRow {
-        height: 30px;
         background-color: transparent;
 
         .title, .players, .ping {
             color: white;
             font-family: Consolas;
-            font-size: 15px;
         }
     }
 
@@ -72,8 +70,6 @@
 }
 
 ServerRowPackage {
-    
-
     .org {
         display: none;
     }

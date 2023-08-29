@@ -30,5 +30,6 @@
 	public void OnServerSelected( ServerList.Entry server )
 	{
 		Game.Menu.ConnectToServer( server.SteamId );
+		Cancel();
 	}
 }
