@@ -1,0 +1,83 @@
+﻿@import "Menu.razor.scss";
+
+.optionsWindow {
+    margin: auto;
+    width: 512px;
+    height: 406px;
+    background-color: #4C5844;
+    flex-direction: column;
+    padding: 10px;
+
+    .inner {
+        margin: auto;
+        margin-top: 3px;
+        width: 100%;
+        height: 336px;
+        background-color: #3e4637;
+        overflow: scroll;
+        flex-direction: column;
+        padding: 10px;
+
+        h2 {
+            color: #968830;
+            margin-bottom: 25px;
+            font-size: 20px;
+        }
+    }
+
+    .row {
+        flex-direction: row;
+        margin: auto;
+        margin-right: 0;
+        margin-top: 10px;
+    }
+
+    .button {
+        font-size: 14px;
+        width: 70px;
+        height: 22px;
+        margin-right: 10px;
+        padding-left: 4px;
+        padding-top: 2px;
+    }
+}
+
+keybind {
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+    width: 200px;
+    cursor: pointer;
+    color: #aaa;
+
+    &.with-highlight {
+        color: #eee;
+    }
+
+    &:hover {
+        background-color: #ffffff11;
+    }
+
+    &.active {
+        background-color: #968830;
+        color: #aaa;
+    }
+}
+
+.form {
+    flex-direction: column;
+    flex-shrink: 0;
+    flex-grow: 0;
+    margin-bottom: 20px;
+
+    > .form-group {
+        flex-direction: row;
+
+        > .form-label {
+            font-size: 15px;
+            white-space: nowrap;
+            margin: auto;
+            margin-left: 0;
+        }
+    }
+}

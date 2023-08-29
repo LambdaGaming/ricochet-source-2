@@ -1,0 +1,64 @@
+﻿@using System
+@using Sandbox;
+@using Sandbox.MenuSystem;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@using System.Linq;
+@inherits Panel
+@namespace Ricochet.Menu
+@attribute [StyleSheet]
+
+<root class="root">
+	<div class="optionsWindow outerBorder">
+		<label>Options</label>
+		<div class="inner innerBorder">
+			@foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
+			{
+				<h2>@group.Key</h2>
+				<div class="form">
+				@foreach ( InputAction action in group )
+				{
+					<FormGroup>
+						<Label>@action.Name</Label>
+						<Control>
+							<KeyBind Game="@Game.Menu" Action=@action class="glass with-padding with-grow with-click"></KeyBind>
+						</Control>
+					</FormGroup>
+				}
+				</div>
+			}
+		</div>
+		<div class="row">
+			<button class="outerBorder" @onclick=@Reset>Reset</button>
+			<button class="outerBorder" onclick="@Cancel">Cancel</button>
+			<button class="outerBorder" onclick="@Save">Apply</button>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	public void Cancel()
+	{
+		foreach ( var kb in Descendants.OfType<KeyBind>() )
+		{
+			kb.Cancel();
+		}
+		this.Navigate( "/" );
+	}
+
+	public void Reset()
+	{
+		Game.Menu.ResetBinds();
+	}
+
+	public void Save()
+	{
+		foreach ( var kb in Descendants.OfType<KeyBind>() )
+		{
+			kb.Apply();
+		}
+
+		Game.Menu.SaveBinds();
+	}
+}
