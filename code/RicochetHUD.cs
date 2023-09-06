@@ -151,6 +151,10 @@ public class RicochetScoreboard<T> : Panel where T : RicochetScoreboardEntry, ne
 		AddClass( "ricochetscoreboard" );
 		Canvas = Add.Panel( "canvas" );
 		Panel Header = Canvas.Add.Panel( "header" );
+		if ( Ricochet.CurrentRound is DeathmatchRound )
+		{
+			Button spectator = Header.Add.Button( "TOGGLE SPECTATOR MODE", () => ConsoleSystem.Run( "toggle_spectator" ) );
+		}
 		Header.Add.Label( "", "name" );
 		Header.Add.Label( "POINTS", "pointstext" );
 		Header.Add.Label( "LATENCY", "latencytext" );

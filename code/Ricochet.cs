@@ -121,12 +121,17 @@ public partial class Ricochet : GameManager
 		return players;
 	}
 
-	public static void SpawnSpectators()
+	[ConCmd.Server( "toggle_spectator" )]
+	public static void ToggleSpectator()
 	{
-		foreach ( RicochetPlayer ply in GetPlayers( true ) )
+		RicochetPlayer ply = ConsoleSystem.Caller.Pawn as RicochetPlayer;
+		if ( !ply.IsValid() ) return;
+		if ( ply.IsSpectator )
 		{
 			ply.RemoveSpectator();
+			return;
 		}
+		ply.SetSpectator();
 	}
 
 	public override void MoveToSpawnpoint( Entity pawn )
