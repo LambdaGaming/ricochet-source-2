@@ -27,9 +27,11 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 	[Net] public int LastAttackWeaponBounces { get; set; } = 0;
 	[Net] public DeathReason LastDeathReason { get; set; }
 	[Net] public bool IsSpectator { get; set; } = false;
+	[Net] public Vector3 CorpsePosition { get; set; }
 	[Net, Local] public RightHand RightHand { get; set; } // Apparently the Local attribute isn't implemented yet, so hands will appear for other clients for now
 	[Net, Local] public LeftHand LeftHand { get; set; }
 	[Net, Predicted] public bool DeathCamera { get; set; }
+	[Net, Predicted] public bool SpectateCamera { get; set; }
 	public float DiscCooldown { get; set; }
 	public float OwnerTouchCooldown { get; set; }
 	public float EnemyTouchCooldown { get; set; }
@@ -76,6 +78,7 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 		LastAttackerWeapon = null;
 		LastAttackWeaponBounces = 0;
 		DeathCamera = false;
+		SpectateCamera = false;
 		Tags.Add( "player" );
 
 		if ( IsSpectator )
@@ -379,7 +382,7 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 	public void SetSpectator()
 	{
 		IsSpectator = true;
-		DeathCamera = true;
+		SpectateCamera = true;
 		Controller = null;
 		EnableAllCollisions = false;
 		EnableDrawing = false;
@@ -389,7 +392,7 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 	{
 		IsSpectator = false;
 		Controller = new RicochetWalkController();
-		DeathCamera = false;
+		SpectateCamera = false;
 		EnableAllCollisions = true;
 		EnableDrawing = true;
 	}
@@ -409,7 +412,6 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 
 	public override void FrameSimulate( IClient cl )
 	{
-		Camera.Rotation = ViewAngles.ToRotation();
 		RightHand?.FrameSimulate( cl );
 		LeftHand?.FrameSimulate( cl );
 
@@ -417,25 +419,22 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 		{
 			Camera.FieldOfView = 90;
 			Camera.FirstPersonViewer = null;
-
+			Camera.Position = CorpsePosition;
+			Camera.Rotation = Rotation.FromPitch( 90 ) * Rotation.FromRoll( 300 * Time.Now ); // TODO: Make this slowly speed up
+		}
+		else if ( SpectateCamera )
+		{
+			Camera.Rotation = ViewAngles.ToRotation();
+			Camera.FieldOfView = 90;
+			Camera.FirstPersonViewer = null;
 			Vector3? targetpos = null;
-			if ( IsSpectator )
+			foreach ( IClient client in Game.Clients )
 			{
-				foreach ( IClient client in Game.Clients )
+				var ply = cl.Pawn as RicochetPlayer;
+				if ( ply.Alive() && !ply.IsSpectator )
 				{
-					var ply = cl.Pawn as RicochetPlayer;
-					if ( ply.Alive() && !ply.IsSpectator )
-					{
-						targetpos = ply.Position; // Pick first player thats still alive
-						break;
-					}
-				}
-			}
-			else
-			{
-				if ( Corpse.IsValid() )
-				{
-					Position = Corpse.Position;
+					targetpos = ply.Position; // Pick first player thats still alive
+					break;
 				}
 			}
 			targetpos ??= Position;
@@ -443,6 +442,7 @@ public partial class RicochetPlayer : Player // TODO: Stop relying on Player cla
 		}
 		else
 		{
+			Camera.Rotation = ViewAngles.ToRotation();
 			Camera.Position = EyePosition;
 			Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 			Camera.FirstPersonViewer = this;

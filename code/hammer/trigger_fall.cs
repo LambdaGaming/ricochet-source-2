@@ -35,9 +35,11 @@ public partial class TriggerFall : BaseTrigger
 
 				RicochetCorpse body = new();
 				body.Position = ply.Position;
-				body.Velocity = ply.Velocity;
+				body.Velocity = ply.Velocity.WithX( 0 ).WithY( 0 );
+				body.Rotation = Rotation.FromPitch( 90 );
 				ply.Corpse = body;
 				ply.SyncCorpse( body );
+				ply.CorpsePosition = body.Position + Vector3.Down * 500;
 
 				DamageInfo dmg = new() {
 					Damage = 1000,
@@ -45,7 +47,7 @@ public partial class TriggerFall : BaseTrigger
 					Weapon = ply.LastAttackerWeapon
 				};
 				ply.TakeDamage( dmg );
-				ply.Corpse.PlaySound( "scream" );
+				Sound.FromWorld( "scream", ply.CorpsePosition + Vector3.Down * 2 );
 			}
 		}
 	}
