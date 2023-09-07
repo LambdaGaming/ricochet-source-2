@@ -39,7 +39,7 @@ public partial class TriggerFall : BaseTrigger
 				body.Rotation = Rotation.FromPitch( 90 );
 				ply.Corpse = body;
 				ply.SyncCorpse( body );
-				ply.CorpsePosition = body.Position + Vector3.Down * 500;
+				ply.CorpsePosition = body.Position + Vector3.Down * 100;
 
 				DamageInfo dmg = new() {
 					Damage = 1000,
