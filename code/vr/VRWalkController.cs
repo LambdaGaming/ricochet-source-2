@@ -55,9 +55,7 @@ public class VRWalkController : RicochetWalkController
 		}
 
 		// Work out wish velocity.. just take input, rotate it to view, clamp to -1, 1
-		WishVelocity = Vector3.Zero;
-		WishVelocity += Input.VR.LeftHand.Joystick.Value.y * Input.VR.Head.Rotation.Forward;
-		WishVelocity += Input.VR.LeftHand.Joystick.Value.x * Input.VR.Head.Rotation.Right;
+		WishVelocity = new Vector3( Input.VR.LeftHand.Joystick.Value.y.Clamp( -1f, 1f ), Input.VR.LeftHand.Joystick.Value.x.Clamp( -1f, 1f ), 0 );
 		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
 		WishVelocity = WishVelocity.WithZ( 0 );
 		WishVelocity = WishVelocity.Normal * inSpeed;
