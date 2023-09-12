@@ -31,7 +31,7 @@
 	[
 		{
 			_class = "C_OP_RenderSprites"
-			m_hTexture = resource:"materials/particle/discreturn/discreturn.vtex"
+			m_hTexture = resource:"particles/discreturn/discreturn.vtex"
 			m_flAnimationRate = 3.0
 			m_bAdditive = true
 			m_flRadiusScale = 
