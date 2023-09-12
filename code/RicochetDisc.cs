@@ -214,6 +214,10 @@ public class Disc : ModelEntity
 			}
 			else
 			{
+				if ( IsDecap )
+				{
+					DecapLoop.Stop();
+				}
 				Delete();
 			}
 		}
