@@ -73,7 +73,7 @@
 						[
 							{
 								from = "hard_chrome_is_unused.vmat"
-								to = "models/pow_freeze/hard_chrome.vmat"
+								to = "models/pow_hard/hard_chrome.vmat"
 							},
 						]
 						use_global_default = false
@@ -95,7 +95,7 @@
 								parent_bone = "helix01"
 								surface_property = "default"
 								translation_only = false
-								group_id = 0
+								tags = ""
 								hitbox_mins = [ -19.139997, -19.84, 0.0 ]
 								hitbox_maxs = [ 21.26, 19.84, 109.370003 ]
 							},
@@ -104,7 +104,7 @@
 								parent_bone = "sphere01"
 								surface_property = "default"
 								translation_only = false
-								group_id = 0
+								tags = ""
 								hitbox_mins = [ -18.339998, -16.139994, -3.619999 ]
 								hitbox_maxs = [ 16.120001, 17.87999, 3.62 ]
 							},
@@ -153,10 +153,12 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
+						enable_scale = false
 						source_filename = "models/pow_hard/pow_hard_refs/anim/_idle_0.dmx"
 						start_frame = -1
 						end_frame = -1
 						framerate = 90.0
+						take = 0
 						reverse = false
 					},
 					{
@@ -173,10 +175,12 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
+						enable_scale = false
 						source_filename = "models/pow_hard/pow_hard_refs/anim/_idle_0.dmx"
 						start_frame = 0
 						end_frame = 180
 						framerate = 90.0
+						take = 0
 						reverse = false
 					},
 				]
@@ -190,7 +194,7 @@
 						_class = "PhysicsShapeBox"
 						parent_bone = ""
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						origin = [ -0.90592, -1.671698, 52.745213 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						dimensions = [ 46.660835, 46.549603, 106.490425 ]
@@ -201,5 +205,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

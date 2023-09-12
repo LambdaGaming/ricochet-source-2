@@ -14,7 +14,7 @@
 						remaps = 
 						[
 							{
-								from = ""
+								from = "disc refmap.bmp.vmat"
 								to = "models/disc/disc.vmat"
 							},
 						]
@@ -31,7 +31,7 @@
 						_class = "PhysicsHullFromRender"
 						parent_bone = "Dummy03"
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						faceMergeAngle = 20.0
 						maxHullVertices = 32
 					},
@@ -63,5 +63,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

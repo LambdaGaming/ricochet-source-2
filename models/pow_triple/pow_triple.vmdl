@@ -74,7 +74,7 @@
 						[
 							{
 								from = "tridisc_chrome_is_unused.vmat"
-								to = "models/pow_freeze/tridisc_chrome.vmat"
+								to = "models/pow_triple/tridisc_chrome.vmat"
 							},
 						]
 						use_global_default = false
@@ -133,6 +133,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
+						enable_scale = false
 						source_filename = "models/pow_triple/pow_triple_refs/anim/_idle_0.dmx"
 						start_frame = -1
 						end_frame = -1
@@ -154,6 +155,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
+						enable_scale = false
 						source_filename = "models/pow_triple/pow_triple_refs/anim/_idle_0.dmx"
 						start_frame = 0
 						end_frame = 121

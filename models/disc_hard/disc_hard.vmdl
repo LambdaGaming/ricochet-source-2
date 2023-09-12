@@ -14,7 +14,19 @@
 						remaps = 
 						[
 							{
-								from = ""
+								from = "disc_chrome1.bmp.vmat"
+								to = "models/disc_hard/disc_chrome1.vmat"
+							},
+							{
+								from = "disc_chrome2.bmp.vmat"
+								to = "models/disc_hard/disc_chrome2.vmat"
+							},
+							{
+								from = "disc_chrome3.bmp.vmat"
+								to = "models/disc_hard/disc_chrome3.vmat"
+							},
+							{
+								from = "disc_chrome4.bmp.vmat"
 								to = "models/disc_hard/disc_chrome4.vmat"
 							},
 						]
@@ -53,7 +65,7 @@
 						_class = "PhysicsHullFromRender"
 						parent_bone = "Sphere01"
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						faceMergeAngle = 20.0
 						maxHullVertices = 32
 					},
@@ -63,5 +75,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }
