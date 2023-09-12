@@ -75,7 +75,7 @@
 		await Game.Menu.CreateLobbyAsync( MaxPlayers );
 
 		if ( string.IsNullOrWhiteSpace( Map ) )
-			Map = ( string ) MapOptions[rand.Next( MapOptions.Count )].Value;
+			Map = ( string ) MapOptions[rand.Next( 1, MapOptions.Count )].Value;
 
 		if ( string.IsNullOrWhiteSpace( Hostname ) )
 			Hostname = $"{Game.Menu.Lobby.Owner.Name}'s Ricochet server";
