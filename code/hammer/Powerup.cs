@@ -10,6 +10,7 @@ public partial class PowerupEnt : AnimatedEntity
 {
 	[Net] public Powerup CurrentPowerup { get; set; } = 0;
 	public bool Hidden { get; set; } = false;
+	private PointLightEntity PowerupLight;
 
 	public override void Spawn()
 	{
@@ -44,6 +45,7 @@ public partial class PowerupEnt : AnimatedEntity
 		RenderColor = Color.Transparent;
 		_ = WaitForRespawn();
 		Hidden = true;
+		PowerupLight.Delete();
 	}
 
 	public void Unhide()
@@ -60,46 +62,44 @@ public partial class PowerupEnt : AnimatedEntity
 		Unhide();
 	}
 
-	public void SetRandomPowerup()
+	private void SetRandomPowerup()
 	{
 		Random rand = new();
 		Array powerups = Enum.GetValues( typeof( Powerup ) );
 		Powerup powerup = ( Powerup ) powerups.GetValue( rand.Next( powerups.Length ) );
 		CurrentPowerup = powerup;
-		SetPowerupModel();
+		SetModel( GetPowerupModel() );
+		PowerupLight = new PointLightEntity
+		{
+			Color = GetLightColor(),
+			LightSize = 0.01f,
+			Brightness = 0.1f,
+			Position = Position,
+			Parent = this
+		};
 	}
 
-	public void SetPowerupModel()
+	private string GetPowerupModel()
 	{
-		string mdl;
-		switch ( CurrentPowerup )
+		return CurrentPowerup switch
 		{
-			case Powerup.Fast:
-			{
-				mdl = "models/pow_fast/pow_fast.vmdl";
-				break;
-			}
-			case Powerup.Freeze:
-			{
-				mdl = "models/pow_freeze/pow_freeze.vmdl";
-				break;
-			}
-			case Powerup.Hard:
-			{
-				mdl = "models/pow_hard/pow_hard.vmdl";
-				break;
-			}
-			case Powerup.Triple:
-			{
-				mdl = "models/pow_triple/pow_triple.vmdl";
-				break;
-			}
-			default:
-			{
-				mdl = "models/pow_fast/pow_fast.vmdl";
-				break;
-			}
-		}
-		SetModel( mdl );
+			Powerup.Fast => "models/pow_fast/pow_fast.vmdl",
+			Powerup.Freeze => "models/pow_freeze/pow_freeze.vmdl",
+			Powerup.Hard => "models/pow_hard/pow_hard.vmdl",
+			Powerup.Triple => "models/pow_triple/pow_triple.vmdl",
+			_ => "models/pow_fast/pow_fast.vmdl",
+		};
+	}
+
+	private Color GetLightColor()
+	{
+		return CurrentPowerup switch
+		{
+			Powerup.Fast => Color.Green,
+			Powerup.Freeze => Color.Cyan,
+			Powerup.Hard => Color.Red,
+			Powerup.Triple => Color.Magenta,
+			_ => Color.Black,
+		};
 	}
 }
