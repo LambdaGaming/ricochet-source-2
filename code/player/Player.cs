@@ -165,7 +165,7 @@ public partial class Player : AnimatedEntity
 			return;
 		}
 
-		Controller.Simulate( cl, this );
+		Controller?.Simulate( cl, this );
 		RightHand?.Simulate( cl );
 		LeftHand?.Simulate( cl );
 		SimulateAnimation( Controller );
