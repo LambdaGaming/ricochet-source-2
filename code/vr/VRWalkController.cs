@@ -2,7 +2,7 @@
 
 namespace Ricochet;
 
-public class VRWalkController : RicochetWalkController
+public class VRWalkController : WalkController
 {
 	public override void UpdateBBox()
 	{
@@ -27,8 +27,7 @@ public class VRWalkController : RicochetWalkController
 		EyeLocalPosition += TraceOffset;
 		EyeRotation = Input.VR.Head.Rotation;
 
-		if ( Unstuck.TestAndFix() )
-			return;
+		if ( StuckFix() ) return;
 
 		if ( Impulse.Length > 0 )
 		{

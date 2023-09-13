@@ -80,7 +80,7 @@
 		if ( string.IsNullOrWhiteSpace( Hostname ) )
 			Hostname = $"{Game.Menu.Lobby.Owner.Name}'s Ricochet server";
 
-		if ( RoundType == null ) RoundType = 0;
+		if ( RoundType < 0 || RoundType > 3 ) RoundType = 0;
 
 		if ( MaxPlayers <= 0 || MaxPlayers > 32 )
 			MaxPlayers = 32;

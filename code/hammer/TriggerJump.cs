@@ -20,7 +20,7 @@ public partial class TriggerJump : BaseTrigger
 
 		if ( Game.IsClient ) return;
 
-		var ply = ent as RicochetPlayer;
+		var ply = ent as Player;
 		Entity target = FindByName( Target );
 		if ( target.IsValid() && ply.IsValid() )
 		{

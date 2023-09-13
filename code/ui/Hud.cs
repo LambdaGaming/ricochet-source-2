@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Ricochet;
 
-public partial class RicochetHUD : HudEntity<RootPanel>
+public partial class Hud : HudEntity<RootPanel>
 {
-	public RicochetHUD()
+	public Hud()
 	{
 		if ( Game.IsClient )
 		{
@@ -23,14 +23,14 @@ public partial class RicochetHUD : HudEntity<RootPanel>
 
 public class DiscHUD : Panel
 {
-	private Image[] DiscImages = new Image[RicochetPlayer.MaxDiscs];
+	private Image[] DiscImages = new Image[Player.MaxDiscs];
 
 	public DiscHUD()
 	{
-		StyleSheet.Load( "RicochetHUD.scss" );
+		StyleSheet.Load( "ui/Hud.scss" );
 		AddClass( "dischud" );
 		Panel Canvas = Add.Panel( "canvas" );
-		for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
+		for ( int i = 0; i < Player.MaxDiscs; i++ )
 		{
 			DiscImages[i] = Canvas.Add.Image( "", "image" );
 		}
@@ -39,8 +39,8 @@ public class DiscHUD : Panel
 	[GameEvent.Tick.Client]
 	public void UpdateDiscImages()
 	{
-		RicochetPlayer ply = Game.LocalPawn as RicochetPlayer;
-		for ( int i = 0; i < RicochetPlayer.MaxDiscs; i++ )
+		Player ply = Game.LocalPawn as Player;
+		for ( int i = 0; i < Player.MaxDiscs; i++ )
 		{
 			if ( ply.NumDiscs < i + 1 )
 			{
@@ -64,14 +64,14 @@ public class DiscHUD : Panel
 			}
 			else if ( ply.Team == 0 )
 			{
-				if ( ply.NumDiscs == RicochetPlayer.MaxDiscs )
+				if ( ply.NumDiscs == Player.MaxDiscs )
 					SetDiscImage( i, "discred2" );
 				else
 					SetDiscImage( i, "discred" );
 			}
 			else
 			{
-				if ( ply.NumDiscs == RicochetPlayer.MaxDiscs )
+				if ( ply.NumDiscs == Player.MaxDiscs )
 					SetDiscImage( i, "discblue2" );
 				else
 					SetDiscImage( i, "discblue" );
@@ -89,7 +89,7 @@ public class Crosshair : Panel
 {
 	public Crosshair()
 	{
-		StyleSheet.Load( "RicochetHUD.scss" );
+		StyleSheet.Load( "ui/Hud.scss" );
 		Add.Image( "/ui/hud/icons/crosshairs.png" );
 	}
 }
@@ -101,7 +101,7 @@ public class RicochetKillFeed : Panel
 	public RicochetKillFeed()
 	{
 		Current = this;
-		StyleSheet.Load( "RicochetHUD.scss" );
+		StyleSheet.Load( "ui/Hud.scss" );
 	}
 
 	public Panel AddEntry( long lsteamid, string left, long rsteamid, string right, string method )
@@ -147,7 +147,7 @@ public class RicochetScoreboard<T> : Panel where T : RicochetScoreboardEntry, ne
 
 	public RicochetScoreboard()
 	{
-		StyleSheet.Load( "RicochetScoreboard.scss" );
+		StyleSheet.Load( "ui/Scoreboard.scss" );
 		AddClass( "ricochetscoreboard" );
 		Canvas = Add.Panel( "canvas" );
 		Panel Header = Canvas.Add.Panel( "header" );
@@ -238,7 +238,7 @@ public class RicochetScoreboardEntry : Panel
 		Ping.Text = Client.Ping.ToString();
 		SetClass( "me", Client == Game.LocalClient );
 		
-		var ply = Client.Pawn as RicochetPlayer;
+		var ply = Client.Pawn as Player;
 		Color color = ply.IsSpectator ? Color.White : ply.TeamColor;
 		if ( Client != Game.LocalClient )
 		{

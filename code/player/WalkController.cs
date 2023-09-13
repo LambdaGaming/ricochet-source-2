@@ -4,7 +4,7 @@ namespace Ricochet;
 
 // Ricochet walk controller; this is basically the base walk controller without swimming, jumping, ducking, or ladder mechanics
 // Impulse functions taken from sbox-hover
-public partial class RicochetWalkController : BasePlayerController
+public partial class WalkController : PawnController
 {
 	[Net, Predicted] public Vector3 Impulse { get; set; }
 	[Net] public float WalkSpeed { get; set; } = 250.0f;
@@ -21,21 +21,8 @@ public partial class RicochetWalkController : BasePlayerController
 	[Net] public float EyeHeight { get; set; } = 64.0f;
 	[Net] public float Gravity { get; set; } = 800.0f;
 	[Net] public float AirControl { get; set; } = 30.0f;
-	public Unstuck Unstuck;
 
-	public RicochetWalkController()
-	{
-		Unstuck = new Unstuck( this );
-	}
-
-	public override BBox GetHull()
-	{
-		var girth = BodyGirth * 0.5f;
-		var mins = new Vector3( -girth, -girth, 0 );
-		var maxs = new Vector3( +girth, +girth, BodyHeight );
-
-		return new BBox( mins, maxs );
-	}
+	public Vector3 TraceOffset;
 
 	protected Vector3 mins;
 	protected Vector3 maxs;
@@ -77,8 +64,7 @@ public partial class RicochetWalkController : BasePlayerController
 		EyeLocalPosition += TraceOffset;
 		EyeRotation = pl.ViewAngles.ToRotation();
 
-		if ( Unstuck.TestAndFix() )
-			return;
+		if ( StuckFix() ) return;
 
 		if ( Impulse.Length > 0 )
 		{
@@ -339,9 +325,22 @@ public partial class RicochetWalkController : BasePlayerController
 		SurfaceFriction = 1.0f;
 	}
 
-	public override TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
+	public TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
 	{
-		return TraceBBox( start, end, mins, maxs, liftFeet );
+		if ( liftFeet > 0 )
+		{
+			start += Vector3.Up * liftFeet;
+			maxs = maxs.WithZ( maxs.z - liftFeet );
+		}
+
+		var tr = Trace.Ray( start + TraceOffset, end + TraceOffset )
+					.Size( mins, maxs )
+					.WithAnyTags( "solid", "playerclip", "passbullets", "player" )
+					.Ignore( Pawn )
+					.Run();
+
+		tr.EndPosition -= TraceOffset;
+		return tr;
 	}
 
 	public virtual void StayOnGround()
@@ -362,5 +361,41 @@ public partial class RicochetWalkController : BasePlayerController
 		if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > GroundAngle ) return;
 
 		Position = trace.EndPosition;
+	}
+
+	internal int StuckTries = 0;
+	public bool StuckFix()
+	{
+		var result = TraceBBox( Position, Position );
+
+		// Not stuck, we cool
+		if ( !result.StartedSolid )
+		{
+			StuckTries = 0;
+			return false;
+		}
+
+		// Client can't jiggle its way out, needs to wait for server correction to come
+		if ( Game.IsClient ) return true;
+
+		int AttemptsPerTick = 20;
+		for ( int i = 0; i < AttemptsPerTick; i++ )
+		{
+			var pos = Position + Vector3.Random.Normal * ( ( ( float ) StuckTries ) / 2.0f );
+			// First try the up direction for moving platforms
+			if ( i == 0 )
+			{
+				pos = Position + Vector3.Up * 5;
+			}
+
+			result = TraceBBox( pos, pos );
+			if ( !result.StartedSolid )
+			{
+				Position = pos;
+				return false;
+			}
+		}
+		StuckTries++;
+		return true;
 	}
 }

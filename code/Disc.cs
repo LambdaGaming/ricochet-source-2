@@ -7,7 +7,7 @@ public class Disc : ModelEntity
 {
 	public float DiscVelocity { get; set; }
 	public int TotalBounces { get; set; } = 0;
-	public RicochetPlayer LockTarget { get; set; }
+	public Player LockTarget { get; set; }
 	public float NextThink { get; set; } = 0;
 	public bool IsDecap { get; set; } = false;
 	public bool IsExtra { get; set; } = false;
@@ -33,7 +33,7 @@ public class Disc : ModelEntity
 		PhysicsBody.GravityEnabled = false;
 		PhysicsBody.DragEnabled = false;
 		Tags.Add( "trigger", "disc" );
-		RenderColor = ( Owner as RicochetPlayer ).TeamColor;
+		RenderColor = ( Owner as Player ).TeamColor;
 
 		DiscLight = new PointLightEntity
 		{
@@ -53,7 +53,7 @@ public class Disc : ModelEntity
 		}
 	}
 
-	public static Disc CreateDisc( Vector3 position, Vector3 firedir, RicochetPlayer owner, bool decap, Powerup flags )
+	public static Disc CreateDisc( Vector3 position, Vector3 firedir, Player owner, bool decap, Powerup flags )
 	{
 		Disc disc = new();
 		disc.Position = position;
@@ -69,9 +69,9 @@ public class Disc : ModelEntity
 	
 	public override void StartTouch( Entity ent )
 	{
-		var owner = Owner as RicochetPlayer;
+		var owner = Owner as Player;
 		if ( ent is PowerupEnt || !Game.IsServer ) return;
-		if ( ent is RicochetPlayer ply && ply.IsValid() )
+		if ( ent is Player ply && ply.IsValid() )
 		{
 			if ( ent == Owner )
 			{
@@ -148,7 +148,7 @@ public class Disc : ModelEntity
 		}
 	}
 
-	async Task ResetAttacker( RicochetPlayer ply )
+	async Task ResetAttacker( Player ply )
 	{
 		await Task.DelaySeconds( 10 );
 		ply.LastAttackWeaponBounces = 0;
@@ -169,7 +169,7 @@ public class Disc : ModelEntity
 			{
 				Vector3 direction = ( LockTarget.Position - Position ).Normal;
 				float dot = Vector3.Dot( Vector3.Forward, direction );
-				if ( dot < 0.6f || ( Owner as RicochetPlayer ).Team == LockTarget.Team )
+				if ( dot < 0.6f || ( Owner as Player ).Team == LockTarget.Team )
 				{
 					LockTarget = null;
 				}
@@ -177,7 +177,7 @@ public class Disc : ModelEntity
 
 			if ( !LockTarget.IsValid() )
 			{
-				foreach ( RicochetPlayer ply in FindAllByName( "RicochetPlayer" ) )
+				foreach ( Player ply in FindAllByName( "RicochetPlayer" ) )
 				{
 					if ( !ply.IsValid() || ply == Owner ) continue;
 					Vector3 direction = ( ply.Position - Position ).Normal;
@@ -207,7 +207,7 @@ public class Disc : ModelEntity
 				return;
 			}
 
-			if ( Owner.IsValid() && ( Owner as RicochetPlayer ).Alive() )
+			if ( Owner.IsValid() && ( Owner as Player ).Alive() )
 			{
 				Vector3 direction = ( Owner.Position - Position ).Normal;
 				Velocity = direction * DiscVelocity;
@@ -237,7 +237,7 @@ public class Disc : ModelEntity
 
 	public void ReturnToThrower()
 	{
-		var ply = Owner as RicochetPlayer;
+		var ply = Owner as Player;
 		if ( IsDecap )
 		{
 			DecapLoop.Stop();
@@ -251,7 +251,7 @@ public class Disc : ModelEntity
 		}
 		else if ( IsSecondary )
 		{
-			ply.GiveDisc( RicochetPlayer.MaxDiscs );
+			ply.GiveDisc( Player.MaxDiscs );
 		}
 		else
 		{

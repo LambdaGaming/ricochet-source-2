@@ -11,7 +11,7 @@ public partial class TriggerFall : BaseTrigger
 		base.StartTouch( ent );
 		if ( ent.IsValid() )
 		{
-			var ply = ent as RicochetPlayer;
+			var ply = ent as Player;
 			if ( ply.IsValid() && ply.Alive() )
 			{
 				if ( Ricochet.CurrentRound.CurrentState == RoundState.Waiting )
@@ -33,12 +33,11 @@ public partial class TriggerFall : BaseTrigger
 					ply.LastDeathReason = DeathReason.Disc;
 				}
 
-				RicochetCorpse body = new();
+				PlayerCorpse body = new();
 				body.Position = ply.Position;
 				body.Velocity = ply.Velocity.WithX( 0 ).WithY( 0 );
 				body.Rotation = Rotation.FromPitch( 90 );
 				ply.Corpse = body;
-				ply.SyncCorpse( body );
 				ply.CorpsePosition = body.Position + Vector3.Down * 100;
 
 				DamageInfo dmg = new() {

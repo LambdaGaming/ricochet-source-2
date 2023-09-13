@@ -24,7 +24,7 @@ public partial class PowerupEnt : AnimatedEntity
 
 	public override void StartTouch( Entity ent )
 	{
-		var ply = ent as RicochetPlayer;
+		var ply = ent as Player;
 		if ( Game.IsServer )
 		{
 			base.StartTouch( ent );

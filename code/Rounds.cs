@@ -41,8 +41,8 @@ public abstract class BaseRound
 public class ArenaRound : BaseRound
 {
 	public static int TotalRounds { get; set; } = 0;
-	public static List<RicochetPlayer> LastWinners = new();
-	public static List<RicochetPlayer> CurrentPlayers = new();
+	public static List<Player> LastWinners = new();
+	public static List<Player> CurrentPlayers = new();
 
 	[ConVar.Server( "rc_playersperteam", Help = "Amount of players that should be on each team during an arena round." )]
 	public static int PlayersPerTeam { get; set; } = 1;
@@ -60,7 +60,7 @@ public class ArenaRound : BaseRound
 	{
 		Random rand = new();
 		List<IClient> plylist = new( Game.Clients );
-		foreach ( RicochetPlayer ply in LastWinners )
+		foreach ( Player ply in LastWinners )
 		{
 			// Make sure a winning player didn't leave
 			if ( !ply.IsValid() )
@@ -69,7 +69,7 @@ public class ArenaRound : BaseRound
 
 		if ( LastWinners.Count > 0 )
 		{
-			foreach ( RicochetPlayer ply in LastWinners )
+			foreach ( Player ply in LastWinners )
 			{
 				// Spawn winning team first
 				ply.Team = 0;
@@ -83,7 +83,7 @@ public class ArenaRound : BaseRound
 			for ( int i = 0; i < PlayersPerTeam; i++ )
 			{
 				// Spawn random team 1
-				RicochetPlayer ply = plylist[rand.Next( plylist.Count )].Pawn as RicochetPlayer;
+				Player ply = plylist[rand.Next( plylist.Count )].Pawn as Player;
 				ply.Team = 0;
 				ply.Respawn();
 				plylist.Remove( ply.Client );
@@ -94,7 +94,7 @@ public class ArenaRound : BaseRound
 		for ( int i = 0; i < PlayersPerTeam; i++ )
 		{
 			// Spawn random team 2
-			RicochetPlayer ply = plylist[rand.Next( plylist.Count )].Pawn as RicochetPlayer;
+			Player ply = plylist[rand.Next( plylist.Count )].Pawn as Player;
 			ply.Team = 1;
 			ply.Respawn();
 			plylist.Remove( ply.Client );
@@ -104,7 +104,7 @@ public class ArenaRound : BaseRound
 		foreach ( IClient cl in plylist )
 		{
 			// Spawn remaining players as spectators
-			( cl.Pawn as RicochetPlayer ).SetSpectator();
+			( cl.Pawn as Player ).SetSpectator();
 		}
 		_ = RoundCountdown();
 		TotalRounds++;
@@ -113,7 +113,7 @@ public class ArenaRound : BaseRound
 	public override void EndRound()
 	{
 		int aliveTeam = CurrentPlayers[0].Team;
-		foreach ( RicochetPlayer ply in CurrentPlayers )
+		foreach ( Player ply in CurrentPlayers )
 		{
 			// Don't end round if at least 2 players of opposing teams are still alive
 			if ( aliveTeam != ply.Team )

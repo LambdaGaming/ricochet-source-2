@@ -56,7 +56,7 @@ public partial class Ricochet : GameManager
 	{
 		if ( Game.IsServer )
 		{
-			new RicochetHUD();
+			_ = new Hud();
 		}
 
 		switch ( InitialRoundType )
@@ -96,18 +96,18 @@ public partial class Ricochet : GameManager
 			{
 				ChatBox.AddInformation( To.Single( cl ), "An arena game is currently active. You are now a spectator." );
 			}
-			( cl.Pawn as RicochetPlayer ).SetSpectator();
+			( cl.Pawn as Player ).SetSpectator();
 			return;
 		}
-		( cl.Pawn as RicochetPlayer ).Respawn();
+		( cl.Pawn as Player ).Respawn();
 	}
 
-	public static List<RicochetPlayer> GetPlayers( bool spectatorsonly = false )
+	public static List<Player> GetPlayers( bool spectatorsonly = false )
 	{
-		List<RicochetPlayer> players = new();
+		List<Player> players = new();
 		foreach ( IClient cl in Game.Clients )
 		{
-			var ply = cl.Pawn as RicochetPlayer;
+			var ply = cl.Pawn as Player;
 			if ( ply.IsValid() )
 			{
 				if ( spectatorsonly && ply.IsSpectator )
@@ -124,7 +124,7 @@ public partial class Ricochet : GameManager
 	[ConCmd.Server( "toggle_spectator" )]
 	public static void ToggleSpectator()
 	{
-		RicochetPlayer ply = ConsoleSystem.Caller.Pawn as RicochetPlayer;
+		Player ply = ConsoleSystem.Caller.Pawn as Player;
 		if ( !ply.IsValid() ) return;
 		if ( ply.IsSpectator )
 		{
@@ -139,7 +139,7 @@ public partial class Ricochet : GameManager
 		if ( CurrentRound is ArenaRound )
 		{
 			Random rand = new();
-			string color = ( pawn as RicochetPlayer ).Team == 0 ? "red" : "blue";
+			string color = ( pawn as Player ).Team == 0 ? "red" : "blue";
 			IEnumerable<Entity> ents = FindAllByName( $"spawn_{color}" );
 			Entity spawnpoint = ents.ElementAt( rand.Next( ents.Count() ) );
 			
@@ -158,7 +158,7 @@ public partial class Ricochet : GameManager
 	public override void ClientJoined( IClient client )
 	{
 		base.ClientJoined( client );
-		RicochetPlayer player = new();
+		Player player = new();
 		client.Pawn = player;
 		CheckRoundState( client );
 		if ( client.IsUsingVr && !AllowVRPlayers )
@@ -169,7 +169,7 @@ public partial class Ricochet : GameManager
 
 	public override void ClientDisconnect( IClient client, NetworkDisconnectionReason reason )
 	{
-		var ply = client.Pawn as RicochetPlayer;
+		var ply = client.Pawn as Player;
 		TotalTeams[ply.Team]--;
 		if ( client.IsUsingVr )
 		{
@@ -181,7 +181,7 @@ public partial class Ricochet : GameManager
 	public override void OnKilled( IClient client, Entity pawn )
 	{
 		Game.AssertServer();
-		var ply = pawn as RicochetPlayer;
+		var ply = pawn as Player;
 		Log.Info( $"{client.Name} was killed by {ply.LastDeathReason}." );
 		if ( pawn.LastAttacker != null )
 		{
@@ -206,7 +206,7 @@ public partial class Ricochet : GameManager
 
 	private string GetDeathImage( Entity pawn )
 	{
-		var ply = pawn as RicochetPlayer;
+		var ply = pawn as Player;
 		if ( ply.LastDeathReason == DeathReason.Decap )
 		{
 			return "/ui/hud/icons/decapitate.png";
