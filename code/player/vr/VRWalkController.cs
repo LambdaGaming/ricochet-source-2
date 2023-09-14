@@ -21,6 +21,7 @@ public class VRWalkController : WalkController
 
 	public override void Simulate()
 	{
+		var pl = Pawn as Player;
 		EyeLocalPosition = Vector3.Up * ( EyeHeight * Pawn.Scale );
 		UpdateBBox();
 
@@ -54,8 +55,9 @@ public class VRWalkController : WalkController
 		}
 
 		// Work out wish velocity.. just take input, rotate it to view, clamp to -1, 1
-		WishVelocity = new Vector3( Input.VR.LeftHand.Joystick.Value.y.Clamp( -1f, 1f ), Input.VR.LeftHand.Joystick.Value.x.Clamp( -1f, 1f ), 0 );
+		WishVelocity = new Vector3( pl.InputDirection.x.Clamp( -1f, 1f ), pl.InputDirection.y.Clamp( -1f, 1f ), 0 );
 		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
+		WishVelocity *= pl.ViewAngles.WithPitch( 0 ).ToRotation();
 		WishVelocity = WishVelocity.WithZ( 0 );
 		WishVelocity = WishVelocity.Normal * inSpeed;
 		WishVelocity *= GetWishSpeed();

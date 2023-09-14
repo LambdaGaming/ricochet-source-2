@@ -15,6 +15,7 @@ public partial class Hand : AnimatedEntity
 		Rotation = InputHand.Transform.Rotation;
 		Transmit = TransmitType.Always;
 		Tags.Add( "hand" );
+		Scale = 0.5f;
 	}
 
 	public override void FrameSimulate( IClient cl )

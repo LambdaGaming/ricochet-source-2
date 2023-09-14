@@ -133,11 +133,17 @@ public partial class Player : AnimatedEntity
 
 	public override void BuildInput()
 	{
+		if ( Client.IsUsingVr )
+		{
+			// Take input from vr controllers, from https://github.com/ShadowBrian/sbox-vr-addons/blob/master/boomervr/code/VRControls.cs
+			Vector2 move = new( Input.VR.LeftHand.Joystick.Value.y, MathF.Round( -Input.VR.LeftHand.Joystick.Value.x ) );
+			Input.AnalogMove = Input.VR.Head.Rotation * Game.LocalPawn.Rotation.Inverse * move;
+		}
+
 		OriginalViewAngles = ViewAngles;
 		InputDirection = Input.AnalogMove;
 
-		if ( Input.StopProcessing )
-			return;
+		if ( Input.StopProcessing ) return;
 
 		var look = Input.AnalogLook;
 		if ( ViewAngles.pitch > 90f || ViewAngles.pitch < -90f )
