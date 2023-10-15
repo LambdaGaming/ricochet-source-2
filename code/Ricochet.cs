@@ -170,7 +170,10 @@ public partial class Ricochet : GameManager
 	public override void ClientDisconnect( IClient client, NetworkDisconnectionReason reason )
 	{
 		var ply = client.Pawn as Player;
-		TotalTeams[ply.Team]--;
+		if ( CurrentRound is DeathmatchRound )
+		{
+			TotalTeams[ply.Team]--;
+		}
 		if ( client.IsUsingVr )
 		{
 			ply.DeleteVRHands();
