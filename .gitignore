@@ -9,3 +9,4 @@ tools_thumbnail_cache.bin
 *.los
 materials/default
 models/src
+.vs/

@@ -247,6 +247,7 @@ public partial class Player : AnimatedEntity
 			Camera.FirstPersonViewer = this;
 			Camera.Main.SetViewModelCamera( Camera.FieldOfView );
 		}
+		Camera.Main.Bloom.Strength = 0.25f;
 	}
 
 	void SimulateAnimation( PawnController controller )
