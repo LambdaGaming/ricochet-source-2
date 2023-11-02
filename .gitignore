@@ -10,3 +10,4 @@ tools_thumbnail_cache.bin
 materials/default
 models/src
 .vs/
+*.sln
