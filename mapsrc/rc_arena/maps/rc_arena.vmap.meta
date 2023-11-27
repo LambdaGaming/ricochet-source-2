@@ -1,0 +1,30 @@
+{
+  "publish": {
+    "Allowed": true,
+    "Enabled": true,
+    "ProjectConfig": {
+      "Title": "rc_arena",
+      "Type": "map",
+      "Org": "lambdagaming",
+      "Ident": "rc_arena",
+      "Tags": null,
+      "Schema": 0,
+      "HasAssets": false,
+      "AssetsPath": null,
+      "Resources": null,
+      "MenuResources": null,
+      "HasCode": false,
+      "CodePath": null,
+      "PackageReferences": [],
+      "EditorReferences": [
+        "lambdagaming.ricochet"
+      ],
+      "Metadata": {
+        "SingleAssetSource": "maps/rc_arena.vmap",
+        "GameSupport": [
+          "lambdagaming.ricochet"
+        ]
+      }
+    }
+  }
+}

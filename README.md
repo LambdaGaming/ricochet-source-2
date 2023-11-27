@@ -1,5 +1,5 @@
 # Ricochet: Source 2
- Ricochet in s&box. The main game is complete and work has now started on making small improvements and fixing bugs. Credit goes to Valve for the original game and its resources.
+ Ricochet in s&box. The main game is complete and work has now started on making small improvements and fixing bugs. Credit goes to Valve for the original game and its resources. The source files for all 3 maps are also included in this repo.
 
 # Round Types
 - Deathmatch - Normal deathmatch, each player is assigned a separate team. Round starts as soon as the first player joins.
@@ -19,11 +19,6 @@ VR is now supported, but it is currently experimental. The game should be fully 
 - Left trigger fires the hard disc, and right trigger fires the regular disc. Your hands will be the models of these discs so you can tell the difference.
 - Discs are launched from the position of the player's hand, instead of the center of their body like normal. This means that VR players have a slight advantage since they can fire above and below the bouncers that normally deflect discs.
 - VR players can play with normal players, but servers have the option to not allow VR players to join due to the advantage mentioned above.
-
-# Official Maps
-- [rc_arena](https://github.com/LambdaGaming/rc_arena)
-- [rc_deathmatch](https://github.com/LambdaGaming/rc_deathmatch)
-- [rc_deathmatch2](https://github.com/LambdaGaming/rc_deathmatch2)
 
 # Issues & Pull Requests
 If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html) Please keep in mind that this is intended to be a port of the original game with minor improvements, and not a sequel with major changes. I will not accept suggestions or PRs that go against this. The experimental VR mode is the only exception to this.
