@@ -45,7 +45,7 @@
 
 .list {
     position:absolute;
-    padding-left: 50px;
+    padding-left: 150px;
     flex-direction: column;
     gap: 10px;
     bottom: 0;
@@ -55,9 +55,6 @@
 .title {
     color: red;
     font-size: 40px;
-    &:hover {
-        color: white;
-    }
 }
 
 .button {
@@ -66,5 +63,16 @@
     &:hover {
         cursor: pointer;
         color: antiquewhite;
+    }
+}
+
+.mainButton {
+    color: #f4a600;
+    font-size: 26px;
+    padding-bottom: 30px;
+    &:hover {
+        cursor: pointer;
+        color: #fff732;
+        text-shadow: 1px 1px 1px #f4a600;
     }
 }
