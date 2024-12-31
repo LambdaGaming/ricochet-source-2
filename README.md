@@ -1,5 +1,9 @@
 # Ricochet: Source 2
- Ricochet in s&box. The main game is complete and work has now started on making small improvements and fixing bugs. Credit goes to Valve for the original game and its resources. The source files for all 3 maps are also included in this repo.
+ This is a port of the Valve game Ricochet, with additional features such as VR support and minor QoL improvements. This was a project I started to get familiar with the development process of s&box. I didn't really have any plans to finish it at first, but that's what ended up happening. There are also a couple things missing, including the original playermodel and certain particle effects.  
+ 
+ The project was abandoned in late 2023 after Facepunch announced that they would be removing the entity and client/server systems in favor of more modern systems, similar to what Unity uses. I wasn't happy with this change since I was already so familiar with the Source ecosystem, and I didn't have the motivation to make the code work with these new systems. On top of that, Valve forced the developers of Team Fortress: Source 2 (which I was not affiliated with) to take down their project around the same time as Facepunch's announcement, so that didn't help things either.  
+ 
+ As you might expect, the game is completely unplayable in current versions of s&box. In fact, the game hasn't worked properly since around mid 2023. After that, Facepunch stopped fixing bugs related to systems that they would end up gutting by the end of the year. It *might* be possible to get it running on the January 2023 beta branch with a few tweaks, but I won't be providing any support for that. This repo only exists for reference purposes at this point.
 
 # Round Types
 - Deathmatch - Normal deathmatch, each player is assigned a separate team. Round starts as soon as the first player joins.
@@ -19,9 +23,6 @@ VR is now supported, but it is currently experimental. The game should be fully 
 - Left trigger fires the hard disc, and right trigger fires the regular disc. Your hands will be the models of these discs so you can tell the difference.
 - Discs are launched from the position of the player's hand, instead of the center of their body like normal. This means that VR players have a slight advantage since they can fire above and below the bouncers that normally deflect discs.
 - VR players can play with normal players, but servers have the option to not allow VR players to join due to the advantage mentioned above.
-
-# Issues & Pull Requests
-If you would like to contribute to this repository by creating an issue or pull request, please refer to the [contributing guidelines.](https://lambdagaming.github.io/contributing.html) Please keep in mind that this is intended to be a port of the original game with minor improvements, and not a sequel with major changes. I will not accept suggestions or PRs that go against this. The experimental VR mode is the only exception to this.
 
 # Tools & Resources Used
 ## Code
